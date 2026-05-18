@@ -1,6 +1,7 @@
 package card;
 
 import actor.Actor;
+import actor.Player;
 
 public abstract class Animal extends Card {
     private int m_attack;
@@ -19,7 +20,7 @@ public abstract class Animal extends Card {
     //actor est la personne qui attaque et card la carte qui ressoit l'attaque
     public int attack(Actor actor, Card card){
         if(card == null){
-            if(actor.getType().equals("Player")){
+            if(actor instanceof Player){
                 return getAttack();
             }else{
                 return -getAttack();

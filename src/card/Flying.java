@@ -1,6 +1,7 @@
 package card;
 
 import actor.Actor;
+import actor.Player;
 
 public class Flying extends Animal {
 
@@ -10,7 +11,7 @@ public class Flying extends Animal {
 
     @Override
     public int attack(Actor actor, Card card){
-        if(actor.getType().equals("Player")){
+        if(actor instanceof Player){
             return getAttack();
         }else{
             return -getAttack();
