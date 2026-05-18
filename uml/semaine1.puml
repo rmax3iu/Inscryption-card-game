@@ -1,0 +1,166 @@
+@startuml
+skinparam classAttributeIconSize 0
+skinparam classFontStyle Bold
+hide empty members
+
+package card #LightBlue
+{
+    abstract class Card
+    {
+        - m_nom : String
+        - m_hp : Integer
+        + << Create >> Card(name : String, hp : Integer)
+        + getNom() : String
+        + getHp() : Integer
+    }
+
+    class Obstacle extends Card
+    {
+        + << Create >> Obstacle(name : String, hp : Integer)
+    }
+
+    class SummonCost
+    {
+        - m_blood : Integer
+        - m_bones : Integer
+        + << Create >> SummonCost(blood : Integer, os : Integer)
+        +{static}newBloodCost(blood: Integer) : SummonCost
+        +{static}newBonnesCost(bonnes: Integer) : SummonCost
+        + getBlood() : Integer
+        + getBones() : Integer
+    }
+
+    abstract class Animal extends Card
+    {
+        - m_attack : Integer
+        + << Create >> Animal(name : String, hp : Integer, cost : SummonCost, attack : Integer)
+        + getAttack() : Integer
+        + Attack(actor : Actor, card : Card)
+    }
+
+    class Terrestrial Extends Animal{
+        + << Create >> Terrestrial(name : String, hp : Integer, cost : SummonCost, attack : Integer)
+    }
+
+    class Flying Extends Animal{
+        + << Create >> Flying(name : String, hp : Integer, cost : SummonCost, attack : Integer)
+        + Attack(actor : Actor)
+    }
+
+
+    Animal "1" o-left-> "1\n-m_cost" SummonCost : own >
+}
+
+package actor #FFC17A
+{
+    abstract class Actor
+    {
+        - m_bones : Integer
+        + << Create >> Player()
+        + addBones(amount : Integer)
+        + getBones() : Integer
+        + addCard(card : Card)
+        + getCard(indexHand : Integer) : Card
+        + removeCard(indexHand : Integer) : Card
+    }
+
+    class Player
+    {
+        + << Create >> Player()
+    }
+
+    class Bot
+    {
+        + << Create >> Bot()
+    }
+
+    class Hand
+    {
+        +<<Create>> Hand()
+        + addCard(card : Card)
+        + getCard(indexHand : Integer) : Card
+        + removeCard(indexHand : Integer) : Card
+    }
+
+    Player --|> Actor
+    Bot --|> Actor
+
+    Actor "1" *--> "1\n-m_hand" Hand : own >
+    Hand "1" o--> "0..*" Card : contains >
+}
+
+package game #LightGreen
+{
+    class Game
+    {
+        + << Create >> Game()
+        + play()
+        + offerCard()
+    }
+
+    class Round
+    {
+        - m_score : Integer
+        + << Create >> Round(cards : Card[])
+        + play(player : Player, bot : Bot)
+        + updateScore(newScore : Integer)
+        + isWon() : Boolean
+        + isEnd() : Boolean
+    }
+
+    class Turn
+    {
+        + << Create >> Turn(gamebord : GameBoard, stack : Stack)
+        + playerTurn(player : Player)
+        + botTurn(bot : Bot)
+        + drawCard(actor : Actor)
+        + placeCard(actor : Actor, indexHand : Integer, position : Integer)
+        + resolveAttacks(player : Player, bot : Bot) : Integer
+    }
+
+    class GameBoard
+    {
+        + << Create >> GameBoard()
+        + setPlayerLine(card : Card, position : Integer)
+        + getPlayerLine(position : Integer) : Card
+        + setBotLine(card : Card, position : Integer)
+        + getBotLine(position : Integer) : Card
+        + setPreviewLine(card : Card, position : Integer)
+        + getPreviewLine(position : Integer) : Card
+    }
+
+    class Stack
+    {
+        + << Create >> Stack(cards : Card[])
+        + addCard(card : Card)
+        + drawCard() : Card
+        + length() : Integer
+        + isEmpty() : Boolean
+    }
+
+    Stack "1" o--> "0..16\n-m_cards\n\n\n" Card : contains >
+
+    GameBoard "*" o--> "0..4\n-m_playerLine" Card : own >
+    GameBoard "*" o--> "0..4\n-m_botLine" Card : own >
+    GameBoard "*" o--> "0..4\n-m_botPreview" Card : own >
+
+    Turn "*" o---> "1\n-m_gameboard" GameBoard : own >
+    Turn "*" o---> "1\n-m_stack" Stack : own >
+    Turn --> Actor : <<uses>>
+    Turn --> Player : <<uses>>
+    Turn --> Bot : <<uses>>
+
+
+    Round "*" o---> "1\n-m_gameboard" GameBoard : own >
+    Round "*" o---> "1\n-m_stack" Stack : own >
+    Round --> Turn : <<instantiate>>
+    Round --> Player : <<uses>>
+    Round --> Bot : <<uses>>
+
+    Game "*" *--> "3\n-m_rounds" Round : own >
+    Game "1" *---> "1\n-m_player" Player : own >
+    Game "1" *---> "1\n-m_bot" Bot : own >
+    Game "*" *---> "12\n-{static}m_baseCard" Card : own >
+}
+
+@enduml
