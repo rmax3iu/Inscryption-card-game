@@ -1,10 +1,10 @@
-package card;
+package cardLogic;
 
-public abstract class Card {
+public abstract class CardLogic {
     private String m_name;
     private int m_hp;
 
-    public Card(String name, int hp){
+    public CardLogic(String name, int hp){
         m_hp = hp;
         m_name = name;
     }
