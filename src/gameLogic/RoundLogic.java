@@ -35,7 +35,7 @@ public class RoundLogic
             m_currentTurn.playerTurn(m_player);
 
             // 3. Le bot joue son tour
-            m_currentTurn.botTurn(m_player);
+            m_currentTurn.botTurn(m_bot);
 
             // 4. On résout les attaques et on récupère les points de dégâts
             int pointTurn;
