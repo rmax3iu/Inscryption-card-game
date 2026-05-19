@@ -9,11 +9,12 @@ import card.Card;
 public class StackLogic {
     private ArrayList<Card> m_cards;
 
+    //cards c'est la liste de toute les cartes du jeu avec en 1er carte l'écureuil
     public StackLogic(ArrayList<Card> cards){
-        ArrayList<Card> tempo = new ArrayList<Card>();
+        m_cards = new ArrayList<Card>();
         Random rdn = new Random();
         for(int i = 1; i <= cards.size() ; i++){
-            tempo.add(cards.get(rdn.nextInt(0,i)));
+            m_cards.add(cards.get(rdn.nextInt(0,i)));
         }
     }
 
