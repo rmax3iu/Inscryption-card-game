@@ -1,21 +1,17 @@
 package gameLogic;
 
-import java.util.ArrayList;
-import java.util.Random;
-
 import cardLogic.CardLogic;
+import java.util.ArrayList;
+import java.util.Collections;
 
 
 public class StackLogic {
     private ArrayList<CardLogic> m_cardLogics;
 
     //cards c'est la liste de toute les cartes du jeu avec en 1er carte l'écureuil
-    public StackLogic(ArrayList<CardLogic> cardLogics){
-        m_cardLogics = new ArrayList<CardLogic>();
-        Random rdn = new Random();
-        for(int i = 1; i <= cardLogics.size() ; i++){
-            m_cardLogics.add(cardLogics.get(rdn.nextInt(0,i)));
-        }
+    public StackLogic(ArrayList<CardLogic> cardLogics) {
+        m_cardLogics = new ArrayList<>(cardLogics);
+        Collections.shuffle(m_cardLogics);
     }
 
     public void addCard(CardLogic cardLogic){

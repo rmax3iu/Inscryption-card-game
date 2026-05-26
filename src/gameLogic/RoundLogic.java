@@ -60,13 +60,8 @@ public class RoundLogic
         return false;
     }
 
-    public Boolean isEnd()
-    {
-        if(this.m_score> 0)
-        {
-            return true;
-        }
-        return false;
+    public Boolean isEnd() {
+        return this.m_score >= 5 || this.m_score <= -5;
     }
 }
 

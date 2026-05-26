@@ -8,7 +8,7 @@ public class ConsoleGrid
 
     public ConsoleGrid(int width, int height)
     {
-        m_grid = new char[][];
+        m_grid = new char[width][height];
         m_width = width;
         m_height = height;
     }
@@ -28,7 +28,7 @@ public class ConsoleGrid
 
     }
 
-    public clear()
+    public void clear()
     {
 
     }

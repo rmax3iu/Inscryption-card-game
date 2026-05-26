@@ -2,51 +2,57 @@ package gameLogic;
 
 import cardLogic.CardLogic;
 
-import javax.smartcardio.Card;
-
 public class GameBordLogic {
 
     private CardLogic[] m_playerLine;
     private CardLogic[] m_botLine;
     private CardLogic[] m_previewLine;
 
-    public GameBordLogic()
-    {
+    public GameBordLogic() {
         m_playerLine = new CardLogic[4];
         m_botLine = new CardLogic[4];
         m_previewLine = new CardLogic[4];
     }
 
-    public void setPlayerLine(CardLogic card, int position)
-    {
-        this.m_playerLine[position] = card;
+    public void setPlayerLine(CardLogic card, int position) {
+        m_playerLine[position] = card;
     }
 
-    public CardLogic getPlayerLine(int position)
-    {
-        return this.m_playerLine[position];
+    public CardLogic getPlayerLine(int position) {
+        return m_playerLine[position];
     }
 
-    public void setBotLine(CardLogic card, int position)
-    {
-        this.m_botLine[position] = card;
+    public CardLogic removePlayerLine(int position) {
+        CardLogic card = m_playerLine[position];
+        m_playerLine[position] = null;
+        return card;
     }
 
-    public CardLogic getBotLine(int position)
-    {
-        return this.m_botLine[position];
+    public void setBotLine(CardLogic card, int position) {
+        m_botLine[position] = card;
     }
 
-    public void setPreviewLine(CardLogic card, int position)
-    {
-        this.m_previewLine[position] = card;
+    public CardLogic getBotLine(int position) {
+        return m_botLine[position];
     }
 
-    public CardLogic getPreviewLine(int position)
-    {
-        return this.m_previewLine[position];
+    public CardLogic removeBotLine(int position) {
+        CardLogic card = m_botLine[position];
+        m_botLine[position] = null;
+        return card;
     }
 
-    // faire une methode remove pr chaqsue ligne
+    public void setPreviewLine(CardLogic card, int position) {
+        m_previewLine[position] = card;
+    }
+
+    public CardLogic getPreviewLine(int position) {
+        return m_previewLine[position];
+    }
+
+    public CardLogic removePreviewLine(int position) {
+        CardLogic card = m_previewLine[position];
+        m_previewLine[position] = null;
+        return card;
+    }
 }
-
