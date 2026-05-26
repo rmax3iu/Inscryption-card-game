@@ -1,6 +1,6 @@
-package gameLogic;
+package Logic.gameLogic;
 
-import cardLogic.CardLogic;
+import Logic.cardLogic.CardLogic;
 import java.util.ArrayList;
 import java.util.Collections;
 

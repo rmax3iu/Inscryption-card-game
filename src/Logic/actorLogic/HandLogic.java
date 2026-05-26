@@ -1,6 +1,6 @@
-package actorLogic;
+package Logic.actorLogic;
 
-import cardLogic.CardLogic;
+import Logic.cardLogic.CardLogic;
 
 import java.util.ArrayList;
 
@@ -21,5 +21,9 @@ public class HandLogic {
 
     public CardLogic removeCard(int indice){
         return m_hand.remove(indice);
+    }
+
+    public int getLengthHand(){
+        return m_hand.size();
     }
 }

@@ -1,10 +1,13 @@
-package gameLogic;
+package Logic.gameLogic;
 
-import actorLogic.PlayerLogic;
-import actorLogic.BotLogic;
-import actorLogic.ActorLogic;
-import cardLogic.AnimalLogic;
-import cardLogic.CardLogic;
+import Logic.Ask;
+import Logic.actorLogic.PlayerLogic;
+import Logic.actorLogic.BotLogic;
+import Logic.actorLogic.ActorLogic;
+import Logic.cardLogic.AnimalLogic;
+import Logic.cardLogic.CardLogic;
+
+import java.util.Random;
 import java.util.Scanner;
 
 public class TurnLogic {
@@ -17,27 +20,38 @@ public class TurnLogic {
     }
 
     public void botTurn(BotLogic bot){
+        Random rnd = new Random();
+        int nb = rnd.nextInt(0,100);
 
+        //10% de chance qu'il skip son tour
+        if(nb < 90){
+            boolean poser = false;
+            int i = 0;
+            while(!poser && i < bot.lengthHand()){
+                CardLogic card = bot.getCard(i);
+
+                i++;
+            }
+        }
     }
 
     public void playerTurn(PlayerLogic player) {
         boolean hasDrawn = false;
         boolean turnOver = false;
-        Scanner scanner = new Scanner(System.in);
 
         while (!turnOver) {
-            System.out.println("\nActions possibles :");
+            String action = "\nActions possibles :";
             if (!hasDrawn && !m_stack.isEmpty()) {
-                System.out.println("  [piocher] Piocher une carte");
+                action += "\n  [piocher] Piocher une carte";
             }
-            System.out.println("  [placer <numero carte> <position (1-4)>] Placer une carte");
-            System.out.println("  [fin] Terminer votre tour");
+            action += "\n  [placer <numero carte> <position (1-4)>] Placer une carte";
+            action += "\n  [fin] Terminer votre tour";
 
-            String input = scanner.nextLine().trim();
+            String input = Ask.Demande(action).trim();
             String[] parts = input.split(" ");
 
             switch (parts[0]) {
-                case "piocher" -> {
+                case "piocher" :
                     if (hasDrawn) {
                         System.out.println("Vous avez déjà pioché ce tour !");
                     } else {
@@ -45,8 +59,9 @@ public class TurnLogic {
                         hasDrawn = true;
                         System.out.println("Carte piochée !");
                     }
-                }
-                case "placer" -> {
+                    break;
+
+                case "placer" :
                     if (parts.length != 3) {
                         System.out.println("Format invalide. Exemple : placer 1 3");
                         break;
@@ -59,9 +74,15 @@ public class TurnLogic {
                     } catch (NumberFormatException e) {
                         System.out.println("Format invalide. Exemple : placer 1 3");
                     }
-                }
-                case "fin" -> turnOver = true;
-                default -> System.out.println("Commande inconnue.");
+                    break;
+
+                case "fin" :
+                    turnOver = true;
+                    break;
+
+                default :
+                    System.out.println("Commande inconnue.");
+                    break;
             }
         }
     }

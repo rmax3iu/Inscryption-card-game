@@ -1,6 +1,6 @@
-package actorLogic;
+package Logic.actorLogic;
 
-import cardLogic.CardLogic;
+import Logic.cardLogic.CardLogic;
 
 public abstract class ActorLogic {
     private int m_bonnes;
@@ -31,5 +31,8 @@ public abstract class ActorLogic {
         return m_handLogic.removeCard(indice);
     }
 
+    public int lengthHand(){
+        return m_handLogic.getLengthHand();
+    }
 
 }

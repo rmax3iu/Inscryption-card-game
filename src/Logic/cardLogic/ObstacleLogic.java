@@ -1,4 +1,4 @@
-package cardLogic;
+package Logic.cardLogic;
 
 public class ObstacleLogic extends CardLogic {
     public ObstacleLogic(String name, int hp){
