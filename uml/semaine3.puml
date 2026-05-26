@@ -1,0 +1,242 @@
+@startuml
+skinparam classAttributeIconSize 0
+skinparam classFontStyle Bold
+hide empty members
+
+' < ================================================================================================================ > '
+
+package logic #LightBlue
+{
+    ' < ================================================================================================================ > '
+    ' < ================================================================================================================ > '
+
+    package cardLogic #White
+    {
+        abstract class CardLogic
+        {
+            - m_nom : String
+            - m_hp : Integer
+            + << Create >> CardLogic(name : String, hp : Integer)
+            + getNom() : String
+            + getHp() : Integer
+        }
+
+        class ObstacleLogic extends CardLogic
+        {
+            + << Create >> ObstacleLogic(name : String, hp : Integer)
+        }
+
+        class SummonCostLogic
+        {
+            - m_blood : Integer
+            - m_bones : Integer
+            + << Create >> SummonCostLogic(blood : Integer, os : Integer)
+            +{static}newBloodCost(blood: Integer) : SummonCostLogic
+            +{static}newBonnesCost(bonnes: Integer) : SummonCostLogic
+            + getBlood() : Integer
+            + getBones() : Integer
+        }
+
+        abstract class AnimalLogic extends CardLogic
+        {
+            - m_attack : Integer
+            + << Create >> AnimalLogic(name : String, hp : Integer, cost : SummonCostLogic, attack : Integer)
+            + getAttack() : Integer
+            + getCost() : SummonCostLogic
+            + Attack(actor : ActorLogic, card : CardLogic)
+        }
+
+        class TerrestrialLogic extends AnimalLogic
+        {
+            + << Create >> TerrestrialLogic(name : String, hp : Integer, cost : SummonCostLogic, attack : Integer)
+        }
+
+        class FlyingLogic extends AnimalLogic
+        {
+            + << Create >> FlyingLogic(name : String, hp : Integer, cost : SummonCostLogic, attack : Integer)
+            + Attack(actor : ActorLogic)
+        }
+    }
+
+    ' < ================================================================================================================ > '
+    ' < ================================================================================================================ > '
+
+    package gameLogic #White
+    {
+        class GameLogic
+        {
+            + << Create >> GameLogic()
+            + play()
+            + offerCard()
+        }
+
+        class RoundLogic
+        {
+            - m_score : Integer
+            + << Create >> RoundLogic(cards : CardLogic[])
+            + play(player : PlayerLogic, bot : BotLogic)
+            + updateScore(newScore : Integer)
+            + isWon() : Boolean
+            + isEnd() : Boolean
+        }
+
+        class TurnLogic
+        {
+            + << Create >> TurnLogic(gamebord : GameBoardLogic, stack : StackLogic)
+            + playerTurn(player : PlayerLogic)
+            + botTurn(bot : BotLogic)
+            + drawCard(actor : ActorLogic)
+            + placeCard(actor : ActorLogic, indexHand : Integer, position : Integer)
+            + resolveAttacks(player : PlayerLogic, bot : BotLogic) : Integer
+        }
+
+        class GameBoardLogic
+        {
+            + << Create >> GameBoardLogic()
+            + setPlayerLine(card : CardLogic, position : Integer)
+            + getPlayerLine(position : Integer) : CardLogic
+            + setBotLine(card : CardLogic, position : Integer)
+            + getBotLine(position : Integer) : CardLogic
+            + setPreviewLine(card : CardLogic, position : Integer)
+            + getPreviewLine(position : Integer) : CardLogic
+        }
+
+        class StackLogic
+        {
+            + << Create >> StackLogic(cards : CardLogic[])
+            + addCard(card : CardLogic)
+            + drawCard() : CardLogic
+            + length() : Integer
+            + isEmpty() : Boolean
+        }
+    }
+
+    ' < ================================================================================================================ > '
+    ' < ================================================================================================================ > '
+
+    package actorLogic #White
+    {
+        abstract class ActorLogic
+        {
+            - m_bones : Integer
+            + << Create >> ActorLogic()
+            + addBones(amount : Integer)
+            + getBones() : Integer
+            + addCard(card : CardLogic)
+            + getCard(indexHand : Integer) : CardLogic
+            + removeCard(indexHand : Integer) : CardLogic
+        }
+
+        class PlayerLogic
+        {
+            + << Create >> PlayerLogic()
+        }
+
+        class BotLogic
+        {
+            + << Create >> BotLogic()
+        }
+
+        class HandLogic
+        {
+            + << Create >> HandLogic()
+            + addCard(card : CardLogic)
+            + getCard(indexHand : Integer) : CardLogic
+            + removeCard(indexHand : Integer) : CardLogic
+        }
+    }
+}
+
+    AnimalLogic "1" o-left-> "1\n-m_cost" SummonCostLogic : <<own>>
+
+    PlayerLogic --|> ActorLogic
+    BotLogic --|> ActorLogic
+
+    ActorLogic "1" *--> "1\n-m_hand" HandLogic : <<own>>
+    HandLogic "1" o--> "0..*" CardLogic : <<contains>>
+
+    StackLogic "1" o--> "0..16\n-m_cards" CardLogic : <<contains>>
+
+    GameBoardLogic "*" o--> "0..4\n-m_playerLine" CardLogic : <<own>>
+    GameBoardLogic "*" o--> "0..4\n-m_botLine" CardLogic : <<own>>
+    GameBoardLogic "*" o--> "0..4\n-m_botPreview" CardLogic : <<own>>
+
+    TurnLogic "*" o---> "1\n-m_gameboard" GameBoardLogic : <<own>>
+    TurnLogic "*" o---> "1\n-m_stack" StackLogic : <<own>>
+    TurnLogic --> ActorLogic : <<uses>>
+    TurnLogic --> PlayerLogic : <<uses>>
+    TurnLogic --> BotLogic : <<uses>>
+
+    RoundLogic "*" o---> "1\n-m_gameboard" GameBoardLogic : <<own>>
+    RoundLogic "*" o---> "1\n-m_stack" StackLogic : <<own>>
+    RoundLogic --> TurnLogic : <<instantiate>>
+    RoundLogic --> PlayerLogic : <<uses>>
+    RoundLogic --> BotLogic : <<uses>>
+
+    GameLogic "*" *--> "3\n-m_rounds" RoundLogic : <<own>>
+    GameLogic "1" *---> "1\n-m_player" PlayerLogic : <<own>>
+    GameLogic "1" *---> "1\n-m_bot" BotLogic : <<own>>
+    GameLogic "*" *---> "12\n-{static}m_baseCard" CardLogic : <<own>>
+
+' < ================================================================================================================ > '
+
+package graphics #LightGreen
+{
+    package gameGraphics #White
+    {
+        class ConsoleGrid
+        {
+            - m_grid : char[][]
+            - m_width : Integer
+            - m_height : Integer
+            + << Create >> ConsoleGrid(width : Integer, height : Integer)
+            + writeString(text : String, x : Integer, y : Integer) : void
+            + writeBox(width : Integer, height : Integer, x : Integer, y : Integer) : void
+            + render() : void
+            + clear() : void
+        }
+
+        class GameBoardGraphics
+        {
+            + << Create >> GameBoardGraphics()
+            + drawBoard(grid : ConsoleGrid, board : GameBoardLogic, score : Integer, currentTurn : Integer, currentMatch : Integer) : void
+        }
+
+        class TurnGraphics
+        {
+            + << Create >> TurnGraphics()
+            + displayFullTurn(board : GameBoardLogic, player : PlayerLogic, stack : StackLogic, score : Integer, turn : Integer, match : Integer) : void
+        }
+    }
+
+    package cardGraphics #White
+    {
+        class CardGraphics
+        {
+            + << Create >> CardGraphics()
+            + drawCard(grid : ConsoleGrid, card : CardLogic, x : Integer, y : Integer) : void
+            + drawEmpty(grid : ConsoleGrid, x : Integer, y : Integer) : void
+        }
+    }
+}
+
+    TurnGraphics ..> ConsoleGrid : <<instantiate>>
+    GameBoardGraphics ..> ConsoleGrid : <<uses>>
+    CardGraphics ..> ConsoleGrid : <<uses>>
+
+    TurnGraphics "1" *---> "1" GameBoardGraphics : <<uses>>
+    GameBoardGraphics "1" *---> "1" CardGraphics : <<uses>>
+
+' < ================================================================================================================ > '
+
+    CardGraphics ..> CardLogic : <<uses>>
+    GameBoardGraphics ..> GameBoardLogic : <<uses>>
+
+    TurnGraphics ..> GameBoardLogic : <<uses>>
+    TurnGraphics ..> PlayerLogic : <<uses>>
+    TurnGraphics ..> StackLogic : <<uses>>
+
+    TurnLogic ..> TurnGraphics : <<uses>>
+
+' < ================================================================================================================ > '
+@enduml
