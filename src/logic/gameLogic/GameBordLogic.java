@@ -1,6 +1,6 @@
-package Logic.gameLogic;
+package logic.gameLogic;
 
-import Logic.cardLogic.CardLogic;
+import logic.cardLogic.CardLogic;
 
 public class GameBordLogic {
 

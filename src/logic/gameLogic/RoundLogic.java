@@ -1,8 +1,8 @@
-package Logic.gameLogic;
+package logic.gameLogic;
 
-import Logic.actorLogic.BotLogic;
-import Logic.actorLogic.PlayerLogic;
-import Logic.cardLogic.CardLogic;
+import logic.actorLogic.BotLogic;
+import logic.actorLogic.PlayerLogic;
+import logic.cardLogic.CardLogic;
 
 import java.util.ArrayList;
 

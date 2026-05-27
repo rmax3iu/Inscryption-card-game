@@ -1,14 +1,13 @@
-package Logic.gameLogic;
+package logic.gameLogic;
 
-import Logic.Ask;
-import Logic.actorLogic.PlayerLogic;
-import Logic.actorLogic.BotLogic;
-import Logic.actorLogic.ActorLogic;
-import Logic.cardLogic.AnimalLogic;
-import Logic.cardLogic.CardLogic;
+import logic.Ask;
+import logic.actorLogic.PlayerLogic;
+import logic.actorLogic.BotLogic;
+import logic.actorLogic.ActorLogic;
+import logic.cardLogic.AnimalLogic;
+import logic.cardLogic.CardLogic;
 
 import java.util.Random;
-import java.util.Scanner;
 
 public class TurnLogic {
     private GameBordLogic m_gamebord;

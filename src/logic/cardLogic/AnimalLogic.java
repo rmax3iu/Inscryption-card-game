@@ -1,7 +1,7 @@
-package Logic.cardLogic;
+package logic.cardLogic;
 
-import Logic.actorLogic.ActorLogic;
-import Logic.actorLogic.PlayerLogic;
+import logic.actorLogic.ActorLogic;
+import logic.actorLogic.PlayerLogic;
 
 public abstract class AnimalLogic extends CardLogic {
     private int m_attack;

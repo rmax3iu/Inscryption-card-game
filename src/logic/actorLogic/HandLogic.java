@@ -1,6 +1,6 @@
-package Logic.actorLogic;
+package logic.actorLogic;
 
-import Logic.cardLogic.CardLogic;
+import logic.cardLogic.CardLogic;
 
 import java.util.ArrayList;
 

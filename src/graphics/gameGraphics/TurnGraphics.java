@@ -1,10 +1,10 @@
 package graphics.gameGraphics;
 
-import actorLogic.PlayerLogic;
-import cardLogic.AnimalLogic;
-import cardLogic.CardLogic;
-import gameLogic.GameBordLogic;
-import gameLogic.StackLogic;
+import logic.actorLogic.PlayerLogic;
+import logic.cardLogic.AnimalLogic;
+import logic.cardLogic.CardLogic;
+import logic.gameLogic.GameBordLogic;
+import logic.gameLogic.StackLogic;
 
 // On définit la classe qui gère l'affichage complet d'un tour de jeu
 public class TurnGraphics

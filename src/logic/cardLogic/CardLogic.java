@@ -1,4 +1,4 @@
-package Logic.cardLogic;
+package logic.cardLogic;
 
 public abstract class CardLogic {
     private String m_name;

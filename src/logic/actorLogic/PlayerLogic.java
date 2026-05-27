@@ -1,4 +1,4 @@
-package Logic.actorLogic;
+package logic.actorLogic;
 
 public class PlayerLogic extends ActorLogic {
     public PlayerLogic(int bonnes){

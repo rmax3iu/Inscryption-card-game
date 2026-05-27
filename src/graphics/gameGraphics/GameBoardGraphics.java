@@ -1,7 +1,7 @@
 package graphics.gameGraphics;
 
-import cardLogic.CardLogic;
-import gameLogic.GameBordLogic;
+import logic.cardLogic.CardLogic;
+import logic.gameLogic.GameBordLogic;
 import graphics.cardGraphics.CardGraphics;
 
 // On définit la classe qui gère le dessin et l'organisation du plateau de jeu

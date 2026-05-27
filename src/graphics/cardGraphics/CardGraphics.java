@@ -1,8 +1,8 @@
 package graphics.cardGraphics;
 
-import cardLogic.AnimalLogic;
-import cardLogic.CardLogic;
-import cardLogic.ObstacleLogic;
+import logic.cardLogic.AnimalLogic;
+import logic.cardLogic.CardLogic;
+import logic.cardLogic.ObstacleLogic;
 import graphics.gameGraphics.ConsoleGrid;
 
 // On définit la classe qui s'occupe de dessiner le visuel textuel d'une carte

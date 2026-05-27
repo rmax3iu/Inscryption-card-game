@@ -1,6 +1,6 @@
-package Logic.actorLogic;
+package logic.actorLogic;
 
-import Logic.cardLogic.CardLogic;
+import logic.cardLogic.CardLogic;
 
 public abstract class ActorLogic {
     private int m_bonnes;
