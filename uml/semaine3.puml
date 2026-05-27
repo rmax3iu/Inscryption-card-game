@@ -207,6 +207,13 @@ package graphics #LightGreen
             + << Create >> TurnGraphics()
             + displayFullTurn(board : GameBoardLogic, player : PlayerLogic, stack : StackLogic, score : Integer, turn : Integer, match : Integer) : void
         }
+
+        class MenuGraphics
+        {
+            + << Create >> MenuGraphics()
+            + drawStartMenu(grid : ConsoleGrid) : void
+            + drawEndMenu(grid : ConsoleGrid, score : Integer) : void
+        }
     }
 
     package cardGraphics #White
@@ -223,6 +230,7 @@ package graphics #LightGreen
     TurnGraphics ..> ConsoleGrid : <<instantiate>>
     GameBoardGraphics ..> ConsoleGrid : <<uses>>
     CardGraphics ..> ConsoleGrid : <<uses>>
+    MenuGraphics ..> ConsoleGrid : <<uses>>
 
     TurnGraphics "1" *---> "1" GameBoardGraphics : <<uses>>
     GameBoardGraphics "1" *---> "1" CardGraphics : <<uses>>
@@ -237,6 +245,7 @@ package graphics #LightGreen
     TurnGraphics ..> StackLogic : <<uses>>
 
     TurnLogic ..> TurnGraphics : <<uses>>
+    GameLogic ..> MenuGraphics : <<uses>>
 
 ' < ================================================================================================================ > '
 @enduml

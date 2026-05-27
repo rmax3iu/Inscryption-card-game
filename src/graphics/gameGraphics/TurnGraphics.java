@@ -1,6 +1,7 @@
 package graphics.gameGraphics;
 
 import actorLogic.PlayerLogic;
+import cardLogic.AnimalLogic;
 import cardLogic.CardLogic;
 import gameLogic.GameBordLogic;
 import gameLogic.StackLogic;
@@ -62,8 +63,11 @@ public class TurnGraphics
                 // On vérifie si la carte existe bel et bien
                 if (card != null)
                 {
-                    // On écrit les détails textuels de la carte dans la console
-                    System.out.println("  " + (i + 1) + ". " + card.getName() + "  PV: " + card.getHp());
+                    if (card instanceof AnimalLogic animal) {
+                        System.out.println("  " + (i + 1) + ". " + animal.getName() + "  PV: " + animal.getHp() + "  Pouvoir: " + animal.getPower());
+                    } else {
+                        System.out.println("  " + (i + 1) + ". " + card.getName() + "  PV: " + card.getHp());
+                    }
                     // On incrémente l'index pour passer à la carte suivante au prochain tour de boucle
                     i++;
                 }

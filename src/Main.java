@@ -1,22 +1,45 @@
 import actorLogic.PlayerLogic;
+import cardLogic.SummonCostLogic;
+import cardLogic.TerrestrialLogic;
 import gameLogic.GameBordLogic;
 import gameLogic.StackLogic;
+import graphics.cardGraphics.CardGraphics;
+import graphics.gameGraphics.ConsoleGrid;
+import graphics.gameGraphics.MenuGraphics;
 import graphics.gameGraphics.TurnGraphics;
+
 import java.util.ArrayList;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Another challenger... It has been ages.\n");
+        MenuGraphics menu = new MenuGraphics();
+        TurnGraphics turnGraphics = new TurnGraphics();
 
-        // 1. On crée des objets de simulation vides
-        GameBordLogic fauxPlateau = new GameBordLogic();
-        PlayerLogic fauxJoueur = new PlayerLogic(0);
-        StackLogic faussePioche = new StackLogic(new ArrayList<>());
+        GameBordLogic board = new GameBordLogic();
+        PlayerLogic player = new PlayerLogic(20);
+        StackLogic stack = new StackLogic(new ArrayList<>());
 
-        // 2. On instancie ton moteur d'affichage
-        TurnGraphics ui = new TurnGraphics();
+        ConsoleGrid menuGrid = new ConsoleGrid(60, 14);
 
-        // 3. On force l'affichage du plateau (Score: 0, Tour: 1, Partie: 1)
-        ui.displayFullTurn(fauxPlateau, fauxJoueur, faussePioche, 0, 1, 1);
+        menu.drawStartMenu(menuGrid);
+        System.out.println("\n------------------------------------------------------------\n");
+
+        // Test affichage d'une carte
+        ConsoleGrid cardGrid = new ConsoleGrid(20, 12);
+        CardGraphics cardGraphics = new CardGraphics();
+        TerrestrialLogic hermine = new TerrestrialLogic("Hermine", 3, 1, SummonCostLogic.newBloodCost(1));
+        hermine.setPower("aucun");
+        cardGraphics.drawCard(cardGrid, hermine, 1, 1);
+        cardGrid.render();
+        System.out.println("\n------------------------------------------------------------\n");
+
+        turnGraphics.displayFullTurn(board, player, stack, 0, 1, 1);
+        System.out.println("\n------------------------------------------------------------\n");
+
+        menu.drawEndMenu(menuGrid, 5);
+        System.out.println("\n------------------------------------------------------------\n");
+
+        menu.drawEndMenu(menuGrid, -3);
+        System.out.println("\n------------------------------------------------------------\n");
     }
 }
