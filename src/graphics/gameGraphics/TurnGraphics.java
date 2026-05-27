@@ -64,7 +64,7 @@ public class TurnGraphics
                 if (card != null)
                 {
                     if (card instanceof AnimalLogic animal) {
-                        System.out.println("  " + (i + 1) + ". " + animal.getName() + "  PV: " + animal.getHp() + "  Pouvoir: " + animal.getPower());
+                        System.out.println("  " + (i + 1) + ". " + animal.getName() + "  PV: " + animal.getHp() + "  Pouvoir: " + animal.getPowerName());
                     } else {
                         System.out.println("  " + (i + 1) + ". " + card.getName() + "  PV: " + card.getHp());
                     }

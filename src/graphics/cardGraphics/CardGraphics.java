@@ -29,7 +29,7 @@ public class CardGraphics
             // On écrit le coût d'invocation de la carte sur la sixième ligne
             grid.writeString(" Cout: " + animal.getCost(), x + 1, y + 6);
             // On écrit le pouvoir de la carte  sur la septième ligne
-            grid.writeString(" Pouvoir: " + animal.getPower(), x + 1, y + 7);
+            grid.writeString(" Pouvoir: " + animal.getPowerName(), x + 1, y + 7);
         }
         // On vérifie si la carte à dessiner est un Obstacle (comme un Rocher ou un Sapin)
         else if (card instanceof ObstacleLogic obstacle)

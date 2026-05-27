@@ -4,64 +4,101 @@ import logic.Ask;
 import logic.actorLogic.BotLogic;
 import logic.actorLogic.PlayerLogic;
 import logic.cardLogic.CardLogic;
+import logic.cardLogic.FlyingLogic;
+import logic.cardLogic.SummonCostLogic;
+import logic.cardLogic.TerrestrialLogic;
+import logic.cardLogic.powers.Croissance;
+import logic.cardLogic.powers.NombreusesVies;
+import logic.cardLogic.powers.Puant;
+import logic.cardLogic.powers.Coureur;
+import logic.cardLogic.powers.ContactMortel;
+import logic.cardLogic.powers.PiquesPointues;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 public class GameLogic
 {
-    private PlayerLogic m_player;            // On appelle le joueur
-    private BotLogic m_bot;                  // On appelle le bot
-    private ArrayList<CardLogic> m_baseCards;         // ...
+    private PlayerLogic m_player;
+    private BotLogic m_bot;
+    private ArrayList<CardLogic> m_baseCards;
 
     public GameLogic()
     {
-        this.m_player = new PlayerLogic(0);      // On instancie le joueur
-        this.m_bot = new BotLogic(0);            // On instancie le bot
+        this.m_player = new PlayerLogic(0);
+        this.m_bot = new BotLogic(0);
+        this.m_baseCards = new ArrayList<>();
 
-        this.m_baseCards = new ArrayList<CardLogic>();           // ...
+        // Ecureuils (majoritaires)
+        for (int i = 0; i < 8; i++)
+        {
+            m_baseCards.add(new TerrestrialLogic("Ecureuil", 1, 0, SummonCostLogic.newBloodCost(0)));
+        }
+
+        // Cartes avec pouvoirs
+        m_baseCards.add(new TerrestrialLogic("Chat", 1, 0, SummonCostLogic.newBloodCost(1), new NombreusesVies()));
+        m_baseCards.add(new TerrestrialLogic("Louveteau", 1, 1, SummonCostLogic.newBloodCost(1), new Croissance()));
+        m_baseCards.add(new TerrestrialLogic("Punaise", 2, 1, SummonCostLogic.newBonnesCost(2), new Puant()));
+
+        // Cartes sans pouvoir
+        m_baseCards.add(new TerrestrialLogic("Hermine", 3, 1, SummonCostLogic.newBloodCost(1)));
+        m_baseCards.add(new TerrestrialLogic("Loup", 2, 3, SummonCostLogic.newBloodCost(2)));
+        m_baseCards.add(new TerrestrialLogic("Grizzly", 6, 4, SummonCostLogic.newBloodCost(3)));
+        m_baseCards.add(new TerrestrialLogic("Coyote", 1, 2, SummonCostLogic.newBonnesCost(4)));
+        m_baseCards.add(new FlyingLogic("Moineau", 2, 1, SummonCostLogic.newBloodCost(1)));
+        m_baseCards.add(new FlyingLogic("Corbeau", 3, 2, SummonCostLogic.newBloodCost(2)));
     }
 
     public void play()
     {
-        int partieG = 0;
-        for(int i = 0; i < 3; i++)
+        int partiesGagnees = 0;
+        for (int i = 0; i < 3; i++)
         {
-            if(i == 2){
+            if (i == 1)
+            {
                 offerCard();
             }
 
             RoundLogic round = new RoundLogic(m_baseCards);
-
-            if(round.isWon()){
-                partieG ++;
+            round.play(m_player, m_bot);
+            if (round.isWon())
+            {
+                partiesGagnees++;
             }
         }
-
-        //afficher le score
     }
 
-    public void offerCard()
-    {
-        //Cartes possible d'optenir
-        CardLogic[] cards = new CardLogic[];
-        Random rnd = new Random();
+    public void offerCard() {
+        CardLogic[] cards = new CardLogic[] {
+                new TerrestrialLogic("Chat", 1, 0, SummonCostLogic.newBloodCost(1), new NombreusesVies()),
+                new TerrestrialLogic("Grizzly", 6, 4, SummonCostLogic.newBloodCost(3)),
+                new TerrestrialLogic("Hermine", 3, 1, SummonCostLogic.newBloodCost(1)),
+                new TerrestrialLogic("Louveteau", 1, 1, SummonCostLogic.newBloodCost(1), new Croissance()),
+                new TerrestrialLogic("Loup", 2, 3, SummonCostLogic.newBloodCost(2)),
+                new FlyingLogic("Moineau", 2, 1, SummonCostLogic.newBloodCost(1)),
+                new FlyingLogic("Corbeau", 3, 2, SummonCostLogic.newBloodCost(2)),
+                new TerrestrialLogic("Elan", 4, 2, SummonCostLogic.newBloodCost(2), new Coureur()),
+                new TerrestrialLogic("Vipere", 1, 1, SummonCostLogic.newBloodCost(2), new ContactMortel()),
+                new TerrestrialLogic("Porc-epic", 2, 1, SummonCostLogic.newBloodCost(1), new PiquesPointues())
+        };
 
-        //Carte de Gauche et Droite
-        CardLogic cardG = cards[rnd.nextInt(0, cards.length)];
-        CardLogic cardD = cards[rnd.nextInt(0, cards.length)];
+        CardLogic cardG = cards[(int)(Math.random() * cards.length)];
+        CardLogic cardD = cards[(int)(Math.random() * cards.length)];
 
-        // Méthode pour ajouter une carte
+        System.out.println("Carte G : " + cardG.getName() + " | Carte D : " + cardD.getName());
+
         String demande = "";
-        while (demande != "D" || demande != "G"){
-            demande = Ask.Demande("Quelle carte veux tu (G/D)");
+        while (!demande.equals("G") && !demande.equals("D"))
+        {
+            demande = Ask.Demande("Quelle carte veux tu ? (G/D)");
+            if (!demande.equals("G") && !demande.equals("D"))
+            {
+                System.out.println("Saisie invalide, entrez G ou D.");
+            }
         }
-        switch (demande){
-            case "G":
-                m_baseCards.add(cardG);
-            case "D":
-                m_baseCards.add(cardD);
+        switch (demande)
+        {
+            case "G" -> m_baseCards.add(cardG);
+            case "D" -> m_baseCards.add(cardD);
         }
     }
 }
-

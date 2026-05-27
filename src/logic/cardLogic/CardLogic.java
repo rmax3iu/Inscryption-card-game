@@ -3,18 +3,20 @@ package logic.cardLogic;
 public abstract class CardLogic {
     private String m_name;
     private int m_hp;
-    private String m_power = "Aucun";
 
-    public CardLogic(String name, int hp){
+    public CardLogic(String name, int hp)
+    {
         m_hp = hp;
         m_name = name;
     }
 
-    public String getName(){
+    public String getName()
+    {
         return m_name;
     }
 
-    public int getHp(){
+    public int getHp()
+    {
         return m_hp;
     }
 
@@ -26,17 +28,8 @@ public abstract class CardLogic {
         }
     }
 
-    public boolean isDead(){
+    public boolean isDead()
+    {
         return getHp() <= 0;
-    }
-
-    public String getPower()
-    {
-        return m_power;
-    }
-
-    public void setPower(String power)
-    {
-        m_power = power;
     }
 }
