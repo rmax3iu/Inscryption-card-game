@@ -1,4 +1,4 @@
-package cardLogic;
+package Logic.cardLogic;
 
 public class TerrestrialLogic extends AnimalLogic {
 

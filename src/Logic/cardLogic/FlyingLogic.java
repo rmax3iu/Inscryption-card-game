@@ -1,7 +1,7 @@
-package cardLogic;
+package Logic.cardLogic;
 
-import actorLogic.ActorLogic;
-import actorLogic.PlayerLogic;
+import Logic.actorLogic.ActorLogic;
+import Logic.actorLogic.PlayerLogic;
 
 public class FlyingLogic extends AnimalLogic {
 

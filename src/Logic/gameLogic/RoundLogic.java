@@ -1,8 +1,8 @@
-package gameLogic;
+package Logic.gameLogic;
 
-import actorLogic.BotLogic;
-import actorLogic.PlayerLogic;
-import cardLogic.CardLogic;
+import Logic.actorLogic.BotLogic;
+import Logic.actorLogic.PlayerLogic;
+import Logic.cardLogic.CardLogic;
 
 import java.util.ArrayList;
 
@@ -38,8 +38,7 @@ public class RoundLogic
             m_currentTurn.botTurn(m_bot);
 
             // 4. On résout les attaques et on récupère les points de dégâts
-            int pointTurn;
-            pointTurn = m_currentTurn.resolveAttacks(m_player, m_bot);
+            int pointTurn = m_currentTurn.resolveAttacks(m_player, m_bot);
 
             // 5. On met à jour le score
             updateScore(pointTurn);

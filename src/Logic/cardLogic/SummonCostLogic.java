@@ -1,4 +1,4 @@
-package cardLogic;
+package Logic.cardLogic;
 
 public class SummonCostLogic {
     private int m_bonnes;
