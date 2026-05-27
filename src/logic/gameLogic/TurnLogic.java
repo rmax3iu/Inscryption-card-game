@@ -6,6 +6,7 @@ import logic.actorLogic.BotLogic;
 import logic.actorLogic.ActorLogic;
 import logic.cardLogic.AnimalLogic;
 import logic.cardLogic.CardLogic;
+import logic.cardLogic.ObstacleLogic;
 
 import java.util.Random;
 
@@ -22,15 +23,52 @@ public class TurnLogic {
         Random rnd = new Random();
         int nb = rnd.nextInt(0,100);
 
-        //10% de chance qu'il skip son tour
-        if(nb < 90){
-            boolean poser = false;
-            int i = 0;
-            while(!poser && i < bot.lengthHand()){
-                CardLogic card = bot.getCard(i);
-
-                i++;
+        //5% de chance qu'il skip son tour
+        if(nb < 95){
+            //15% de chance qu'il ne pioche pas
+            if(nb < 85){
+                drawCard(bot);
             }
+
+            //On regarde si on peut poser chaque carte
+            for (int i= 0; i < bot.lengthHand(); i ++){
+
+                int cardIndex = rnd.nextInt(0, bot.lengthHand());
+                CardLogic card = bot.getCard(cardIndex);
+
+                boolean peutPoser = false;
+                //si c'est un animal on vérifie qu'on peut la poser
+                if(card instanceof AnimalLogic animal) {
+                    if(animal.isBlood() && animal.getCost() <= m_gamebord.getNbBotCard()){
+                        for(int j=0; j < animal.getCost(); j ++){
+                            if(m_gamebord.getPreviewLine(j) != null){
+                                m_gamebord.removePreviewLine(j);
+                            }else if(m_gamebord.getBotLine(j) != null){
+                                m_gamebord.removeBotLine(j);
+                            }
+                        }
+                        peutPoser = true;
+                    }else if(animal.isBonnes() && animal.getCost() <= bot.getBonnes()){
+                        bot.addBonnes(-animal.getCost());
+                        peutPoser = true;
+                    }
+                }else{
+                    peutPoser = true;
+                }
+                if(peutPoser) {
+                    boolean poser = false;
+                    int j = 0;
+                    while(!poser && j < 4) {
+                        if (m_gamebord.getPreviewLine(j) == null) {
+                            m_gamebord.setPreviewLine(bot.removeCard(i), j);
+                            poser = true;
+                        }
+                        j++;
+                    }
+                }
+            }
+
+
         }
     }
 

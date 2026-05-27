@@ -55,4 +55,19 @@ public class GameBordLogic {
         m_previewLine[position] = null;
         return card;
     }
+
+    public int getNbBotCard(){
+        int total = 0;
+        for(int i = 0; i < 4; i++){
+            if(m_botLine[i] != null){
+                total ++;
+            }
+
+            if(m_previewLine[i] != null){
+                total ++;
+            }
+        }
+
+        return total;
+    }
 }
