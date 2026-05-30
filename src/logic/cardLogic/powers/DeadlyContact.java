@@ -4,7 +4,7 @@ import logic.cardLogic.AnimalLogic;
 import logic.cardLogic.CardLogic;
 
 public class DeadlyContact implements Power{
-    public static final String NAME = "DeadlyConctact";
+    public static final String NAME = "DeadlyContact";
 
     public DeadlyContact() {}
 

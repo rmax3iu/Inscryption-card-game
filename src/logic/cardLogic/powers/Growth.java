@@ -17,10 +17,10 @@ public class Growth implements Power{
 
     @Override
     public AnimalLogic onTurnStart() {
-        if(nbTimeOnBord == 1){
+        nbTimeOnBord++;
+        if(nbTimeOnBord == 2){
             return new TerrestrialLogic("Loup", 2, 3, SummonCostLogic.newBloodCost(2));
         }
-        nbTimeOnBord++;
         return null;
     }
 }
