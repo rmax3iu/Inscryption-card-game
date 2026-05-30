@@ -10,53 +10,122 @@ package logic #LightBlue
     ' < ================================================================================================================ > '
     ' < ================================================================================================================ > '
 
-    package cardLogic #White
-    {
-        abstract class CardLogic
-        {
-            - m_nom : String
-            - m_hp : Integer
-            + << Create >> CardLogic(name : String, hp : Integer)
-            + getNom() : String
-            + getHp() : Integer
+
+    package logic.cardLogic #White{
+
+        abstract class CardLogic <<abstract>> {
+            - m_name: String
+            - m_hp: Integer
+            + <<Create>> CardLogic(name: String, hp: Integer)
+            + getName(): String
+            + getHp(): Integer
+            + takeDamage(damage: Integer): Integer
+            + isDead(): Boolean
         }
 
-        class ObstacleLogic extends CardLogic
-        {
-            + << Create >> ObstacleLogic(name : String, hp : Integer)
+        class ObstacleLogic Extends CardLogic{
+            + <<Create>> ObstacleLogic(name: String, hp: Integer)
         }
 
-        class SummonCostLogic
-        {
-            - m_blood : Integer
-            - m_bones : Integer
-            + << Create >> SummonCostLogic(blood : Integer, os : Integer)
-            +{static}newBloodCost(blood: Integer) : SummonCostLogic
-            +{static}newBonnesCost(bonnes: Integer) : SummonCostLogic
-            + getBlood() : Integer
-            + getBones() : Integer
+        class SummonCostLogic {
+            - m_blood: Integer
+            - m_bones: Integer
+            - <<Create>> SummonCostLogic(blood: Integer, bones: Integer)
+            + {static} newBloodCost(blood: Integer): SummonCostLogic
+            + {static} newBonesCost(bones: Integer): SummonCostLogic
+            + {static} newFree(): SummonCostLogic
+            + getBlood(): Integer
+            + getBones(): Integer
+            + isFree(): Boolean
+            + isBloodCost(): Boolean
+            + isBonesCost(): Boolean
         }
 
-        abstract class AnimalLogic extends CardLogic
-        {
-            - m_attack : Integer
-            + << Create >> AnimalLogic(name : String, hp : Integer, cost : SummonCostLogic, attack : Integer)
-            + getAttack() : Integer
-            + getCost() : SummonCostLogic
-            + Attack(actor : ActorLogic, card : CardLogic)
+        abstract class AnimalLogic <<abstract>> Extends CardLogic{
+            - m_attack: Integer
+            + <<Create>> AnimalLogic(name: String, hp: Integer, attack: Integer, cost: SummonCostLogic)
+            + <<Create>> AnimalLogic(name: String, hp: Integer, attack: Integer, cost: SummonCostLogic, power: Power)
+            + getAttack(): Integer
+            + getSummonCost(): SummonCostLogic
+            + getPower(): Power
+            + hasPower(): Boolean
+            + getPowerName(): String
+            + attacksDirectly(): Boolean
+            + setPower(power: Power)
+            + attack(target: CardLogic): Integer
         }
 
-        class TerrestrialLogic extends AnimalLogic
-        {
-            + << Create >> TerrestrialLogic(name : String, hp : Integer, cost : SummonCostLogic, attack : Integer)
+        class FlyingLogic Extends AnimalLogic{
+            + <<Create>> FlyingLogic(name: String, hp: Integer, attack: Integer, cost: SummonCostLogic)
+            + <<Create>> FlyingLogic(name: String, hp: Integer, attack: Integer, cost: SummonCostLogic, power: Power)
+            + attacksDirectly(): Boolean
+            + attack(target: CardLogic): Integer
         }
 
-        class FlyingLogic extends AnimalLogic
-        {
-            + << Create >> FlyingLogic(name : String, hp : Integer, cost : SummonCostLogic, attack : Integer)
-            + Attack(actor : ActorLogic)
+        class TerrestrialLogic Extends AnimalLogic{
+            + <<Create>> TerrestrialLogic(name: String, hp: Integer, attack: Integer, summonCostLogic: SummonCostLogic)
+            + <<Create>> TerrestrialLogic(name: String, hp: Integer, attack: Integer, cost: SummonCostLogic, power: Power)
         }
-    }
+
+        package powers {
+            Interface Power <<interface>>{
+                + getName(): String
+                + onAttack(position: Integer, left: CardLogic, right: CardLogic): Integer
+                + onTurnStart(): AnimalLogic
+                + onDamageReceived(attacker: AnimalLogic):
+                + attackModifierOnFacing(): Integer
+                + canDeath(): Boolean
+                + killsOnHit(card: CardLogic): Boolean
+            }
+
+            class DeadlyContact implements Power{
+                + {static} NAME: String = "DeadlyContact"
+                + <<Create>> DeadlyContact()
+                + getName(): String
+                + killsOnHit(card: CardLogic): Boolean
+            }
+
+            class Growth implements Power{
+                - nbTimeOnBord: Integer
+                + {static} NAME: String = "Growth"
+                + <<Create>> Growth()
+                + getName(): String
+                + onTurnStart(): AnimalLogic
+            }
+
+            class ManyLife implements Power{
+                + {static} NAME: String = "ManyLife"
+                + <<Create>> ManyLife()
+                + getName(): String
+                + canDeath(): Boolean
+            }
+
+            class Runner implements Power{
+                + {static} NAME: String = "Runner"
+                + <<Create>> Runner()
+                + getName(): String
+                + onAttack(position: Integer, left: CardLogic, right: CardLogic): Integer
+            }
+
+            class SharpSpikes implements Power{
+                + {static} NAME: String = "SharpSpikes"
+                + <<Create>> SharpSpikes()
+                + getName(): String
+                + onDamageReceived(attacker: AnimalLogic):
+            }
+
+            class Stinking implements Power{
+                + {static} NAME: String = "Stinking"
+                + <<Create>> Stinking()
+                + getName(): String
+                + attackModifierOnFacing(): Integer
+            }
+        }
+
+        AnimalLogic "1" *--Left--> "1\n-m_summonCostLogic" SummonCostLogic : coûte
+        AnimalLogic "1" *----> "0..1\n-m_power\n" Power : est doté d'un
+
+}
 
     ' < ================================================================================================================ > '
     ' < ================================================================================================================ > '
@@ -147,7 +216,7 @@ package logic #LightBlue
     }
 }
 
-    AnimalLogic "1" o-left-> "1\n-m_cost" SummonCostLogic : <<own>>
+
 
     PlayerLogic --|> ActorLogic
     BotLogic --|> ActorLogic
