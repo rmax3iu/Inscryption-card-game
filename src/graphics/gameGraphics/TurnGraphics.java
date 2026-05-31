@@ -1,6 +1,5 @@
 package graphics.gameGraphics;
 
-import logic.actorLogic.PlayerLogic;
 import logic.cardLogic.AnimalLogic;
 import logic.cardLogic.CardLogic;
 import logic.gameLogic.GameBordLogic;

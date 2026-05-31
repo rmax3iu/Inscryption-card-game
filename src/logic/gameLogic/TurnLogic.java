@@ -1,12 +1,9 @@
 package logic.gameLogic;
 
 import logic.Ask;
-import logic.actorLogic.PlayerLogic;
-import logic.actorLogic.BotLogic;
 import logic.actorLogic.ActorLogic;
 import logic.cardLogic.AnimalLogic;
 import logic.cardLogic.CardLogic;
-import logic.cardLogic.ObstacleLogic;
 
 import java.util.Random;
 

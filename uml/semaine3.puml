@@ -79,7 +79,7 @@ package logic #LightBlue
             }
 
             class DeadlyContact implements Power{
-                + {static} NAME: String = "DeadlyContact"
+                + {static} NAME: String
                 + <<Create>> DeadlyContact()
                 + getName(): String
                 + killsOnHit(card: CardLogic): Boolean
@@ -87,35 +87,35 @@ package logic #LightBlue
 
             class Growth implements Power{
                 - nbTimeOnBord: Integer
-                + {static} NAME: String = "Growth"
+                + {static} NAME: String
                 + <<Create>> Growth()
                 + getName(): String
                 + onTurnStart(): AnimalLogic
             }
 
             class ManyLife implements Power{
-                + {static} NAME: String = "ManyLife"
+                + {static} NAME: String
                 + <<Create>> ManyLife()
                 + getName(): String
                 + canDeath(): Boolean
             }
 
             class Runner implements Power{
-                + {static} NAME: String = "Runner"
+                + {static} NAME: String
                 + <<Create>> Runner()
                 + getName(): String
                 + onAttack(position: Integer, left: CardLogic, right: CardLogic): Integer
             }
 
             class SharpSpikes implements Power{
-                + {static} NAME: String = "SharpSpikes"
+                + {static} NAME: String
                 + <<Create>> SharpSpikes()
                 + getName(): String
                 + onDamageReceived(attacker: AnimalLogic):
             }
 
             class Stinking implements Power{
-                + {static} NAME: String = "Stinking"
+                + {static} NAME: String
                 + <<Create>> Stinking()
                 + getName(): String
                 + attackModifierOnFacing(): Integer
@@ -183,33 +183,20 @@ package logic #LightBlue
 
     package actorLogic #White
     {
-        abstract class ActorLogic
+        class ActorLogic
         {
+            + {static} PLAYER : String
+            + {static} BOT : String
             - m_bones : Integer
-            + << Create >> ActorLogic()
+            - m_name : String
+            + << Create >> ActorLogic(String name)
+            + getName() : String
             + addBones(amount : Integer)
             + getBones() : Integer
             + addCard(card : CardLogic)
             + getCard(indexHand : Integer) : CardLogic
             + removeCard(indexHand : Integer) : CardLogic
-        }
-
-        class PlayerLogic
-        {
-            + << Create >> PlayerLogic()
-        }
-
-        class BotLogic
-        {
-            + << Create >> BotLogic()
-        }
-
-        class HandLogic
-        {
-            + << Create >> HandLogic()
-            + addCard(card : CardLogic)
-            + getCard(indexHand : Integer) : CardLogic
-            + removeCard(indexHand : Integer) : CardLogic
+            + handSize() : Integer
         }
     }
 }
@@ -217,11 +204,7 @@ package logic #LightBlue
     AnimalLogic "1" *--> "1\n-m_summonCostLogic" SummonCostLogic : coûte
     AnimalLogic "1" *---> "0..1\n-m_power\n" Power : est doté d'un
 
-    PlayerLogic --|> ActorLogic
-    BotLogic --|> ActorLogic
-
-    ActorLogic "1" *--> "1\n-m_hand" HandLogic : <<own>>
-    HandLogic "1" o--> "0..*" CardLogic : <<contains>>
+    ActorLogic "1" *--> "0..*\n-m_hand" CardLogic : <<contains>>
 
     StackLogic "1" o--> "0..16\n-m_cards" CardLogic : <<contains>>
 
@@ -232,18 +215,15 @@ package logic #LightBlue
     TurnLogic "*" o---> "1\n-m_gameboard" GameBoardLogic : <<own>>
     TurnLogic "*" o---> "1\n-m_stack" StackLogic : <<own>>
     TurnLogic --> ActorLogic : <<uses>>
-    TurnLogic --> PlayerLogic : <<uses>>
-    TurnLogic --> BotLogic : <<uses>>
 
     RoundLogic "*" o---> "1\n-m_gameboard" GameBoardLogic : <<own>>
     RoundLogic "*" o---> "1\n-m_stack" StackLogic : <<own>>
     RoundLogic --> TurnLogic : <<instantiate>>
-    RoundLogic --> PlayerLogic : <<uses>>
-    RoundLogic --> BotLogic : <<uses>>
+    RoundLogic --> ActorLogic : <<uses>>
 
     GameLogic "*" *--> "3\n-m_rounds" RoundLogic : <<own>>
-    GameLogic "1" *---> "1\n-m_player" PlayerLogic : <<own>>
-    GameLogic "1" *---> "1\n-m_bot" BotLogic : <<own>>
+    GameLogic "1" *---> "1\n-m_player" ActorLogic : <<own>>
+    GameLogic "1" *---> "1\n-m_bot" ActorLogic : <<own>>
     GameLogic "*" *---> "12\n-{static}m_baseCard" CardLogic : <<own>>
 
 ' < ================================================================================================================ > '
@@ -309,7 +289,7 @@ package graphics #LightGreen
     GameBoardGraphics ..> GameBoardLogic : <<uses>>
 
     TurnGraphics ..> GameBoardLogic : <<uses>>
-    TurnGraphics ..> PlayerLogic : <<uses>>
+    TurnGraphics ..> ActorLogic : <<uses>>
     TurnGraphics ..> StackLogic : <<uses>>
 
     TurnLogic ..> TurnGraphics : <<uses>>

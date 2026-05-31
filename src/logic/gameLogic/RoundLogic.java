@@ -1,7 +1,5 @@
 package logic.gameLogic;
 
-import logic.actorLogic.BotLogic;
-import logic.actorLogic.PlayerLogic;
 import logic.cardLogic.CardLogic;
 
 import java.util.ArrayList;

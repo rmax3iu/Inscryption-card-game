@@ -1,8 +1,6 @@
 package logic.gameLogic;
 
 import logic.Ask;
-import logic.actorLogic.BotLogic;
-import logic.actorLogic.PlayerLogic;
 import logic.cardLogic.CardLogic;
 import logic.cardLogic.FlyingLogic;
 import logic.cardLogic.SummonCostLogic;
