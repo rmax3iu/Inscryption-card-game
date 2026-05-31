@@ -8,15 +8,15 @@ import logic.cardLogic.CardLogic;
 import java.util.Random;
 
 public class TurnLogic {
-    private GameBordLogic m_gamebord;
+    private GameBoardLogic m_gamebord;
     private StackLogic m_stack;
 
-    public TurnLogic(GameBordLogic gamebord, StackLogic stack){
+    public TurnLogic(GameBoardLogic gamebord, StackLogic stack){
         m_gamebord = gamebord;
         m_stack = stack;
     }
 
-    public void botTurn(BotLogic bot){
+    public void botTurn(ActorLogic bot){
         Random rnd = new Random();
         int nb = rnd.nextInt(0,100);
 
@@ -28,16 +28,16 @@ public class TurnLogic {
             }
 
             //On regarde si on peut poser chaque carte
-            for (int i= 0; i < bot.lengthHand(); i ++){
+            for (int i= 0; i < bot.handSize(); i ++){
 
-                int cardIndex = rnd.nextInt(0, bot.lengthHand());
+                int cardIndex = rnd.nextInt(0, bot.handSize());
                 CardLogic card = bot.getCard(cardIndex);
 
                 boolean peutPoser = false;
                 //si c'est un animal on vérifie qu'on peut la poser
                 if(card instanceof AnimalLogic animal) {
-                    if(animal.isBlood() && animal.getCost() <= m_gamebord.getNbBotCard()){
-                        for(int j=0; j < animal.getCost(); j ++){
+                    if(animal.getSummonCost().isBloodCost() && animal.getSummonCost().getBlood() <= m_gamebord.countBotCard()){
+                        for(int j=0; j < animal.getSummonCost().getBlood(); j ++){
                             if(m_gamebord.getPreviewLine(j) != null){
                                 m_gamebord.removePreviewLine(j);
                             }else if(m_gamebord.getBotLine(j) != null){
@@ -45,8 +45,8 @@ public class TurnLogic {
                             }
                         }
                         peutPoser = true;
-                    }else if(animal.isBonnes() && animal.getCost() <= bot.getBonnes()){
-                        bot.addBonnes(-animal.getCost());
+                    }else if(animal.getSummonCost().isBonesCost() && animal.getSummonCost().getBones() <= bot.getBones()){
+                        bot.addBones(-animal.getSummonCost().getBones());
                         peutPoser = true;
                     }
                 }else{
@@ -57,7 +57,7 @@ public class TurnLogic {
                     int j = 0;
                     while(!poser && j < 4) {
                         if (m_gamebord.getPreviewLine(j) == null) {
-                            m_gamebord.setPreviewLine(bot.removeCard(i), j);
+                            m_gamebord.setPreviewLine(j, bot.removeCard(i));
                             poser = true;
                         }
                         j++;
@@ -69,7 +69,7 @@ public class TurnLogic {
         }
     }
 
-    public void playerTurn(PlayerLogic player) {
+    public void playerTurn(ActorLogic player) {
         boolean hasDrawn = false;
         boolean turnOver = false;
 
@@ -124,25 +124,25 @@ public class TurnLogic {
     //Place les cartes du joueur ou du bot sur leur ligne respectif
     // (ne met pas les cartes du bot sur bot line se serra fait tout seul après resolveAttacks)
     public void placeCard(ActorLogic actor, int IndexHand, int position){
-        if(actor instanceof PlayerLogic){
-            m_gamebord.setPlayerLine(actor.removeCard(IndexHand), position);
+        if(actor.getName().equals(ActorLogic.PLAYER)){
+            m_gamebord.setPlayerLine(position, actor.removeCard(IndexHand));
         }else{
-            m_gamebord.setPreviewLine(actor.removeCard(IndexHand), position);
+            m_gamebord.setPreviewLine(position, actor.removeCard(IndexHand));
         }
     }
 
     public void drawCard(ActorLogic actor){
-        actor.addCard(m_stack.drawCard());
+        actor.addCard(m_stack.draw());
     }
 
-    public int resolveAttacks(PlayerLogic player, BotLogic bot){
+    public int resolveAttacks(ActorLogic player, ActorLogic bot){
         int score = 0;
         for(int i = 0; i < 4; i++){
             if(m_gamebord.getPlayerLine(i) != null && m_gamebord.getPlayerLine(i) instanceof AnimalLogic animal){
                 if(m_gamebord.getBotLine(i) != null) {
-                    score += animal.attack(player, m_gamebord.getBotLine(i));
+                    score += animal.attack(m_gamebord.getBotLine(i));
                 } else {
-                    score += animal.attack(player,m_gamebord.getPreviewLine(i));
+                    score += animal.attack(m_gamebord.getPreviewLine(i));
                 }
             }
         }
@@ -158,16 +158,16 @@ public class TurnLogic {
 
         for(int i = 0 ; i < 4 ; i++){
             if(m_gamebord.getPreviewLine(i) != null && m_gamebord.getBotLine(i) == null){
-                m_gamebord.setBotLine(m_gamebord.removePreviewLine(i), i);
+                m_gamebord.setBotLine(i, m_gamebord.removePreviewLine(i));
             }
         }
 
         for(int i = 0 ; i < 4 ; i++){
             if(m_gamebord.getBotLine(i) != null && m_gamebord.getBotLine(i) instanceof AnimalLogic animal){
                 if(m_gamebord.getPlayerLine(i) != null) {
-                    score += animal.attack(player, m_gamebord.getBotLine(i));
+                    score += animal.attack(m_gamebord.getBotLine(i));
                 } else {
-                    score += animal.attack(player,m_gamebord.getPreviewLine(i));
+                    score += animal.attack(m_gamebord.getPreviewLine(i));
                 }
             }
         }

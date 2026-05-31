@@ -1,6 +1,8 @@
 package logic.actorLogic;
 
 import logic.cardLogic.CardLogic;
+
+import java.util.AbstractCollection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,10 +15,18 @@ public class ActorLogic {
     private int m_bones;                //Le nombre d'os de l'acteur
     private String m_name;
 
-    public ActorLogic(String name) {
+    private ActorLogic(String name) {
         m_hand = new ArrayList<>();
         m_bones = 0;
         m_name = name;
+    }
+
+    public static ActorLogic newBotLogic(){
+        return new ActorLogic(BOT);
+    }
+
+    public static ActorLogic newPlayerLogic(){
+        return new ActorLogic(PLAYER);
     }
 
     //Renvoie le nom de l'acteur donc logiquement soit Player soit Bot si c'est bien fait

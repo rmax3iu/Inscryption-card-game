@@ -159,21 +159,29 @@ package logic #LightBlue
 
         class GameBoardLogic
         {
+            + {static} BOARD_SIZE : Integer
             + << Create >> GameBoardLogic()
-            + setPlayerLine(card : CardLogic, position : Integer)
-            + getPlayerLine(position : Integer) : CardLogic
-            + setBotLine(card : CardLogic, position : Integer)
-            + getBotLine(position : Integer) : CardLogic
-            + setPreviewLine(card : CardLogic, position : Integer)
-            + getPreviewLine(position : Integer) : CardLogic
+            + getPlayerLine(index : Integer) : CardLogic
+            + setPlayerLine(index : Integer, card : CardLogic)
+            + removePlayerLine(index : Integer) : CardLogic
+            + getBotLine(index : Integer) : CardLogic
+            + setBotLine(index : Integer, card : CardLogic)
+            + removeBotLine(index : Integer) : CardLogic
+            + getPreviewLine(index : Integer) : CardLogic
+            + setPreviewLine(index : Integer, card : CardLogic)
+            + removePreviewLine(index : Integer) : CardLogic
+            + coutBotCard() : Integer
+            + coutPlayerCard() : Integer
         }
 
         class StackLogic
         {
-            + << Create >> StackLogic(cards : CardLogic[])
+            + {static} TOUS_LES_NOMS_CARTES : String[13]
+            + << Create >> StackLogic()
+            + {static} allCarde(nom : String) : CardLogic
             + addCard(card : CardLogic)
-            + drawCard() : CardLogic
-            + length() : Integer
+            + draw() : CardLogic
+            + size() : Integer
             + isEmpty() : Boolean
         }
     }
@@ -189,7 +197,9 @@ package logic #LightBlue
             + {static} BOT : String
             - m_bones : Integer
             - m_name : String
-            + << Create >> ActorLogic(String name)
+            - << Create >> ActorLogic(String name)
+            + {static} newPlayerLogic() : ActorLogic
+            + {static} newBotLogic() : ActorLogic
             + getName() : String
             + addBones(amount : Integer)
             + getBones() : Integer

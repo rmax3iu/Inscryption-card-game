@@ -1,5 +1,6 @@
 package logic.gameLogic;
 
+import logic.actorLogic.ActorLogic;
 import logic.cardLogic.CardLogic;
 
 import java.util.ArrayList;
@@ -7,19 +8,19 @@ import java.util.ArrayList;
 public class RoundLogic
 {
     private Integer m_score;
-    private GameBordLogic m_gamebord;
+    private GameBoardLogic m_gamebord;
     private StackLogic m_stack;
-    private PlayerLogic m_player;
-    private BotLogic m_bot;
+    private ActorLogic m_player;
+    private ActorLogic m_bot;
 
-    public RoundLogic(ArrayList<CardLogic> cards)
+    public RoundLogic()
     {
         this.m_score = 0;
-        this.m_gamebord = new GameBordLogic();
-        this.m_stack = new StackLogic(cards);
+        this.m_gamebord = new GameBoardLogic();
+        this.m_stack = new StackLogic();
     }
 
-    public void play(PlayerLogic player, BotLogic bot)
+    public void play(ActorLogic player, ActorLogic bot)
     {
         this.m_player = player;
         this.m_bot = bot;
