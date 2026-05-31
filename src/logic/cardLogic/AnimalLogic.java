@@ -1,21 +1,21 @@
 package logic.cardLogic;
 
-import logic.actorLogic.ActorLogic;
-import logic.actorLogic.PlayerLogic;
 import logic.cardLogic.powers.Power;
 
 public abstract class AnimalLogic extends CardLogic {
-    private int m_attack;
-    private SummonCostLogic m_summonCostLogic;
-    private Power m_power;
+    private final int m_attack;                             //C'est le nombre de points de dégât que fait la carte
+    private final SummonCostLogic m_summonCostLogic;        //C'est le coup demandé par la carte pour être posé
+    private Power m_power;                                  //C'est le pouvoir que la carte possède (peut être null si elle n'a pas de pouvoir)
 
-    public AnimalLogic(String name, int hp, int attack, SummonCostLogic summonCostLogic){
-        super(name,hp);
+    //Constructeur sans pouvoir
+    public AnimalLogic(String name, int hp, int attack, SummonCostLogic cost) {
+        super(name, hp);
         m_attack = attack;
-        m_summonCostLogic = summonCostLogic;
+        m_summonCostLogic = cost;
         m_power = null;
     }
 
+    //Constructeur avec pouvoir
     public AnimalLogic(String name, int hp, int attack, SummonCostLogic cost, Power power) {
         super(name, hp);
         m_attack = attack;
@@ -23,59 +23,50 @@ public abstract class AnimalLogic extends CardLogic {
         m_power = power;
     }
 
-    public int getAttack(){
+    //Renvoie l'attaque
+    public int getAttack() {
         return m_attack;
     }
 
-    //actor est la personne qui attaque et card la carte qui ressoit l'attaque
-    public int attack(ActorLogic actorLogic, CardLogic cardLogic){
-        if(cardLogic == null){
-            if(actorLogic instanceof PlayerLogic){
-                return getAttack();
-            }else{
-                return -getAttack();
-            }
-        }
-        cardLogic.takeDamage(getAttack());
-        return 0;
+    //Renvoie le coup d'apparition
+    public SummonCostLogic getSummonCost()  {
+        return m_summonCostLogic;
     }
 
-    public int getCost(){
-        return m_summonCostLogic.getBlood() + m_summonCostLogic.getBonnes();
-    }
-
-    public boolean isBlood(){
-        return m_summonCostLogic.getBlood() > 0;
-    }
-
-    public boolean isBonnes(){
-        return m_summonCostLogic.getBonnes() > 0;
-    }
-
-    public Power getPower()
-    {
+    //Renvoie le pouvoir
+    public Power getPower() {
         return m_power;
     }
 
-    public void setPower(Power power)
-    {
-        m_power = power;
-    }
-
-    public boolean hasPower()
-    {
+    //Renvoie un boolean qui dit si la carte a un pouvoir
+    public boolean hasPower() {
         return m_power != null;
     }
 
-    public String getPowerName()
-    {
-        if (m_power != null)
-        {
+    //Renvoie le nom de son pouvoir si elle en a un sinon une chaine vide
+    public String getPowerName(){
+        if(hasPower()){
             return m_power.getName();
+        }else{
+            return "";
         }
-        else
-        {
-            return "Aucun";
+    }
+
+    //Renvoie un boolean qui dit si la carte attaque directement le score (ex. carte volante)
+    public boolean attacksDirectly() {
+        return false;
+    }
+
+    //Modif le pouvoir de la carte (on l'utilise à la fin du 2e tour quand on sacrifie une carte avec pouvoir et qu'on la donne à une autre carte)
+    public void setPower(Power power) {
+        m_power  = power;
+    }
+
+    //Attaque la carte cible et si le nombre de pv est inférieur à son attaque on renvoie le surplus (on l'utilisera pour attaque la carte juste derrière)
+    public int attack(CardLogic target) {
+        if (target != null) {
+            return target.takeDamage(getAttack());
         }
+        return 0;
     }
 }

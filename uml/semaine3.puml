@@ -122,8 +122,6 @@ package logic #LightBlue
             }
         }
 
-        AnimalLogic "1" *--Left--> "1\n-m_summonCostLogic" SummonCostLogic : coûte
-        AnimalLogic "1" *----> "0..1\n-m_power\n" Power : est doté d'un
 
 }
 
@@ -216,7 +214,8 @@ package logic #LightBlue
     }
 }
 
-
+    AnimalLogic "1" *--> "1\n-m_summonCostLogic" SummonCostLogic : coûte
+    AnimalLogic "1" *---> "0..1\n-m_power\n" Power : est doté d'un
 
     PlayerLogic --|> ActorLogic
     BotLogic --|> ActorLogic

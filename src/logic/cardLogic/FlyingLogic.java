@@ -1,20 +1,28 @@
 package logic.cardLogic;
 
-import logic.actorLogic.ActorLogic;
-import logic.actorLogic.PlayerLogic;
+import logic.cardLogic.powers.Power;
 
 public class FlyingLogic extends AnimalLogic {
 
-    public FlyingLogic(String name, int hp, int attack, SummonCostLogic summonCostLogic){
-        super(name, hp, attack, summonCostLogic);
+    //Constructeur sans pouvoir
+    public FlyingLogic(String name, int hp, int attack, SummonCostLogic cost) {
+        super(name, hp, attack, cost);
     }
 
+    //Avec pouvoir
+    public FlyingLogic(String name, int hp, int attack, SummonCostLogic cost, Power power) {
+        super(name, hp, attack, cost, power);
+    }
+
+    //Renvoie true car les cartes volante attaque toujours le score directement
     @Override
-    public int attack(ActorLogic actorLogic, CardLogic cardLogic){
-        if(actorLogic instanceof PlayerLogic){
-            return getAttack();
-        }else{
-            return -getAttack();
-        }
+    public boolean attacksDirectly() {
+        return true;
+    }
+
+    //Renvoie 0 car une carte volant n'attaque pas de carte
+    @Override
+    public int attack(CardLogic target) {
+        return 0;
     }
 }

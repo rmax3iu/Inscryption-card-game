@@ -1,35 +1,38 @@
 package logic.cardLogic;
 
 public abstract class CardLogic {
-    private String m_name;
-    private int m_hp;
+    private final String m_name;        //Le nom de la carte
+    private int m_hp;                   //Les points de vie de la carte
 
-    public CardLogic(String name, int hp)
-    {
-        m_hp = hp;
+    public CardLogic(String name, int hp) {
         m_name = name;
+        m_hp   = hp;
     }
 
-    public String getName()
-    {
+    //Renvoie son nom
+    public String getName() {
         return m_name;
     }
 
-    public int getHp()
-    {
+    //Renvoie ses pv
+    public int getHp() {
         return m_hp;
     }
 
-    public void takeDamage(int damage){
-        if(damage > getHp()){
+    //On soustrait les dégâts reçus au pv et si les dégâts sont supérieurs on met les pv à 0 et on renvoie le surplus
+    public int takeDamage(int damage) {
+        int surplus = 0;
+        if (damage > m_hp) {
+            surplus = m_hp - damage; // négatif = surplus
             m_hp = 0;
-        }else{
+        } else {
             m_hp -= damage;
         }
+        return surplus;
     }
 
-    public boolean isDead()
-    {
-        return getHp() <= 0;
+    //Renvoie un boolean qui dit si la carte est morte (qu'elle a 0 pv ou moins)
+    public boolean isDead() {
+        return m_hp <= 0;
     }
 }
