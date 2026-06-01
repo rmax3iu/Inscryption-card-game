@@ -19,4 +19,9 @@ public class SharpSpikes implements Power{
     public void onDamageReceived(AnimalLogic attacker) {
         attacker.takeDamage(1);
     }
+
+    @Override
+    public SharpSpikes copie(){
+        return new SharpSpikes();
+    }
 }

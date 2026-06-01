@@ -35,4 +35,8 @@ public interface Power {
     default boolean killsOnHit(CardLogic card) {
         return false;
     }
+
+    default Power copie(){
+        return null;
+    }
 }

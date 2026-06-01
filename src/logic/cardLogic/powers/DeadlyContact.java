@@ -20,4 +20,9 @@ public class DeadlyContact implements Power{
     public boolean killsOnHit(CardLogic targetCard) {
         return targetCard instanceof AnimalLogic;
     }
+
+    @Override
+    public DeadlyContact copie(){
+        return new DeadlyContact();
+    }
 }

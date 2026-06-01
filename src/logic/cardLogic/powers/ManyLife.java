@@ -18,4 +18,11 @@ public class ManyLife implements Power{
     public boolean canDeath() {
         return false;
     }
+
+    @Override
+    public ManyLife copie() {
+        return new ManyLife();
+    }
+
+
 }

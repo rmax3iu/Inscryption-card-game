@@ -9,93 +9,40 @@ import java.util.Random;
 
 
 public class StackLogic {
-    //Liste avec le nom de toutes les cartes du jeu
-    public static final String[] TOUS_LES_NOMS_CARTES = {
-            // --- Cartes de la phase 1 ---
-            "Chat",
-            "Grizzly",
-            "Coyote",
-            "Moineau",
-            "Corbeau",
-            "Ecureuil",
-            "Hermine",
-            "Louveteau",
-            "Loup",
-            "Punaise",
+    // --- Cartes de la phase 1 (avec leurs pouvoirs) ---
+    public static final CardLogic CHAT = new TerrestrialLogic("Chat", 1, 0, SummonCostLogic.newBloodCost(1), new ManyLife());
+    public static final CardLogic GRIZZLY = new TerrestrialLogic("Grizzly", 6, 4, SummonCostLogic.newBloodCost(3));
+    public static final CardLogic COYOTE = new TerrestrialLogic("Coyote", 1, 2, SummonCostLogic.newBonesCost(4));
+    public static final CardLogic MOINEAU = new FlyingLogic("Moineau", 2, 1, SummonCostLogic.newBloodCost(1));
+    public static final CardLogic CORBEAU = new FlyingLogic("Corbeau", 3, 2, SummonCostLogic.newBloodCost(2));
+    public static final CardLogic ECUREUIL = new TerrestrialLogic("Ecureuil", 1, 0, SummonCostLogic.newFree());
+    public static final CardLogic HERMINE = new TerrestrialLogic("Hermine", 3, 1, SummonCostLogic.newBloodCost(1));
+    public static final CardLogic LOUVETEAU = new TerrestrialLogic("Louveteau", 1, 1, SummonCostLogic.newBloodCost(1), new Growth());
+    public static final CardLogic LOUP = new TerrestrialLogic("Loup", 2, 3, SummonCostLogic.newBloodCost(2));
+    public static final CardLogic PUNAISE = new TerrestrialLogic("Punaise", 2, 1, SummonCostLogic.newBonesCost(2), new Stinking());
+    // --- Nouvelles cartes de la phase 2 ---
+    public static final CardLogic ELAN = new TerrestrialLogic("Elan", 4, 2, SummonCostLogic.newBloodCost(2), new Runner());
+    public static final CardLogic VIPERE = new TerrestrialLogic("Vipère", 1, 1, SummonCostLogic.newBloodCost(2), new DeadlyContact());
+    public static final CardLogic PORC_EPIC = new TerrestrialLogic("Porc-épic", 2, 1, SummonCostLogic.newBloodCost(1), new SharpSpikes());
+    public static final int NB_CARD = 13;
 
-            // --- Nouvelles cartes de la phase 2 ---
-            "Elan",
-            "Vipère",
-            "Porc-épic"
-    };
-
-    //Une méthode qui permet de créer n'importe qu'elle carte du jeu si on a son nom
-    public static CardLogic allCarde(String nom) {
-        CardLogic carteDemande = null;
-        switch (nom) {
-            // --- Cartes de la phase 1 (avec leurs pouvoirs) ---
-            case "Chat":
-                carteDemande = new TerrestrialLogic("Chat", 1, 0, SummonCostLogic.newBloodCost(1), new ManyLife());
-                break;
-            case "Grizzly":
-                carteDemande = new TerrestrialLogic("Grizzly", 6, 4, SummonCostLogic.newBloodCost(3));
-                break;
-            case "Coyote":
-                carteDemande = new TerrestrialLogic("Coyote", 1, 2, SummonCostLogic.newBonesCost(4));
-                break;
-            case "Moineau":
-                carteDemande = new FlyingLogic("Moineau", 2, 1, SummonCostLogic.newBloodCost(1));
-                break;
-            case "Corbeau":
-                carteDemande = new FlyingLogic("Corbeau", 3, 2, SummonCostLogic.newBloodCost(2));
-                break;
-            case "Ecureuil":
-                carteDemande = new TerrestrialLogic("Ecureuil", 1, 0, SummonCostLogic.newFree());
-                break;
-            case "Hermine":
-                carteDemande = new TerrestrialLogic("Hermine", 3, 1, SummonCostLogic.newBloodCost(1));
-                break;
-            case "Louveteau":
-                carteDemande = new TerrestrialLogic("Louveteau", 1, 1, SummonCostLogic.newBloodCost(1), new Growth());
-                break;
-            case "Loup":
-                carteDemande = new TerrestrialLogic("Loup", 2, 3, SummonCostLogic.newBloodCost(2));
-                break;
-            case "Punaise":
-                carteDemande = new TerrestrialLogic("Punaise", 2, 1, SummonCostLogic.newBonesCost(2), new Stinking());
-                break;
-
-            // --- Nouvelles cartes de la phase 2 ---
-            case "Elan":
-                carteDemande = new TerrestrialLogic("Elan", 4, 2, SummonCostLogic.newBloodCost(2), new Runner());
-                break;
-            case "Vipère":
-                carteDemande = new TerrestrialLogic("Vipère", 1, 1, SummonCostLogic.newBloodCost(2), new DeadlyContact());
-                break;
-            case "Porc-épic":
-                carteDemande = new TerrestrialLogic("Porc-épic", 2, 1, SummonCostLogic.newBloodCost(1), new SharpSpikes());
-                break;
-        }
-        return carteDemande;
-    }
 
     private List<CardLogic> deck;
 
     public StackLogic() {
-        Random rnd = new Random();      //Permet de donner un nombre aléatoire
-
         deck = new ArrayList<>();       //La liste de carte dont la pioche est composé
 
         //On ajoute 7 écureuils et 7 cartes aléatoires
         for (int i = 0; i < 7; i++) {
-            deck.add(allCarde(TOUS_LES_NOMS_CARTES[5]));    //Ajout de l'écureuil
-            deck.add(allCarde(TOUS_LES_NOMS_CARTES[rnd.nextInt(0, TOUS_LES_NOMS_CARTES.length)]));  //Ajout d'une carte aléatoire
+            deck.add(ECUREUIL.copie());    //Ajout de l'écureuil
+            deck.add(randomeCard());       //Ajout d'une carte aléatoire
         }
 
         //Pour l'instant on a que 14(7*2) cartes donc on ajoute un écureuil supplémentaire pour atteindre 15
-        deck.add(allCarde(TOUS_LES_NOMS_CARTES[5]));        //Un écureuil
+        deck.add(ECUREUIL.copie());        //Un écureuil
 
         //Maintenant on mélange les cartes pour pas avoir une carte sur 2 un écureil
+        Random rnd = new Random();      //Permet de donner un nombre aléatoire
         for(int i = 0; i < size(); i++){
             //on choisit 2 cartes aléatoirement
             int indice1 = rnd.nextInt(0, size());
@@ -108,6 +55,40 @@ public class StackLogic {
             deck.set(indice1, deck.get(indice2));
             deck.set(indice2, tempo);
         }
+    }
+
+    public CardLogic randomeCard(){
+        Random rnd = new Random();      //Permet de donner un nombre aléatoire
+        //Chaque nombre correspond à une carte
+        switch (rnd.nextInt(0,NB_CARD)){
+            case 0 :
+                return CHAT.copie();
+            case 1 :
+                return GRIZZLY.copie();
+            case 2 :
+                return COYOTE.copie();
+            case 3 :
+                return MOINEAU.copie();
+            case 4 :
+                return CORBEAU.copie();
+            case 5 :
+                return ECUREUIL.copie();
+            case 6 :
+                return HERMINE.copie();
+            case 7 :
+                return LOUVETEAU.copie();
+            case 8 :
+                return LOUP.copie();
+            case 9 :
+                return PUNAISE.copie();
+            case 10 :
+                return ELAN.copie();
+            case 11 :
+                return VIPERE.copie();
+            case 12 :
+                return PORC_EPIC.copie();
+        }
+        return ECUREUIL.copie();    //Pour qu'il ne râle pas je met un écureuil car c'est pas grave de piocher un écureuil au pire
     }
 
     //Renvoie un entier qui dit si la pioche est vide

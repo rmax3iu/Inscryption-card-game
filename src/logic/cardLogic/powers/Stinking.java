@@ -17,4 +17,9 @@ public class Stinking implements Power{
     public int attackModifierOnFacing(){
         return -1;
     }
+
+    @Override
+    public Stinking copie(){
+        return new Stinking();
+    }
 }

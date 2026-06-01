@@ -21,10 +21,12 @@ package logic #LightBlue
             + getHp(): Integer
             + takeDamage(damage: Integer): Integer
             + isDead(): Boolean
+            + copie(): CardLogic
         }
 
         class ObstacleLogic Extends CardLogic{
             + <<Create>> ObstacleLogic(name: String, hp: Integer)
+            + copie(): ObstacleLogic
         }
 
         class SummonCostLogic {
@@ -39,6 +41,7 @@ package logic #LightBlue
             + isFree(): Boolean
             + isBloodCost(): Boolean
             + isBonesCost(): Boolean
+            + copie(): SummonCostLogic
         }
 
         abstract class AnimalLogic <<abstract>> Extends CardLogic{
@@ -53,6 +56,7 @@ package logic #LightBlue
             + attacksDirectly(): Boolean
             + setPower(power: Power)
             + attack(target: CardLogic): Integer
+            + copie(): AnimalLogic
         }
 
         class FlyingLogic Extends AnimalLogic{
@@ -60,11 +64,13 @@ package logic #LightBlue
             + <<Create>> FlyingLogic(name: String, hp: Integer, attack: Integer, cost: SummonCostLogic, power: Power)
             + attacksDirectly(): Boolean
             + attack(target: CardLogic): Integer
+            + copie(): FlyingLogic
         }
 
         class TerrestrialLogic Extends AnimalLogic{
             + <<Create>> TerrestrialLogic(name: String, hp: Integer, attack: Integer, summonCostLogic: SummonCostLogic)
             + <<Create>> TerrestrialLogic(name: String, hp: Integer, attack: Integer, cost: SummonCostLogic, power: Power)
+            + copie(): TerrestrialLogic
         }
 
         package powers {
@@ -72,10 +78,11 @@ package logic #LightBlue
                 + getName(): String
                 + onAttack(position: Integer, left: CardLogic, right: CardLogic): Integer
                 + onTurnStart(): AnimalLogic
-                + onDamageReceived(attacker: AnimalLogic):
+                + onDamageReceived(attacker: AnimalLogic)
                 + attackModifierOnFacing(): Integer
                 + canDeath(): Boolean
                 + killsOnHit(card: CardLogic): Boolean
+                + copie(): Power
             }
 
             class DeadlyContact implements Power{
@@ -83,6 +90,7 @@ package logic #LightBlue
                 + <<Create>> DeadlyContact()
                 + getName(): String
                 + killsOnHit(card: CardLogic): Boolean
+                + copie(): DeadlyContact
             }
 
             class Growth implements Power{
@@ -91,6 +99,7 @@ package logic #LightBlue
                 + <<Create>> Growth()
                 + getName(): String
                 + onTurnStart(): AnimalLogic
+                + copie(): Growth
             }
 
             class ManyLife implements Power{
@@ -98,6 +107,7 @@ package logic #LightBlue
                 + <<Create>> ManyLife()
                 + getName(): String
                 + canDeath(): Boolean
+                + copie(): ManyLife
             }
 
             class Runner implements Power{
@@ -105,13 +115,15 @@ package logic #LightBlue
                 + <<Create>> Runner()
                 + getName(): String
                 + onAttack(position: Integer, left: CardLogic, right: CardLogic): Integer
+                + copie(): Runner
             }
 
             class SharpSpikes implements Power{
                 + {static} NAME: String
                 + <<Create>> SharpSpikes()
                 + getName(): String
-                + onDamageReceived(attacker: AnimalLogic):
+                + onDamageReceived(attacker: AnimalLogic)
+                + copie(): SharpSpikes
             }
 
             class Stinking implements Power{
@@ -119,6 +131,7 @@ package logic #LightBlue
                 + <<Create>> Stinking()
                 + getName(): String
                 + attackModifierOnFacing(): Integer
+                + copie(): Stinking
             }
         }
 
@@ -176,9 +189,22 @@ package logic #LightBlue
 
         class StackLogic
         {
-            + {static} TOUS_LES_NOMS_CARTES : String[13]
+            + {static} CHAT : CardLogic
+            + {static} GRIZZLY : CardLogic
+            + {static} COYOTE : CardLogic
+            + {static} MOINEAU : CardLogic
+            + {static} CORBEAU : CardLogic
+            + {static} ECUREUIL : CardLogic
+            + {static} HERMINE : CardLogic
+            + {static} LOUVETEAU : CardLogic
+            + {static} LOUP : CardLogic
+            + {static} PUNAISE : CardLogic
+            + {static} ELAN : CardLogic
+            + {static} VIPERE : CardLogic
+            + {static} PORC_EPIC : CardLogic
+            + {static} NB_CARD : Integer
             + << Create >> StackLogic()
-            + {static} allCarde(nom : String) : CardLogic
+            + randomeCard() : CardLogic
             + addCard(card : CardLogic)
             + draw() : CardLogic
             + size() : Integer
@@ -216,7 +242,7 @@ package logic #LightBlue
 
     ActorLogic "1" *--> "0..*\n-m_hand" CardLogic : <<contains>>
 
-    StackLogic "1" o--> "0..16\n-m_cards" CardLogic : <<contains>>
+    StackLogic "1" o--> "*\n-deck" CardLogic : <<contains>>
 
     GameBoardLogic "*" o--> "0..4\n-m_playerLine" CardLogic : <<own>>
     GameBoardLogic "*" o--> "0..4\n-m_botLine" CardLogic : <<own>>

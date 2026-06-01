@@ -28,4 +28,9 @@ public class Growth implements Power{
         }
         return null;    //Vu que de base elle ne change pas on renvoie rien
     }
+
+    @Override
+    public Growth copie(){
+        return new Growth();
+    }
 }

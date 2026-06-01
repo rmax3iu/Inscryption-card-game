@@ -26,4 +26,9 @@ public class Runner implements Power{
         }
         return position;    //Et si vraiment elle est bloqué alors elle bouge pas
     }
+
+    @Override
+    public Runner copie(){
+        return new Runner();
+    }
 }
