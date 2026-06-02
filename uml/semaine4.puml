@@ -1,0 +1,347 @@
+@startuml
+skinparam classAttributeIconSize 0
+skinparam classFontStyle Bold
+hide empty members
+
+' < ================================================================================================================ > '
+
+package logic #LightBlue
+{
+    ' < ================================================================================================================ > '
+    ' < ================================================================================================================ > '
+
+
+    package logic.cardLogic #White{
+
+        abstract class CardLogic <<abstract>> {
+            - m_name: String
+            - m_hp: Integer
+            + <<Create>> CardLogic(name: String, hp: Integer)
+            + getName(): String
+            + getHp(): Integer
+            + takeDamage(damage: Integer): Integer
+            + isDead(): Boolean
+            + copie(): CardLogic
+        }
+
+        class ObstacleLogic Extends CardLogic{
+            + <<Create>> ObstacleLogic(name: String, hp: Integer)
+            + copie(): ObstacleLogic
+        }
+
+        class SummonCostLogic {
+            - m_blood: Integer
+            - m_bones: Integer
+            - <<Create>> SummonCostLogic(blood: Integer, bones: Integer)
+            + {static} newBloodCost(blood: Integer): SummonCostLogic
+            + {static} newBonesCost(bones: Integer): SummonCostLogic
+            + {static} newFree(): SummonCostLogic
+            + getBlood(): Integer
+            + getBones(): Integer
+            + isFree(): Boolean
+            + isBloodCost(): Boolean
+            + isBonesCost(): Boolean
+            + copie(): SummonCostLogic
+        }
+
+        abstract class AnimalLogic <<abstract>> Extends CardLogic{
+            - m_attack: Integer
+            + <<Create>> AnimalLogic(name: String, hp: Integer, attack: Integer, cost: SummonCostLogic)
+            + <<Create>> AnimalLogic(name: String, hp: Integer, attack: Integer, cost: SummonCostLogic, power: Power)
+            + getAttack(): Integer
+            + getSummonCost(): SummonCostLogic
+            + getPower(): Power
+            + hasPower(): Boolean
+            + getPowerName(): String
+            + attacksDirectly(): Boolean
+            + setPower(power: Power): void
+            + attack(target: CardLogic): Integer
+            + copie(): AnimalLogic
+        }
+
+        class FlyingLogic Extends AnimalLogic{
+            + <<Create>> FlyingLogic(name: String, hp: Integer, attack: Integer, cost: SummonCostLogic)
+            + <<Create>> FlyingLogic(name: String, hp: Integer, attack: Integer, cost: SummonCostLogic, power: Power)
+            + attacksDirectly(): Boolean
+            + attack(target: CardLogic): Integer
+            + copie(): FlyingLogic
+        }
+
+        class TerrestrialLogic Extends AnimalLogic{
+            + <<Create>> TerrestrialLogic(name: String, hp: Integer, attack: Integer, summonCostLogic: SummonCostLogic)
+            + <<Create>> TerrestrialLogic(name: String, hp: Integer, attack: Integer, cost: SummonCostLogic, power: Power)
+            + copie(): TerrestrialLogic
+        }
+
+        package powers {
+            Interface Power <<interface>>{
+                + getName(): String
+                + onAttack(position: Integer, left: CardLogic, right: CardLogic): Integer
+                + onTurnStart(): AnimalLogic
+                + onDamageReceived(attacker: AnimalLogic): void
+                + attackModifierOnFacing(): Integer
+                + canDeath(): Boolean
+                + killsOnHit(): Boolean
+                + copie(): Power
+            }
+
+            class DeadlyContact implements Power{
+                + {static} NAME: String
+                + <<Create>> DeadlyContact()
+                + getName(): String
+                + killsOnHit(): Boolean
+                + copie(): DeadlyContact
+            }
+
+            class Growth implements Power{
+                - nbTimeOnBord: Integer
+                + {static} NAME: String
+                + <<Create>> Growth()
+                + getName(): String
+                + onTurnStart(): AnimalLogic
+                + copie(): Growth
+            }
+
+            class ManyLife implements Power{
+                + {static} NAME: String
+                + <<Create>> ManyLife()
+                + getName(): String
+                + canDeath(): Boolean
+                + copie(): ManyLife
+            }
+
+            class Runner implements Power{
+                + {static} NAME: String
+                + <<Create>> Runner()
+                + getName(): String
+                + onAttack(position: Integer, left: CardLogic, right: CardLogic): Integer
+                + copie(): Runner
+            }
+
+            class SharpSpikes implements Power{
+                + {static} NAME: String
+                + <<Create>> SharpSpikes()
+                + getName(): String
+                + onDamageReceived(attacker: AnimalLogic): void
+                + copie(): SharpSpikes
+            }
+
+            class Stinking implements Power{
+                + {static} NAME: String
+                + <<Create>> Stinking()
+                + getName(): String
+                + attackModifierOnFacing(): Integer
+                + copie(): Stinking
+            }
+        }
+    }
+
+    ' < ================================================================================================================ > '
+    ' < ================================================================================================================ > '
+
+    package gameLogic #White
+    {
+        class RoundLogic
+        {
+            - m_score: Integer
+            + <<Create>> RoundLogic(cards: CardLogic[])
+            + play(player: ActorLogic, bot: ActorLogic)
+            + updateScore(newScore: Integer)
+            + isWon(): Boolean
+            + isEnd(): Boolean
+        }
+
+        class TurnLogic
+        {
+            + <<Create>> TurnLogic(board: GameBoardLogic, stack: StackLogic)
+            + playerTurn(player: ActorLogic)
+            + botTurn(bot: ActorLogic)
+            + resolveAttacks(): Integer
+        }
+
+        class AttackResolver
+        {
+            + <<Create>> AttackResolver()
+            + resolveAll(board: GameBoardLogic): Integer
+            - resolvePlayerAttacks(board: GameBoardLogic) : Integer
+            - firstBotTarget(board: GameBoardLogic, Integer: index) : CardLogic
+            - resolveBotAttacks(board: GameBoardLogic) : Integer
+            - removeDeadBotCards(board: GameBoardLogic)
+            - advancePreviewCards(board: GameBoardLogic)
+            - removeDeadPlayerCards(board: GameBoardLogic)
+        }
+
+        class BotStrategy
+        {
+            + <<Create>> BotStrategy()
+            + drawIfPossible(bot: ActorLogic, stack: StackLogic)
+            + placeCards(bot: ActorLogic, board: GameBoardLogic)
+            - canAfford(bot: ActorLogic, board: GameBoardLogic, card: CardLogic): Boolean
+            - payCost(bot: ActorLogic, board: GameBoardLogic, card: CardLogic)
+            - sacrificeBotCards(board: GameBoardLogic, count: Integer)
+            - choosePlacementSlot(board: GameBoardLogic): Integer
+        }
+
+        class PlayerAction
+        {
+            + <<Create>> PlayerAction()
+            + drawCard(player: ActorLogic, stack: StackLogic)
+            + placeCard(player: ActorLogic, board: GameBoardLogic, handIndex: Integer, position: Integer)
+            - validateHandIndex(player: ActorLogic, index: Integer)
+            - validatePosition(position: Integer)
+            - validateSlotFree(board: GameBoardLogic, position: Integer)
+            - validateCost(player: ActorLogic, board: GameBoardLogic, card: CardLogic)
+            - payCost(player: ActorLogic, board: GameBoardLogic, card: CardLogic)
+            - sacrificePlayerCards(board: GameBoardLogic, count: Integer, player: ActorLogic)
+        }
+
+        class GameBoardLogic
+        {
+            + {static} BOARD_SIZE: Integer
+            + <<Create>> GameBoardLogic()
+            + getPlayerLine(index: Integer): CardLogic
+            + setPlayerLine(index: Integer, card: CardLogic)
+            + removePlayerLine(index: Integer): CardLogic
+            + getBotLine(index: Integer): CardLogic
+            + setBotLine(index: Integer, card: CardLogic)
+            + removeBotLine(index: Integer): CardLogic
+            + getPreviewLine(index: Integer): CardLogic
+            + setPreviewLine(index: Integer, card: CardLogic)
+            + removePreviewLine(index: Integer): CardLogic
+            + countBotCards(): Integer
+            + countPlayerCards(): Integer
+        }
+
+        class StackLogic
+        {
+            + {static} CHAT : CardLogic
+            + {static} GRIZZLY : CardLogic
+            + {static} COYOTE : CardLogic
+            + {static} MOINEAU : CardLogic
+            + {static} CORBEAU : CardLogic
+            + {static} ECUREUIL : CardLogic
+            + {static} HERMINE : CardLogic
+            + {static} LOUVETEAU : CardLogic
+            + {static} LOUP : CardLogic
+            + {static} PUNAISE : CardLogic
+            + {static} ELAN : CardLogic
+            + {static} VIPERE : CardLogic
+            + {static} PORC_EPIC : CardLogic
+            + {static} NB_CARD : Integer
+            + {static} NB_CARD: Integer
+            + <<Create>> StackLogic()
+            + addCard(card: CardLogic): void
+            + draw(): CardLogic
+            + size(): Integer
+            + isEmpty(): Boolean
+        }
+    }
+
+    ' < ================================================================================================================ > '
+    ' < ================================================================================================================ > '
+
+    package actorLogic #White
+    {
+        class ActorLogic
+        {
+            + {static} PLAYER: String
+            + {static} BOT: String
+            - m_bones: Integer
+            - m_name: String
+            - <<Create>> ActorLogic(name: String)
+            + {static} newPlayer(): ActorLogic
+            + {static} newBot(): ActorLogic
+            + getName(): String
+            + addBones(amount: Integer): void
+            + getBones(): Integer
+            + addCard(card: CardLogic): void
+            + getCard(indexHand: Integer): CardLogic
+            + removeCard(indexHand: Integer): CardLogic
+            + handSize(): Integer
+        }
+    }
+}
+
+    AnimalLogic "1" *--> "1\n-m_summonCostLogic" SummonCostLogic : coûte
+    AnimalLogic "1" *---> "0..1\n-m_power\n" Power : est doté d'un
+
+    ActorLogic "1" *--> "0..*\n-m_hand" CardLogic : <<contains>>
+
+    StackLogic "1" o--> "*\n-m_deck" CardLogic : <<contains>>
+
+    GameBoardLogic "*" o--> "0..4\n-m_playerLine" CardLogic : <<own>>
+    GameBoardLogic "*" o--> "0..4\n-m_botLine" CardLogic : <<own>>
+    GameBoardLogic "*" o--> "0..4\n-m_botPreview" CardLogic : <<own>>
+
+    TurnLogic "*" o---> "1\n-m_board" GameBoardLogic : <<own>>
+    TurnLogic "*" o---> "1\n-m_stack" StackLogic : <<own>>
+    TurnLogic --> AttackResolver : <<instantiate>>
+    TurnLogic --> BotStrategy : <<instantiate>>
+    TurnLogic --> PlayerAction : <<instantiate>>
+    TurnLogic ..> ActorLogic : <<uses>>
+
+    RoundLogic "*" o---> "1\n-m_board" GameBoardLogic : <<instantiate>>
+    RoundLogic "*" o---> "1\n-m_stack" StackLogic : <<instantiate>>
+    RoundLogic --> TurnLogic : <<instantiate>>
+    RoundLogic ..> ActorLogic : <<uses>>
+
+' < ================================================================================================================ > '
+
+package graphics #LightGreen
+{
+    package gameGraphics #White
+    {
+        class Ask
+        {
+            - {static} SCANNER: Scanner
+            - <<Create>> Ask()
+            + {static} demande(phrase: String): String
+        }
+
+        class ConsoleGrid
+        {
+            - m_grid: char[][]
+            - m_width: Integer
+            - m_height: Integer
+            + <<Create>> ConsoleGrid(width: Integer, height: Integer)
+            + writeString(text: String, x: Integer, y: Integer): void
+            + writeBox(width: Integer, height: Integer, x: Integer, y: Integer): void
+            + render(): void
+            + clear(): void
+        }
+
+        class GameBoardGraphics
+        {
+            + <<Create>> GameBoardGraphics()
+            + drawBoard(grid: ConsoleGrid, board: GameBoardLogic, score: Integer, currentTurn: Integer, currentMatch: Integer): void
+        }
+
+        class TurnGraphics
+        {
+            + <<Create>> TurnGraphics()
+            + displayFullTurn(board: GameBoardLogic, player: ActorLogic, stack: StackLogic, score: Integer, turn: Integer, match: Integer): void
+        }
+
+        class MenuGraphics
+        {
+            + <<Create>> MenuGraphics()
+            + drawStartMenu(grid: ConsoleGrid): void
+            + drawEndMenu(grid: ConsoleGrid, score: Integer): void
+        }
+    }
+
+    package cardGraphics #White
+    {
+        class CardGraphics
+        {
+            + <<Create>> CardGraphics()
+            + drawCard(grid: ConsoleGrid, card: CardLogic, x: Integer, y: Integer): void
+            + drawEmpty(grid: ConsoleGrid, x: Integer, y: Integer): void
+        }
+    }
+}
+
+
+
+' < ================================================================================================================ > '
+@enduml
