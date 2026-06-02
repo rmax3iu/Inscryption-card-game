@@ -214,20 +214,6 @@ package logic #LightBlue
 
         class StackLogic
         {
-            + {static} CHAT : CardLogic
-            + {static} GRIZZLY : CardLogic
-            + {static} COYOTE : CardLogic
-            + {static} MOINEAU : CardLogic
-            + {static} CORBEAU : CardLogic
-            + {static} ECUREUIL : CardLogic
-            + {static} HERMINE : CardLogic
-            + {static} LOUVETEAU : CardLogic
-            + {static} LOUP : CardLogic
-            + {static} PUNAISE : CardLogic
-            + {static} ELAN : CardLogic
-            + {static} VIPERE : CardLogic
-            + {static} PORC_EPIC : CardLogic
-            + {static} NB_CARD : Integer
             + {static} NB_CARD: Integer
             + <<Create>> StackLogic()
             + addCard(card: CardLogic): void
@@ -261,6 +247,20 @@ package logic #LightBlue
         }
     }
 }
+
+    StackLogic "1" *--> "{static}\n-CHAT"  CardLogic : <<own>>
+    StackLogic "1" *--> "{static}\n-GRIZZLY" CardLogic : <<own>>
+    StackLogic "1" *--> "{static}\n-COYOTE" CardLogic : <<own>>
+    StackLogic "1" *--> "{static}\n-MOINEAU"  CardLogic : <<own>>
+    StackLogic "1" *--> "{static}\n-CORBEAU"  CardLogic : <<own>>
+    StackLogic "1" *--> "{static}\n-ECUREUIL"  CardLogic : <<own>>
+    StackLogic "1" *--> "{static}\n-HERMINE"  CardLogic : <<own>>
+    StackLogic "1" *--> "{static}\n-LOUVETEAU"  CardLogic : <<own>>
+    StackLogic "1" *--> "{static}\n-LOUP"  CardLogic : <<own>>
+    StackLogic "1" *--> "{static}\n-PUNAISE"  CardLogic : <<own>>
+    StackLogic "1" *--> "{static}\n-ELAN"  CardLogic : <<own>>
+    StackLogic "1" *--> "{static}\n-VIPERE"  CardLogic : <<own>>
+    StackLogic "1" *--> "{static}\n-PORC_EPIC"  CardLogic : <<own>>
 
     AnimalLogic "1" *--> "1\n-m_summonCostLogic" SummonCostLogic : coûte
     AnimalLogic "1" *---> "0..1\n-m_power\n" Power : est doté d'un
