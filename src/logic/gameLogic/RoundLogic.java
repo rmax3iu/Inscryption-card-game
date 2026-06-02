@@ -37,7 +37,7 @@ public class RoundLogic
             m_currentTurn.botTurn(m_bot);
 
             // 4. On résout les attaques et on récupère les points de dégâts
-            int pointTurn = m_currentTurn.resolveAttacks(m_player, m_bot);
+            int pointTurn = m_currentTurn.resolveAttacks();
 
             // 5. On met à jour le score
             updateScore(pointTurn);
