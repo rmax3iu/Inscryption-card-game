@@ -1,6 +1,10 @@
 package logic.cardLogic;
 
-public abstract class CardLogic {
+import logic.cardLogic.powers.Power;
+
+import java.util.Optional;
+
+public class CardLogic {
     private final String m_name;
     private int m_hp;
 
@@ -17,7 +21,7 @@ public abstract class CardLogic {
         return m_hp;
     }
 
-    public int takeDamage(int damage) {
+    public void takeDamage(int damage) {
         int surplus = 0;
         if (damage > m_hp) {
             surplus = m_hp - damage; // négatif = surplus
@@ -25,14 +29,30 @@ public abstract class CardLogic {
         } else {
             m_hp -= damage;
         }
-        return surplus;
+    }
+
+    public Optional<Power> getPower(){
+        return Optional.empty();
+    }
+
+    public boolean hasPower() {
+        return false;
+    }
+
+    public boolean canBeSacrify(){
+        return false;
+    }
+
+    public Optional<CardLogic> sacrify(){
+        return Optional.of(new CardLogic(m_name,m_hp));
+    }
+
+    public int attack(CardLogic card) {
+        return 0;
     }
 
     public boolean isDead() {
         return m_hp <= 0;
     }
 
-    public CardLogic copie(){
-        return null;
-    }
 }

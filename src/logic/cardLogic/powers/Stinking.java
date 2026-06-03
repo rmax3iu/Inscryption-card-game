@@ -1,6 +1,9 @@
 package logic.cardLogic.powers;
 
-public class Stinking implements Power{
+import logic.cardLogic.AnimalLogic;
+import logic.cardLogic.CardLogic;
+
+public class Stinking extends Power{
     //mit en static final car peut importe l'objet Stinking il aura toujours le même nom et on le changera jamais
     public static final String NAME = "Stinking";
 
@@ -12,14 +15,9 @@ public class Stinking implements Power{
         return NAME;
     }
 
-    //Renvoie le -1 pour quand la carte en face de lui veut attaquer (la carte ou son actor) son attaque soit réduit de 1
+    //Appelé quand une carte attaque en face d'elle (même si c'est une volante) (pour puant)
     @Override
-    public int attackModifierOnFacing(){
-        return -1;
-    }
-
-    @Override
-    public Stinking copie(){
-        return new Stinking();
+    public int attackModifierOnFacing() {
+        return 1;
     }
 }

@@ -40,8 +40,4 @@ public class SummonCostLogic {
     public boolean isBonesCost()  {
         return m_bones > 0;
     }
-
-    public SummonCostLogic copie(){
-        return new SummonCostLogic(m_blood,m_bones);
-    }
 }

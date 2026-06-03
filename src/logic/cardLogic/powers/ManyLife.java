@@ -1,7 +1,10 @@
 package logic.cardLogic.powers;
 
 
-public class ManyLife implements Power{
+import logic.cardLogic.AnimalLogic;
+import logic.cardLogic.CardLogic;
+
+public class ManyLife extends Power{
     //mit en static final car peut importe l'objet ManyLife il aura toujours le même nom et on le changera jamais
     public static final String NAME = "ManyLife";
 
@@ -18,11 +21,4 @@ public class ManyLife implements Power{
     public boolean canDeath() {
         return false;
     }
-
-    @Override
-    public ManyLife copie() {
-        return new ManyLife();
-    }
-
-
 }

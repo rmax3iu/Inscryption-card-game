@@ -3,7 +3,7 @@ package logic.cardLogic.powers;
 import logic.cardLogic.AnimalLogic;
 import logic.cardLogic.CardLogic;
 
-public class DeadlyContact implements Power{
+public class DeadlyContact extends Power{
     //mit en static final car peut importe l'objet DeadlyContact il aura toujours le même nom et on le changera jamais
     public static final String NAME = "DeadlyContact";
 
@@ -19,10 +19,5 @@ public class DeadlyContact implements Power{
     @Override
     public boolean killsOnHit(CardLogic targetCard) {
         return targetCard instanceof AnimalLogic;
-    }
-
-    @Override
-    public DeadlyContact copie(){
-        return new DeadlyContact();
     }
 }

@@ -1,24 +1,27 @@
 package logic.cardLogic;
 
+import logic.cardLogic.powers.ManyLife;
 import logic.cardLogic.powers.Power;
 
-public abstract class AnimalLogic extends CardLogic {
+import java.util.Optional;
+
+public class AnimalLogic extends CardLogic {
     private final int m_attack;
     private final SummonCostLogic m_summonCostLogic;
-    private Power m_power;
+    private Optional<Power> m_power;
 
     public AnimalLogic(String name, int hp, int attack, SummonCostLogic cost) {
         super(name, hp);
         m_attack = attack;
         m_summonCostLogic = cost;
-        m_power = null;
+        m_power = Optional.empty();
     }
 
     public AnimalLogic(String name, int hp, int attack, SummonCostLogic cost, Power power) {
         super(name, hp);
         m_attack = attack;
         m_summonCostLogic = cost;
-        m_power = power;
+        m_power = Optional.of(power);
     }
 
 
@@ -30,40 +33,34 @@ public abstract class AnimalLogic extends CardLogic {
         return m_summonCostLogic;
     }
 
-    public Power getPower(){
+    @Override
+    public Optional<Power> getPower(){
         return m_power;
     }
 
-    public boolean hasPower() {
-        return m_power != null;
-    }
-
-    public String getPowerName(){
-        return m_power.getName();
-    }
-
-    /** Indique si la carte attaque directement le score (ex. carte volante). */
-    public boolean attacksDirectly() {
-        return false;
-    }
-
-    public void setPower(Power power) {
-        m_power  = power;
-    }
-
-    /**
-     * Inflige des dégâts à la cible.
-     * Utilisée par AttackResolver qui gère lui-même le score.
-     */
-    public int attack(CardLogic target) {
-        if (target != null) {
-            return target.takeDamage(getAttack());
+    @Override
+    public Optional<CardLogic> sacrify(){
+        if(m_power.isPresent() && !m_power.get().canDeath()){
+            return Optional.of(new AnimalLogic(getName(),getHp(),m_attack,m_summonCostLogic,new ManyLife()));
         }
-        return 0;
+        return Optional.empty();
     }
 
     @Override
-    public AnimalLogic copie(){
-        return null;
+    public boolean hasPower() {
+        return m_power.isPresent();
     }
-}
+
+    public void setPower(Power power) {
+        m_power = Optional.of(power);
+    }
+
+    // S'il y a une carte on l'attaque et sinon on
+    @Override
+    public int attack(CardLogic target) {
+        if (target != null) {
+            target.takeDamage(getAttack());
+            return 0;
+        }
+        return getAttack();
+    }}

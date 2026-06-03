@@ -1,8 +1,7 @@
 package logic.actorLogic;
 
-import logic.cardLogic.CardLogic;
+import logic.cardLogic.AnimalLogic;
 
-import java.util.AbstractCollection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +10,7 @@ public class ActorLogic {
     public static final String PLAYER = "Player";
     public static final String BOT = "Bot";
 
-    private List<CardLogic> m_hand;     //Liste de carte, c'est la main de l'acteur
+    private List<AnimalLogic> m_hand;     //Liste de carte, c'est la main de l'acteur
     private int m_bones;                //Le nombre d'os de l'acteur
     private String m_name;
 
@@ -35,17 +34,17 @@ public class ActorLogic {
     }
 
     //Ajoute une carte dans sa main
-    public void addCard(CardLogic card) {
+    public void addCard(AnimalLogic card) {
         m_hand.add(card);
     }
 
     //Retire et renvoie une carte de sa main à un indice donné
-    public CardLogic removeCard(int index) {
+    public AnimalLogic removeCard(int index) {
         return m_hand.remove(index);
     }
 
     //Renvoie juste une carte de sa main à un indice donné
-    public CardLogic getCard(int index) {
+    public AnimalLogic getCard(int index) {
         return m_hand.get(index);
     }
 

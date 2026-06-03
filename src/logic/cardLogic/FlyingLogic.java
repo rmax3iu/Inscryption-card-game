@@ -12,20 +12,10 @@ public class FlyingLogic extends AnimalLogic {
         super(name, hp, attack, cost, power);
     }
 
-    /** Les cartes volantes attaquent toujours le score directement. */
-    @Override
-    public boolean attacksDirectly() {
-        return true;
-    }
-
     @Override
     public int attack(CardLogic target) {
-        // Rien à faire sur la cible : l'AttackResolver gère le score via attacksDirectly()
-        return 0;
+        // Rien à faire sur la cible on renvoie juste l'attaque de la carte pour que attackResolver l'applique sur le score
+        return getAttack();
     }
 
-    @Override
-    public FlyingLogic copie(){
-        return new FlyingLogic(super.getName(),super.getHp(),super.getAttack(),super.getSummonCost().copie(),super.getPower().copie());
-    }
 }

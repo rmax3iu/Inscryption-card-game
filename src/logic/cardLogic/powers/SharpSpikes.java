@@ -1,8 +1,9 @@
 package logic.cardLogic.powers;
 
 import logic.cardLogic.AnimalLogic;
+import logic.cardLogic.CardLogic;
 
-public class SharpSpikes implements Power{
+public class SharpSpikes extends Power{
     //mit en static final car peut importe l'objet SharpSpikes il aura toujours le même nom et on le changera jamais
     public static final String NAME = "SharpSpikes";
 
@@ -18,10 +19,5 @@ public class SharpSpikes implements Power{
     @Override
     public void onDamageReceived(AnimalLogic attacker) {
         attacker.takeDamage(1);
-    }
-
-    @Override
-    public SharpSpikes copie(){
-        return new SharpSpikes();
     }
 }

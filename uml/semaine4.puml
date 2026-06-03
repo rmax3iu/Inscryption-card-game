@@ -248,26 +248,26 @@ package logic #LightBlue
     }
 }
 
-    StackLogic "1" *--> "{static}\n-CHAT"  CardLogic : <<own>>
-    StackLogic "1" *--> "{static}\n-GRIZZLY" CardLogic : <<own>>
-    StackLogic "1" *--> "{static}\n-COYOTE" CardLogic : <<own>>
-    StackLogic "1" *--> "{static}\n-MOINEAU"  CardLogic : <<own>>
-    StackLogic "1" *--> "{static}\n-CORBEAU"  CardLogic : <<own>>
-    StackLogic "1" *--> "{static}\n-ECUREUIL"  CardLogic : <<own>>
-    StackLogic "1" *--> "{static}\n-HERMINE"  CardLogic : <<own>>
-    StackLogic "1" *--> "{static}\n-LOUVETEAU"  CardLogic : <<own>>
-    StackLogic "1" *--> "{static}\n-LOUP"  CardLogic : <<own>>
-    StackLogic "1" *--> "{static}\n-PUNAISE"  CardLogic : <<own>>
-    StackLogic "1" *--> "{static}\n-ELAN"  CardLogic : <<own>>
-    StackLogic "1" *--> "{static}\n-VIPERE"  CardLogic : <<own>>
-    StackLogic "1" *--> "{static}\n-PORC_EPIC"  CardLogic : <<own>>
+    StackLogic "1" *--> "{static}\n-CHAT"  AnimalLogic : <<own>>
+    StackLogic "1" *--> "{static}\n-GRIZZLY" AnimalLogic : <<own>>
+    StackLogic "1" *--> "{static}\n-COYOTE" AnimalLogic : <<own>>
+    StackLogic "1" *--> "{static}\n-MOINEAU"  AnimalLogic : <<own>>
+    StackLogic "1" *--> "{static}\n-CORBEAU"  AnimalLogic : <<own>>
+    StackLogic "1" *--> "{static}\n-ECUREUIL"  AnimalLogic : <<own>>
+    StackLogic "1" *--> "{static}\n-HERMINE"  AnimalLogic : <<own>>
+    StackLogic "1" *--> "{static}\n-LOUVETEAU"  AnimalLogic : <<own>>
+    StackLogic "1" *--> "{static}\n-LOUP"  AnimalLogic : <<own>>
+    StackLogic "1" *--> "{static}\n-PUNAISE"  AnimalLogic : <<own>>
+    StackLogic "1" *--> "{static}\n-ELAN"  AnimalLogic : <<own>>
+    StackLogic "1" *--> "{static}\n-VIPERE"  AnimalLogic : <<own>>
+    StackLogic "1" *--> "{static}\n-PORC_EPIC"  AnimalLogic : <<own>>
 
     AnimalLogic "1" *--> "1\n-m_summonCostLogic" SummonCostLogic : coûte
     AnimalLogic "1" *---> "0..1\n-m_power\n" Power : est doté d'un
 
-    ActorLogic "1" *--> "0..*\n-m_hand" CardLogic : <<contains>>
+    ActorLogic "1" *--> "0..*\n-m_hand" AnimalLogic : <<contains>>
 
-    StackLogic "1" o--> "*\n-m_deck" CardLogic : <<contains>>
+    StackLogic "1" o--> "*\n-m_deck" AnimalLogic : <<contains>>
 
     GameBoardLogic "*" o--> "0..4\n-m_playerLine" CardLogic : <<own>>
     GameBoardLogic "*" o--> "0..4\n-m_botLine" CardLogic : <<own>>

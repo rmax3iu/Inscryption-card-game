@@ -1,10 +1,11 @@
 package logic.cardLogic.powers;
 
+import logic.cardLogic.AnimalLogic;
 import logic.cardLogic.CardLogic;
 
 import java.security.PublicKey;
 
-public class Runner implements Power{
+public class Runner extends Power{
     //mit en static final car peut importe l'objet Runner il aura toujours le même nom et on le changera jamais
     public static final String NAME = "Runner";
 
@@ -25,10 +26,5 @@ public class Runner implements Power{
             return position - 1;
         }
         return position;    //Et si vraiment elle est bloqué alors elle bouge pas
-    }
-
-    @Override
-    public Runner copie(){
-        return new Runner();
     }
 }
