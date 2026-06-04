@@ -21,4 +21,9 @@ public class ManyLife extends Power{
     public boolean canDeath() {
         return false;
     }
+
+    @Override
+    public ManyLife copy(){
+        return new ManyLife();
+    }
 }

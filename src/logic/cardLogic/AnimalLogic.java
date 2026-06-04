@@ -24,12 +24,29 @@ public class AnimalLogic extends CardLogic {
         m_power = Optional.of(power);
     }
 
+    public AnimalLogic(AnimalLogic animal) {
+        super(animal.getName(), animal.getHp());
+        m_attack = animal.getAttack();
+        m_summonCostLogic = animal.getSummonCost();     //C'est pas grave si c'est pas une copie profonde vu que le nombre d'os ou de sang ne change jamais
+        Optional<Power> power = animal.getPower();
+        if(power.isPresent()){
+            m_power = Optional.of(power.get().copy());
+        }else{
+            m_power = Optional.empty();
+        }
+    }
+
     public int getAttack() {
         return m_attack;
     }
 
     public SummonCostLogic getSummonCost() {
         return m_summonCostLogic;
+    }
+
+    @Override
+    public AnimalLogic copy() {
+        return new AnimalLogic(this);
     }
 
     @Override

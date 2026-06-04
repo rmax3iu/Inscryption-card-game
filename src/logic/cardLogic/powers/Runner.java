@@ -18,6 +18,11 @@ public class Runner extends Power{
         return NAME;
     }
 
+    @Override
+    public Runner copy(){
+        return new Runner();
+    }
+
     //Renvoie la positon à laquelle la carte devra aller après avoir attaqué
     @Override
     public int onAttack(int position, Optional<CardLogic> left, Optional<CardLogic> right) {

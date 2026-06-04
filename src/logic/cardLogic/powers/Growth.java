@@ -31,4 +31,9 @@ public class Growth extends Power{
         }
         return Optional.empty();    //Vu que de base elle ne change pas on renvoie rien
     }
+
+    @Override
+    public Growth copy(){
+        return new Growth();
+    }
 }

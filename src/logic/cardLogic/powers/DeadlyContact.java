@@ -20,4 +20,9 @@ public class DeadlyContact extends Power{
     public boolean killsOnHit() {
         return true;
     }
+
+    @Override
+    public DeadlyContact copy(){
+        return new DeadlyContact();
+    }
 }

@@ -10,6 +10,7 @@ public abstract class Power {
     //Méthode qui serra Override dans les classes filles et renverra leur nom
     public abstract String getName();
 
+    public abstract Power copy();
 
     //Appelé quand la carte attaque une autre carte    (pour coureur)
     public int onAttack(int position, Optional<CardLogic> left, Optional<CardLogic> right) {

@@ -20,4 +20,9 @@ public class Stinking extends Power{
     public int attackModifierOnFacing() {
         return 1;
     }
+
+    @Override
+    public Stinking copy(){
+        return new Stinking();
+    }
 }

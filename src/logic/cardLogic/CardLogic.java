@@ -13,6 +13,11 @@ public class CardLogic {
         m_hp   = hp;
     }
 
+    public CardLogic(CardLogic card){
+        m_name = card.getName();
+        m_hp = card.getHp();
+    }
+
     public String getName() {
         return m_name;
     }
@@ -31,6 +36,10 @@ public class CardLogic {
         } else {
             m_hp -= damage;
         }
+    }
+
+    public CardLogic copy(){
+        return new CardLogic(this);
     }
 
     public void kill() { }
