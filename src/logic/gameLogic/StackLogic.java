@@ -3,14 +3,11 @@ package logic.gameLogic;
 import logic.cardLogic.*;
 import logic.cardLogic.powers.*;
 
-import javax.smartcardio.Card;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 
 
 public class StackLogic {
-    public static List<AnimalLogic> m_deck;
+    private final List<AnimalLogic> m_deck;
     private List<AnimalLogic> m_draw;
 
     public StackLogic() {
@@ -25,14 +22,19 @@ public class StackLogic {
         //Pour l'instant on a que 14(7*2) cartes donc on ajoute un écureuil supplémentaire pour atteindre 15
         m_deck.add(CardFactory.createEcureuil());        //Un écureuil
 
-
+        copyDeck();
     }
 
     public void copyDeck(){
-
+        m_draw = new ArrayList<AnimalLogic>();
+        //On ajoute chacune des cartes du deck dans la pioche
+        for(AnimalLogic animal : m_deck){
+            m_draw.add(animal.copy());
+        }
+        Collections.shuffle(m_draw);    //Et on mélange pour pas avoir un ordre prévisible (un écurueil puis un autre animal comme dans deck)
     }
 
-    public AnimalLogic randomeCard(){
+    public static AnimalLogic randomeCard(){
         Random rnd = new Random();      //Permet de donner un nombre aléatoire
         //Chaque nombre correspond à une carte
         switch (rnd.nextInt(0,CardFactory.NB_CARD)){
@@ -64,6 +66,11 @@ public class StackLogic {
                 return CardFactory.createPorcEpic();
         }
         return CardFactory.createEcureuil();            //Pour qu'il ne râle pas je met un écureuil car c'est pas grave de piocher un écureuil au pire
+    }
+
+    public void changeCard(int index, AnimalLogic animal){
+        m_deck.set(index,animal);   //Remplace la nouvelle carte et retire l'ancienne
+        copyDeck();                 //Copie et mélange le deck pour le mettre dans la pioche
     }
 
     //Renvoie un entier qui dit si la pioche est vide
