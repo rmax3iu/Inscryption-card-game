@@ -92,4 +92,28 @@ public class GameBoardLogic {
         }
         return count;
     }
+
+    //Renvoie l'indice qui correspond à la position(B1:0,B2:1,...)
+    public int getIndex(String position){
+        int index;
+        switch (position) {
+            case "B1":
+                index = 0;
+                break;
+            case "B2":
+                index = 1;
+                break;
+            case "B3":
+                index = 2;
+                break;
+            case "B4":
+                index = 3;
+                break;
+            default:
+                index = -1;     //Quand le joueur écrit une position inexistante
+                break;
+        }
+
+        return index;
+    }
 }

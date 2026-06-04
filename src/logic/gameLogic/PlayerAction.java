@@ -12,7 +12,9 @@ public class PlayerAction {
 
     public void drawCard(ActorLogic player, StackLogic stack) {
         if(!stack.isEmpty()) {
-            player.addCard(stack.draw());
+            AnimalLogic card = stack.draw();
+            player.addCard(card);
+            Message.tell("Tu as pioché une carte " + card.getName() + ".");
         }
     }
 
