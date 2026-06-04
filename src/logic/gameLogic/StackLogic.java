@@ -10,34 +10,26 @@ import java.util.Random;
 
 
 public class StackLogic {
-    private List<AnimalLogic> deck;
+    public static List<AnimalLogic> m_deck;
+    private List<AnimalLogic> m_draw;
 
     public StackLogic() {
-        deck = new ArrayList<>();       //La liste de carte dont la pioche est composé
-
+        m_deck = new ArrayList<>();       //La liste de carte dont la pioche est composé
+        
         //On ajoute 7 écureuils et 7 cartes aléatoires
         for (int i = 0; i < 7; i++) {
-            deck.add(CardFactory.createEcureuil());    //Ajout de l'écureuil
-            deck.add(randomeCard());       //Ajout d'une carte aléatoire
+            m_deck.add(CardFactory.createEcureuil());    //Ajout de l'écureuil
+            m_deck.add(randomeCard());       //Ajout d'une carte aléatoire
         }
 
         //Pour l'instant on a que 14(7*2) cartes donc on ajoute un écureuil supplémentaire pour atteindre 15
-        deck.add(CardFactory.createEcureuil());        //Un écureuil
+        m_deck.add(CardFactory.createEcureuil());        //Un écureuil
 
-        //Maintenant on mélange les cartes pour pas avoir une carte sur 2 un écureil
-        Random rnd = new Random();      //Permet de donner un nombre aléatoire
-        for(int i = 0; i < size(); i++){
-            //on choisit 2 cartes aléatoirement
-            int indice1 = rnd.nextInt(0, size());
-            int indice2 = rnd.nextInt(0, size());
 
-            //On stocke la 1er carte temporairement
-            AnimalLogic tempo = deck.get(indice1);
+    }
 
-            //Puis on les échange de place
-            deck.set(indice1, deck.get(indice2));
-            deck.set(indice2, tempo);
-        }
+    public void copyDeck(){
+
     }
 
     public AnimalLogic randomeCard(){
@@ -76,12 +68,12 @@ public class StackLogic {
 
     //Renvoie un entier qui dit si la pioche est vide
     public boolean isEmpty() {
-        return deck.isEmpty();
+        return m_draw.isEmpty();
     }
 
     //Renvoie le nombre de cartes dans la pioche
     public int size() {
-        return deck.size();
+        return m_draw.size();
     }
 
     //Renvoie la dernière carte de la liste donc la carte du dessus de la pioche (si la pioche n'est pas vide un peu compliqué sinon)
@@ -89,6 +81,6 @@ public class StackLogic {
         if (isEmpty()) {
             throw new IllegalStateException("La pioche est vide !");
         }
-        return deck.removeLast();
+        return m_draw.removeLast();
     }
 }

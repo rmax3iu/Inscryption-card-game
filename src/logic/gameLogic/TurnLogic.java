@@ -53,7 +53,7 @@ public class TurnLogic {
                             // On récupère la chaîne de caractères action[2]
                             String position = action[2];
 
-                            if ((numeroCarte >= 0 && numeroCarte < player.handSize())){
+                            if ((numeroCarte >= 0 && numeroCarte < player.handSize())) {
                                 int index = m_gameboard.getIndex(action[2]);
                                 if(index != -1) {
                                     Optional<CardLogic> card = m_gameboard.getPlayerLine(numeroCarte);

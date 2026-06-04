@@ -4,6 +4,7 @@ import logic.cardLogic.AnimalLogic;
 import logic.cardLogic.CardLogic;
 
 import java.security.PublicKey;
+import java.util.Optional;
 
 public class Runner extends Power{
     //mit en static final car peut importe l'objet Runner il aura toujours le même nom et on le changera jamais
@@ -19,7 +20,7 @@ public class Runner extends Power{
 
     //Renvoie la positon à laquelle la carte devra aller après avoir attaqué
     @Override
-    public int onAttack(int position, CardLogic left, CardLogic right) {
+    public int onAttack(int position, Optional<CardLogic> left, Optional<CardLogic> right) {
         if (right == null) {    //S'il y personne à droite elle va à droite
             return position + 1;
         } else if (left == null) {  //Sinon à gauche

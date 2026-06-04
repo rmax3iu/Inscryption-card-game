@@ -1,7 +1,6 @@
 package logic.cardLogic.powers;
 
 import logic.cardLogic.AnimalLogic;
-import logic.cardLogic.CardLogic;
 
 public class SharpSpikes extends Power{
     //mit en static final car peut importe l'objet SharpSpikes il aura toujours le même nom et on le changera jamais

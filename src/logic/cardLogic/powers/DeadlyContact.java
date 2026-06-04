@@ -17,7 +17,7 @@ public class DeadlyContact extends Power{
 
     //Renvoie si elle la cible peut être one shot (en gros si c'est un animal oui si c'est un obstacle non)
     @Override
-    public boolean killsOnHit(CardLogic targetCard) {
-        return targetCard instanceof AnimalLogic;
+    public boolean killsOnHit() {
+        return true;
     }
 }

@@ -17,19 +17,23 @@ public class CardLogic {
         return m_name;
     }
 
+    protected void setHp(int hp) {
+        m_hp = hp;
+    }
+
     public int getHp() {
         return m_hp;
     }
 
     public void takeDamage(int damage) {
-        int surplus = 0;
         if (damage > m_hp) {
-            surplus = m_hp - damage; // négatif = surplus
             m_hp = 0;
         } else {
             m_hp -= damage;
         }
     }
+
+    public void kill() { }
 
     public Optional<Power> getPower(){
         return Optional.empty();
@@ -47,7 +51,7 @@ public class CardLogic {
         return Optional.of(new CardLogic(m_name,m_hp));
     }
 
-    public int attack(CardLogic card) {
+    public int attack(Optional<CardLogic> card) {
         return 0;
     }
 

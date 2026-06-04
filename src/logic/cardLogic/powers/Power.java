@@ -12,7 +12,7 @@ public abstract class Power {
 
 
     //Appelé quand la carte attaque une autre carte    (pour coureur)
-    public int onAttack(int position, CardLogic left, CardLogic right) {
+    public int onAttack(int position, Optional<CardLogic> left, Optional<CardLogic> right) {
         return 0;
     }
 
@@ -37,7 +37,7 @@ public abstract class Power {
     }
 
     //Appelé quand la carte attaque et dit si elle one shot la carte d'en face (DeadlyContact)
-    public boolean killsOnHit(CardLogic card){
+    public boolean killsOnHit(){
         return false;
     }
 }
