@@ -7,11 +7,12 @@ import java.util.*;
 
 
 public class StackLogic {
-    private final List<AnimalLogic> m_deck;
+    private static final List<AnimalLogic> m_deck = new ArrayList<>();  //La liste de carte dont la pioche est composé
+    public static final int DECK_SIZE = 15;
     private List<AnimalLogic> m_draw;
 
     public StackLogic() {
-        m_deck = new ArrayList<>();       //La liste de carte dont la pioche est composé
+
         
         //On ajoute 7 écureuils et 7 cartes aléatoires
         for (int i = 0; i < 7; i++) {
@@ -71,6 +72,10 @@ public class StackLogic {
     public void changeCard(int index, AnimalLogic animal){
         m_deck.set(index,animal);   //Remplace la nouvelle carte et retire l'ancienne
         copyDeck();                 //Copie et mélange le deck pour le mettre dans la pioche
+    }
+
+    public static AnimalLogic getCard(int index){
+        return m_deck.get(index);
     }
 
     //Renvoie un entier qui dit si la pioche est vide

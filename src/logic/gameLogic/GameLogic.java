@@ -30,9 +30,9 @@ public class GameLogic
         }
 
         if(m_nbVictory >= 2){
-            Message.tell("GG tu as gagné");
+            Message.tell("Victoire");
         }else {
-            Message.tell("bababababababab");
+            Message.tell("Défaite");
         }
     }
 
@@ -69,19 +69,17 @@ public class GameLogic
         AnimalLogic cardLeft = StackLogic.randomeCard();
         AnimalLogic cardRight = StackLogic.randomeCard();
 
-        String demande = "";
-
-        String input = Message.ask(demande);
-        String[] cards = input.split(" ");      //Le résultat attendu est de la forme <numero nouvelle carte> <numero ancienne carte>
+        String input = Message.demandeCard();
+        String[] cards = input.split(" ");      //Le résultat attendu est de la forme <Gauche/Droite> <numero ancienne carte>
 
         try {
             int index = Integer.parseInt(cards[1]);
 
             if(index > 0 && index < CardFactory.NB_CARD){
                 if(cards[0].equals("Gauche")){
-                    m_stack.changeCard(index,cardLeft);
+                    m_stack.changeCard(index - 1,cardLeft);
                 } else if (cards[0].equals("Droite")) {
-                    m_stack.changeCard(index,cardRight);
+                    m_stack.changeCard(index - 1,cardRight);
                 }else {
                     Message.tell("Numéro de nouvelle carte est incorrect");
                 }

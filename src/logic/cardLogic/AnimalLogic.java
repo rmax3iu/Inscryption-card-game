@@ -8,8 +8,8 @@ import java.util.Optional;
 public class AnimalLogic extends CardLogic {
     private final int m_attack;
     private final SummonCostLogic m_summonCostLogic;
-    private Optional<Power> m_power;
-
+    private Optional<Power> m_power;            //On n'utilise pas une liste de pouvoir pour rester coherent avec l'affichage (si une carte aurait pu avoir les 6 pouvoirs la carte aurait du faire 11 lignes(2 lignes pour le cadre, 6 lignes de pouvoir, 1 ligne de Hp, 1 ligne de nom et 1 ligne d'attaque)).
+    
     public AnimalLogic(String name, int hp, int attack, SummonCostLogic cost) {
         super(name, hp);
         m_attack = attack;
