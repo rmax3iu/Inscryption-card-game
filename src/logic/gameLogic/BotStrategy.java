@@ -19,13 +19,14 @@ public class BotStrategy {
 
     //Pose tout les cartes qu'il peut poser
     public void placeCards(ActorLogic bot, GameBoardLogic board) {
-        for(int indexCard = bot.handSize(); indexCard >= 0; indexCard--){
+        for(int indexCard = bot.handSize()-1; indexCard >= 0; indexCard--){
             AnimalLogic currentCard = bot.getCard(indexCard);
             if(canAfford(bot,board,currentCard)){
-                payCost(bot,board,currentCard);
                 int position = choosePlacementSlot(board);
                 if(position != -1) {    //On vérifie qu'on puisse la poser
+                    payCost(bot,board,currentCard);
                     board.setPreviewLine(position, Optional.of(currentCard));
+                    bot.removeCard(indexCard);
                 }
             }
         }
@@ -33,9 +34,9 @@ public class BotStrategy {
 
     //Renvoie un boolean qui dit si on peut payer le coup de la carte
     private boolean canAfford(ActorLogic bot, GameBoardLogic board, AnimalLogic card) {
-        if(card.getSummonCost().isBonesCost() && bot.getBones() > card.getSummonCost().getBones()){
+        if(card.getSummonCost().isBonesCost() && bot.getBones() >= card.getSummonCost().getBones()){
             return true;
-        }else if(card.getSummonCost().isBloodCost() && board.countBotCard() > card.getSummonCost().getBlood()){
+        }else if(card.getSummonCost().isBloodCost() && board.countBotCard() >= card.getSummonCost().getBlood()){
             return true;
         }else if(card.getSummonCost().isFree()){
             return true;
@@ -46,10 +47,10 @@ public class BotStrategy {
 
     //Fait payer au bot le coup de la carte
     private void payCost(ActorLogic bot, GameBoardLogic board, AnimalLogic card) {
-        if(card.getSummonCost().isBonesCost() && bot.getBones() > card.getSummonCost().getBones()){
+        if(card.getSummonCost().isBonesCost() && bot.getBones() >= card.getSummonCost().getBones()){
             sacrificeBotCards(board,card.getSummonCost().getBlood());
             bot.addBones(card.getSummonCost().getBones());    //Vu qu'on sacrifie des cartes on gagne des os
-        }else if(card.getSummonCost().isBloodCost() && board.countBotCard() > card.getSummonCost().getBlood()){
+        }else if(card.getSummonCost().isBloodCost() && board.countBotCard() >= card.getSummonCost().getBlood()){
             bot.addBones(-card.getSummonCost().getBones());
         }
     }
@@ -79,7 +80,7 @@ public class BotStrategy {
     //Renvoie la position où l'on peut placer la carte et -1 si on peut pas
     private int choosePlacementSlot(GameBoardLogic board) {
         for(int i = 0; i < GameBoardLogic.BOARD_SIZE; i++){
-            if(board.getPreviewLine(i).isPresent()) {
+            if(board.getPreviewLine(i).isEmpty()) {
                 return i;
             }
         }

@@ -1,5 +1,6 @@
 package logic.gameLogic;
 
+import graphic.GameGraphic;
 import graphic.Message;
 import logic.actorLogic.ActorLogic;
 import logic.cardLogic.AnimalLogic;
@@ -22,7 +23,7 @@ public class GameLogic
     {
         int score;
         for(int currentRound = 0; currentRound < GameLogic.NB_ROUND; currentRound++ ){
-            score = round();
+            score = round(currentRound);
             if(score > 0){
                 m_nbVictory++;
             }
@@ -36,9 +37,10 @@ public class GameLogic
         }
     }
 
-    private int round(){
+    private int round(int currentRound){
         int score = 0;
         boolean isEnd = false;
+        int currentTurn = 0;
 
         ActorLogic bot = ActorLogic.newBotLogic();
         ActorLogic player = ActorLogic.newPlayerLogic();
@@ -48,13 +50,15 @@ public class GameLogic
         TurnLogic turn;
 
         while(!isEnd){
+            currentTurn++;
             turn = new TurnLogic(board,m_stack);
 
             turn.botTurn(bot);
+            GameGraphic.showGame(board,m_stack,currentRound+1,currentTurn,score);
             turn.playerTurn(player);
-
+            GameGraphic.showGame(board,m_stack,currentRound+1,currentTurn,score);
             score = turn.resolveAttacks();
-
+            GameGraphic.showGame(board,m_stack,currentRound+1,currentTurn,score);
 
             if(score <= -5 || score >= 5){
                 isEnd = true;

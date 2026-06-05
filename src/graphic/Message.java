@@ -5,7 +5,7 @@ import logic.gameLogic.StackLogic;
 import java.util.Scanner;
 
 public class Message {
-    public static String ask(String phrase){
+    public static String ask(String phrase) {
         Scanner scanner = new Scanner(System.in);
 
 
@@ -15,7 +15,7 @@ public class Message {
         return scanner.nextLine();
     }
 
-    public static String basicChoice(){
+    public static String basicChoice() {
         Scanner scanner = new Scanner(System.in);
 
         String phrase = "Actions possibles: \n" +

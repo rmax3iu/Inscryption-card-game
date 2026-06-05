@@ -11,7 +11,13 @@ public class GameBoardLogic {
     private final Optional<CardLogic>[] m_botLine = new Optional[BOARD_SIZE];            //Là où les cartes du bot vont à la fin du tour
     private final Optional<CardLogic>[] m_playerLine = new Optional[BOARD_SIZE];         //Là où le joueur pose ses cartes
 
-    public GameBoardLogic() {}
+    public GameBoardLogic() {
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            m_previewLine[i] = Optional.empty();
+            m_botLine[i]     = Optional.empty();
+            m_playerLine[i]  = Optional.empty();
+        }
+    }
 
     // ----Partie playerLine-----
     //Renvoie la carte à l'indice donné
@@ -94,7 +100,7 @@ public class GameBoardLogic {
     }
 
     //Renvoie l'indice qui correspond à la position(B1:0,B2:1,...)
-    public int getIndex(String position){
+    public int getIndex(String position) {
         int index;
         switch (position) {
             case "B1":
