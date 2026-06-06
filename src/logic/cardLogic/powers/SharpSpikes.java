@@ -2,26 +2,38 @@ package logic.cardLogic.powers;
 
 import logic.cardLogic.AnimalLogic;
 
-public class SharpSpikes extends Power{
-    //mit en static final car peut importe l'objet SharpSpikes il aura toujours le même nom et on le changera jamais
+public class SharpSpikes extends Power
+{
+    // Défini en static final car peu importe l'objet SharpSpikes, il aura toujours le même nom et ne changera jamais
     public static final String NAME = "SharpSpikes";
 
-    public SharpSpikes() {}
+    public SharpSpikes()
+    {
+    }
 
-    //Renvoie le nom de Pique pointue soit SharpSpikes
+    // Renvoie le nom du pouvoir
     @Override
-    public String getName() {
+    public String getName()
+    {
         return NAME;
     }
 
-    //Quand la carte se fait attaquer, l'attaqueur perd 1 hp
+    // Inflige 1 point de dégât en retour à l'attaquant lorsque la carte subit des dommages
     @Override
-    public void onDamageReceived(AnimalLogic attacker) {
+    public void onDamageReceived(AnimalLogic attacker)
+    {
         attacker.takeDamage(1);
     }
 
     @Override
-    public SharpSpikes copy(){
+    public SharpSpikes copy()
+    {
         return new SharpSpikes();
+    }
+
+    @Override
+    public String toString()
+    {
+        return "Nom du pouvoir : " + NAME;
     }
 }

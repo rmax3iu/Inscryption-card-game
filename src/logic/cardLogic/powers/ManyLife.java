@@ -1,29 +1,40 @@
 package logic.cardLogic.powers;
 
-
 import logic.cardLogic.AnimalLogic;
 import logic.cardLogic.CardLogic;
 
-public class ManyLife extends Power{
-    //mit en static final car peut importe l'objet ManyLife il aura toujours le même nom et on le changera jamais
+public class ManyLife extends Power
+{
+    // Défini en static final car peu importe l'objet ManyLife, il aura toujours le même nom et ne changera jamais
     public static final String NAME = "ManyLife";
 
-    public ManyLife() {}
+    public ManyLife()
+    {
+    }
 
-    //Renvoie le nom de Nombreuses vies soit ManyLife
+    // Renvoie le nom du pouvoir
     @Override
-    public String getName(){
+    public String getName()
+    {
         return NAME;
     }
 
-    //Renvoie false car elle peut pas mourir quand on la sacrifie
+    // Indique que la carte ne meurt pas lorsqu'elle est sacrifiée
     @Override
-    public boolean canDeath() {
+    public boolean canDeath()
+    {
         return false;
     }
 
     @Override
-    public ManyLife copy(){
+    public ManyLife copy()
+    {
         return new ManyLife();
+    }
+
+    @Override
+    public String toString()
+    {
+        return "Nom du pouvoir : " + NAME;
     }
 }

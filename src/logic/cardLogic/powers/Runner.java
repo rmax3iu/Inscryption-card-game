@@ -4,31 +4,49 @@ import logic.cardLogic.CardLogic;
 import logic.gameLogic.GameBoardLogic;
 import java.util.Optional;
 
-public class Runner extends Power{
-    //mit en static final car peut importe l'objet Runner il aura toujours le même nom et on le changera jamais
+public class Runner extends Power
+{
+    // Défini en static final car peu importe l'objet Runner, il aura toujours le même nom et ne changera jamais
     public static final String NAME = "Runner";
 
-    public Runner() {}
+    public Runner()
+    {
+    }
 
-    //Renvoie le nom de Coureur soit Runner
+    // Renvoie le nom du pouvoir
     @Override
-    public String getName(){
+    public String getName()
+    {
         return NAME;
     }
 
     @Override
-    public Runner copy(){
+    public Runner copy()
+    {
         return new Runner();
     }
 
-    //Renvoie la positon à laquelle la carte devra aller après avoir attaqué
+    // Détermine et renvoie la position vers laquelle la carte se déplace après avoir attaqué
     @Override
-    public int onAttack(int position, Optional<CardLogic> left, Optional<CardLogic> right) {
-        if (right.isEmpty() && position < GameBoardLogic.BOARD_SIZE -1) {    //S'il y a personne à droite elle va à droite
+    public int onAttack(int position, Optional<CardLogic> left, Optional<CardLogic> right)
+    {
+        // Si l'emplacement de droite est libre, la carte s'y déplace
+        if (right.isEmpty() && position < GameBoardLogic.BOARD_SIZE - 1)
+        {
             return position + 1;
-        } else if (left.isEmpty() && position > 0) {  //Sinon si gauche est libre elle va à gauche
+        }
+        // Sinon, si l'emplacement de gauche est libre, elle s'y déplace
+        else if (left.isEmpty() && position > 0)
+        {
             return position - 1;
         }
-        return position;    //Et si vraiment elle est bloquée alors elle bouge pas
+        // Si les deux côtés sont bloqués, la carte reste à sa place
+        return position;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "Nom du pouvoir : " + NAME;
     }
 }

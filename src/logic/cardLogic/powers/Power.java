@@ -5,40 +5,51 @@ import logic.cardLogic.CardLogic;
 
 import java.util.Optional;
 
-public abstract class Power {
-
-    //Méthode qui serra Override dans les classes filles et renverra leur nom
+public abstract class Power
+{
+    // Méthode abstraite à redéfinir dans les classes filles pour renvoyer leur nom
     public abstract String getName();
 
     public abstract Power copy();
 
-    //Appelé quand la carte attaque une autre carte    (pour coureur)
-    public int onAttack(int position, Optional<CardLogic> left, Optional<CardLogic> right) {
+    // Appelé quand la carte attaque une autre carte (utile pour coureur)
+    public int onAttack(int position, Optional<CardLogic> left, Optional<CardLogic> right)
+    {
         return position;
     }
 
-    //Appelé au début du tour si la carte est sur le plateau   (pour croissance)
-    public Optional<CardLogic> onTurnStart() {
+    // Appelé au début du tour si la carte est présente sur le plateau (utile pour croissance)
+    public Optional<CardLogic> onTurnStart()
+    {
         return Optional.empty();
     }
 
-    //Appelé quand la carte reçoit des dégâts   (pour pique pointue)
-    public void onDamageReceived(AnimalLogic attacker) {
-
+    // Appelé lorsque la carte reçoit des dégâts (utile pour piques pointues)
+    public void onDamageReceived(AnimalLogic attacker)
+    {
     }
 
-    //Appelé quand une carte attaque en face d'elle (même si c'est une volante) (pour puant)
-    public int attackModifierOnFacing() {
+    // Appelé quand une carte attaque en face d'elle, même s'il s'agit d'une unité volante (utile pour puant)
+    public int attackModifierOnFacing()
+    {
         return 0;
     }
 
-    //Appelé quand on veut sacrifier la carte (pour nombreuses vies)
-    public boolean canDeath() {
+    // Appelé lors de la tentative de sacrifice de la carte (utile pour nombreuses vies)
+    public boolean canDeath()
+    {
         return true;
     }
 
-    //Appelé quand la carte attaque et dit si elle one shot la carte d'en face (DeadlyContact)
-    public boolean killsOnHit(){
+    // Appelé lors d'une attaque pour déterminer si elle élimine instantanément la carte adverse
+    public boolean killsOnHit()
+    {
         return false;
+    }
+
+    @Override
+    public String toString()
+    {
+        return "Pouvoir : " + getName();
     }
 }
