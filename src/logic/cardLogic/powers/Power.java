@@ -14,11 +14,11 @@ public abstract class Power {
 
     //Appelé quand la carte attaque une autre carte    (pour coureur)
     public int onAttack(int position, Optional<CardLogic> left, Optional<CardLogic> right) {
-        return 0;
+        return position;
     }
 
     //Appelé au début du tour si la carte est sur le plateau   (pour croissance)
-    public Optional<AnimalLogic> onTurnStart() {
+    public Optional<CardLogic> onTurnStart() {
         return Optional.empty();
     }
 

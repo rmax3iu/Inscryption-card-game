@@ -12,8 +12,8 @@ public class BotStrategy {
 
     //Pioche tant que la pioche n'est pas vide
     public void drawIfPossible(ActorLogic bot, StackLogic stack) {
-        if(!stack.isEmpty()){
-            bot.addCard(stack.draw());
+        if(!stack.isEmptyBot()){
+            bot.addCard(stack.drawBot());
         }
     }
 
@@ -47,16 +47,16 @@ public class BotStrategy {
 
     //Fait payer au bot le coup de la carte
     private void payCost(ActorLogic bot, GameBoardLogic board, AnimalLogic card) {
-        if(card.getSummonCost().isBonesCost() && bot.getBones() >= card.getSummonCost().getBones()){
-            sacrificeBotCards(board,card.getSummonCost().getBlood());
-            bot.addBones(card.getSummonCost().getBones());    //Vu qu'on sacrifie des cartes on gagne des os
-        }else if(card.getSummonCost().isBloodCost() && board.countBotCard() >= card.getSummonCost().getBlood()){
+        if(card.getSummonCost().isBloodCost()){
+            sacrificeBotCards(board, card.getSummonCost().getBlood());
+            bot.addBones(card.getSummonCost().getBlood());    //Vu qu'on sacrifie des cartes on gagne des os
+        }else if(card.getSummonCost().isBonesCost()){
             bot.addBones(-card.getSummonCost().getBones());
         }
     }
 
     //Sacrifie le nombre de cartes nécessaire
-    private void sacrificeBotCards(GameBoardLogic board, Integer count) {
+    private void sacrificeBotCards(GameBoardLogic board, int count) {
         int nbCarteSacrifie = 0;
         int i = 0;
         while (nbCarteSacrifie < count && i < GameBoardLogic.BOARD_SIZE) {
@@ -70,7 +70,7 @@ public class BotStrategy {
             }
             //On vérifie que la carte peut être sacrifié (en gros qu'elle existe et si c'est un obstacle ou une vraie carte)
             if (card2.isPresent() && card2.get().canBeSacrify()) {
-                board.setBotLine(i, card2.get().sacrify());       //On sacrifie la carte et le retour de sacrify() c'est soit un Optional.empty soit la même carte, c'est pour le pouvoir plusieurs vies(Many life)
+                board.setPreviewLine(i, card2.get().sacrify());       //On sacrifie la carte et le retour de sacrify() c'est soit un Optional.empty soit la même carte, c'est pour le pouvoir plusieurs vies(Many life)
                 nbCarteSacrifie++;
             }
             i++;

@@ -1,9 +1,7 @@
 package logic.cardLogic.powers;
 
-import logic.cardLogic.AnimalLogic;
 import logic.cardLogic.CardLogic;
-
-import java.security.PublicKey;
+import logic.gameLogic.GameBoardLogic;
 import java.util.Optional;
 
 public class Runner extends Power{
@@ -26,11 +24,11 @@ public class Runner extends Power{
     //Renvoie la positon à laquelle la carte devra aller après avoir attaqué
     @Override
     public int onAttack(int position, Optional<CardLogic> left, Optional<CardLogic> right) {
-        if (right == null) {    //S'il y personne à droite elle va à droite
+        if (right.isEmpty() && position < GameBoardLogic.BOARD_SIZE -1) {    //S'il y a personne à droite elle va à droite
             return position + 1;
-        } else if (left == null) {  //Sinon à gauche
+        } else if (left.isEmpty() && position > 0) {  //Sinon si gauche est libre elle va à gauche
             return position - 1;
         }
-        return position;    //Et si vraiment elle est bloqué alors elle bouge pas
+        return position;    //Et si vraiment elle est bloquée alors elle bouge pas
     }
 }

@@ -1,9 +1,7 @@
 package logic.cardLogic.powers;
 
-import logic.cardLogic.AnimalLogic;
 import logic.cardLogic.CardFactory;
 import logic.cardLogic.CardLogic;
-import logic.cardLogic.SummonCostLogic;
 
 import java.util.Optional;
 
@@ -23,7 +21,7 @@ public class Growth extends Power{
 
     //Renvoie un loup si la carte est sur le plateau depuis un tour sinon rien
     @Override
-    public Optional<AnimalLogic> onTurnStart() {
+    public Optional<CardLogic> onTurnStart() {
         nbTimeOnBord++;
         //Donc au 2e tour la carte se transforme en loup
         if(nbTimeOnBord == 2){

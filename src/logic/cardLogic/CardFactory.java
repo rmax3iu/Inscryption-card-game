@@ -46,11 +46,11 @@ public class CardFactory //Va créer les différents animaux
     }
 
     public static AnimalLogic createVipere() {
-        return new AnimalLogic("Vipère", 4, 2, SummonCostLogic.newBloodCost(2), new DeadlyContact());
+        return new AnimalLogic("Vipère", 1, 1, SummonCostLogic.newBloodCost(2), new DeadlyContact());
     }
 
     public static AnimalLogic createPorcEpic() {
-        return new AnimalLogic("Porc-épic", 4, 2, SummonCostLogic.newBloodCost(2), new SharpSpikes());
+        return new AnimalLogic("Porc-épic", 2, 1, SummonCostLogic.newBloodCost(1), new SharpSpikes());
     }
 
     // --- CARTES ANIMAUX VOLANTS ---

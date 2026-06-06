@@ -2,7 +2,6 @@ package graphic;
 
 import logic.cardLogic.CardLogic;
 import logic.gameLogic.GameBoardLogic;
-import logic.gameLogic.GameLogic;
 import logic.gameLogic.StackLogic;
 
 import java.util.Optional;

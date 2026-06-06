@@ -57,9 +57,15 @@ public class AnimalLogic extends CardLogic {
     @Override
     public Optional<CardLogic> sacrify() {
         if (m_power.isPresent() && !m_power.get().canDeath()) {
-            return Optional.of(new AnimalLogic(getName(), getHp(), m_attack, m_summonCostLogic, new ManyLife()));
+            // La carte reste en vie sur le plateau (ManyLife) avec ses PV actuels
+            return Optional.of(this);
         }
         return Optional.empty();
+    }
+
+    @Override
+    public boolean canBeSacrify(){
+        return true;
     }
 
     @Override
@@ -76,7 +82,8 @@ public class AnimalLogic extends CardLogic {
     public int attack(Optional<CardLogic> target) {
         if (target.isPresent()) {
             Optional<Power> targetPower = target.get().getPower();
-            if(m_power.isPresent() && m_power.get().killsOnHit()){
+            if(m_power.isPresent() && m_power.get().killsOnHit() && target.get().canBeSacrify()){
+                // Contact Mortel : tue uniquement les animaux, pas les obstacles
                 target.get().kill();
             }else{
                 int degat = getAttack();

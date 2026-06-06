@@ -2,9 +2,9 @@ package logic.gameLogic;
 
 import graphic.Message;
 import logic.actorLogic.ActorLogic;
+import logic.cardLogic.AnimalLogic;
 import logic.cardLogic.CardLogic;
 
-import java.awt.geom.Line2D;
 import java.util.Optional;
 
 public class TurnLogic {
@@ -29,6 +29,7 @@ public class TurnLogic {
         boolean turnOver = false;
 
         while(!turnOver){
+            Message.showHand(player);
             String input = Message.basicChoice();
             String[] action = input.split(" ");
 
@@ -46,34 +47,7 @@ public class TurnLogic {
                     break;
                 case "placer" :
                     if(action.length == 3){
-                        try {
-                            // On récupère le chiffre action[1] et on le convertit en entier
-                            int numeroCarte = Integer.parseInt(action[1]);
-
-                            // On récupère la chaîne de caractères action[2]
-                            String position = action[2];
-
-                            if ((numeroCarte >= 0 && numeroCarte < player.handSize())) {
-                                int index = m_gameboard.getIndex(action[2]);
-                                if(index != -1) {
-                                    Optional<CardLogic> card = m_gameboard.getPlayerLine(numeroCarte);
-                                    if(card.isEmpty()) {
-                                        m_gameboard.setPlayerLine(index, Optional.of(player.removeCard(numeroCarte)));
-                                        Message.tell("Tu as joué la carte " + numeroCarte + " sur la position " + position + ".");
-                                    }else {
-                                        Message.tell(("Cette position contient déjà une carte."));
-                                    }
-                                }else {
-                                    Message.tell("Position incorrect (ex : B1,B2,B3,B4).");
-                                }
-                            }else {
-                                Message.tell("Numero de carte inexistante.");
-                            }
-
-                        } catch (NumberFormatException e) {
-                            // Si "Integer.parseInt" échoue (ex: le joueur a tapé "placer A B2")
-                            Message.tell("Le premier paramètre doit être un chiffre ! (Exemple : placer 1 B2)");
-                        }
+                        placeCardPlayer(action, player);
                     }else {
                         Message.tell("Format invalide. Exemple : placer 1 B3");
                     }
@@ -82,6 +56,43 @@ public class TurnLogic {
                     Message.tell("Commande inconnue. Tapez [fin], [piocher] ou [placer <n> <pos>].");
                     break;
             }
+        }
+    }
+
+    private void placeCardPlayer(String[] action, ActorLogic player){
+        try {
+            // On récupère le chiffre action[1] (base 1 : correspond à l'affichage de la main)
+            int numeroCarte = Integer.parseInt(action[1]) - 1;
+
+            // On récupère la chaîne de caractères action[2]
+            String position = action[2];
+
+            if ((numeroCarte >= 0 && numeroCarte < player.handSize())) {
+                int index = m_gameboard.getIndex(position);
+                if(index != -1) {
+                    Optional<CardLogic> card = m_gameboard.getPlayerLine(index);
+                    if(card.isEmpty()) {
+                        AnimalLogic playerCard = player.getCard(numeroCarte);
+                        if(m_playerAction.validateCost(player,m_gameboard, playerCard)) {
+                            player.removeCard(numeroCarte);
+                            m_playerAction.payCost(player,m_gameboard,playerCard);
+                            m_gameboard.setPlayerLine(index, Optional.of(playerCard));
+                            Message.tell("Tu as joué la carte " + playerCard.getName() + " sur la position " + position + ".");
+                        }else{
+                            Message.tell("Tu n'as pas les ressources nécessaires pour cette carte.");
+                        }
+                    }else {
+                        Message.tell(("Cette position contient déjà une carte."));
+                    }
+                }else {
+                    Message.tell("Position incorrecte (ex : B1, B2, B3, B4).");
+                }
+            }else {
+                Message.tell("Numéro de carte inexistant. Vérifiez votre main.");
+            }
+        } catch (NumberFormatException e) {
+            // Si "Integer.parseInt" échoue (ex: le joueur a tapé "placer A B2")
+            Message.tell("Le premier paramètre doit être un chiffre ! (Exemple : placer 1 B2)");
         }
     }
 

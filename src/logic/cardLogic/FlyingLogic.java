@@ -16,15 +16,15 @@ public class FlyingLogic extends AnimalLogic {
 
     @Override
     public int attack(Optional<CardLogic> target) {
-        // Rien à faire sur la cible on renvoie juste l'attaque de la carte pour que attackResolver l'applique sur le score
-        int degat = getAttack();
-        if(target.isPresent()) {
+        // Les volantes attaquent directement le score, elles ignorent la carte adverse sauf si elle a le pouvoir stiking
+        int att = getAttack();
+        if(target.isPresent() && target.get().hasPower()){
             Optional<Power> power = target.get().getPower();
-            if(power.isPresent()) {
-                degat -= power.get().attackModifierOnFacing();
+            if (power.isPresent()){
+                att -= power.get().attackModifierOnFacing();
             }
         }
-        return degat;
+        return att;
     }
 
 }
