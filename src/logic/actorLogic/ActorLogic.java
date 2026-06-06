@@ -62,4 +62,10 @@ public class ActorLogic {
     public void addBones(int amount) {
         this.m_bones += amount;
     }
+
+    @Override
+    public String toString()
+    {
+        return "Nom : " + m_name + " | Os : " + m_bones + " | Nombre de cartes en main : " + m_hand.size();
+    }
 }
