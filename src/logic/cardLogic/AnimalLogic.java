@@ -8,7 +8,10 @@ import java.util.Optional;
 public class AnimalLogic extends CardLogic {
     private final int m_attack;
     private final SummonCostLogic m_summonCostLogic;
-    private Optional<Power> m_power;            //On n'utilise pas une liste de pouvoir pour rester coherent avec l'affichage (si une carte aurait pu avoir les 6 pouvoirs la carte aurait du faire 11 lignes(2 lignes pour le cadre, 6 lignes de pouvoir, 1 ligne de Hp, 1 ligne de nom et 1 ligne d'attaque)).
+
+    // On utilise un seul pouvoir au lieu d'une liste pour des raisons de cohérence d'affichage graphique de la carte
+    // Si une carte aurait pu avoir les 6 pouvoirs la carte aurait du faire 11 lignes
+    private Optional<Power> m_power;
     
     public AnimalLogic(String name, int hp, int attack, SummonCostLogic cost) {
         super(name, hp);
@@ -24,14 +27,19 @@ public class AnimalLogic extends CardLogic {
         m_power = Optional.of(power);
     }
 
-    public AnimalLogic(AnimalLogic animal) {
+    public AnimalLogic(AnimalLogic animal)
+    {
         super(animal.getName(), animal.getHp());
         m_attack = animal.getAttack();
-        m_summonCostLogic = animal.getSummonCost();     //C'est pas grave si c'est pas une copie profonde vu que le nombre d'os ou de sang ne change jamais
+        // On n'effectue pas de copie profonde du coût puisque les valeurs de sang et os ne changent jamais
+        m_summonCostLogic = animal.getSummonCost();
         Optional<Power> power = animal.getPower();
-        if(power.isPresent()){
+        if(power.isPresent())
+        {
             m_power = Optional.of(power.get().copy());
-        }else{
+        }
+        else
+        {
             m_power = Optional.empty();
         }
     }
@@ -55,9 +63,11 @@ public class AnimalLogic extends CardLogic {
     }
 
     @Override
-    public Optional<CardLogic> sacrify() {
-        if (m_power.isPresent() && !m_power.get().canDeath()) {
-            // La carte reste en vie sur le plateau (ManyLife) avec ses PV actuels
+    public Optional<CardLogic> sacrify()
+    {
+        // La carte reste en vie sur le plateau avec ses PV actuels si elle possède un pouvoir empêchant sa mort
+        if (m_power.isPresent() && !m_power.get().canDeath())
+        {
             return Optional.of(this);
         }
         return Optional.empty();
@@ -77,22 +87,29 @@ public class AnimalLogic extends CardLogic {
         m_power = Optional.of(power);
     }
 
-    // S'il y a une carte on l'attaque et sinon on
+    // Gère l'attaque contre une cible ou renvoie les dégâts directs si l'emplacement adverse est vide
     @Override
-    public int attack(Optional<CardLogic> target) {
-        if (target.isPresent()) {
+    public int attack(Optional<CardLogic> target)
+    {
+        if (target.isPresent())
+        {
             Optional<Power> targetPower = target.get().getPower();
-            if(m_power.isPresent() && m_power.get().killsOnHit() && target.get().canBeSacrify()){
-                // Contact Mortel : tue uniquement les animaux, pas les obstacles
+            // Le pouvoir Contact Mortel élimine instantanément les animaux mais n'affecte pas les obstacles
+            if(m_power.isPresent() && m_power.get().killsOnHit() && target.get().canBeSacrify())
+            {
                 target.get().kill();
-            }else{
+            }
+            else
+            {
                 int degat = getAttack();
-                if(targetPower.isPresent()) {
+                if(targetPower.isPresent())
+                {
                     degat -= targetPower.get().attackModifierOnFacing();
                 }
                 target.get().takeDamage(degat);
             }
-            if(targetPower.isPresent()) {
+            if(targetPower.isPresent())
+            {
                 targetPower.get().onDamageReceived(this);
             }
             return 0;
@@ -105,4 +122,18 @@ public class AnimalLogic extends CardLogic {
         super.setHp(0);
     }
 
+    @Override
+    public String toString()
+    {
+        String nomPouvoir;
+        if (m_power.isPresent())
+        {
+            nomPouvoir = m_power.get().getName();
+        }
+        else
+        {
+            nomPouvoir = "Aucun";
+        }
+        return "Animal : " + getName() + " | Attaque : " + m_attack + " | PV : " + getHp() + " | Pouvoir : " + nomPouvoir + " | Coût : " + m_summonCostLogic;
+    }
 }
