@@ -289,56 +289,7 @@ package logic #LightBlue
 
 package graphics #LightGreen
 {
-    package gameGraphics #White
-    {
-        class Ask
-        {
-            - {static} SCANNER: Scanner
-            - <<Create>> Ask()
-            + {static} demande(phrase: String): String
-        }
 
-        class ConsoleGrid
-        {
-            - m_grid: char[][]
-            - m_width: Integer
-            - m_height: Integer
-            + <<Create>> ConsoleGrid(width: Integer, height: Integer)
-            + writeString(text: String, x: Integer, y: Integer): void
-            + writeBox(width: Integer, height: Integer, x: Integer, y: Integer): void
-            + render(): void
-            + clear(): void
-        }
-
-        class GameBoardGraphics
-        {
-            + <<Create>> GameBoardGraphics()
-            + drawBoard(grid: ConsoleGrid, board: GameBoardLogic, score: Integer, currentTurn: Integer, currentMatch: Integer): void
-        }
-
-        class TurnGraphics
-        {
-            + <<Create>> TurnGraphics()
-            + displayFullTurn(board: GameBoardLogic, player: ActorLogic, stack: StackLogic, score: Integer, turn: Integer, match: Integer): void
-        }
-
-        class MenuGraphics
-        {
-            + <<Create>> MenuGraphics()
-            + drawStartMenu(grid: ConsoleGrid): void
-            + drawEndMenu(grid: ConsoleGrid, score: Integer): void
-        }
-    }
-
-    package cardGraphics #White
-    {
-        class CardGraphics
-        {
-            + <<Create>> CardGraphics()
-            + drawCard(grid: ConsoleGrid, card: CardLogic, x: Integer, y: Integer): void
-            + drawEmpty(grid: ConsoleGrid, x: Integer, y: Integer): void
-        }
-    }
 }
 
 
