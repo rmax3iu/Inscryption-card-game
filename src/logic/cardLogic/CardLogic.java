@@ -4,68 +4,92 @@ import logic.cardLogic.powers.Power;
 
 import java.util.Optional;
 
-public class CardLogic {
+public class CardLogic
+{
     private final String m_name;
     private int m_hp;
 
-    public CardLogic(String name, int hp) {
+    public CardLogic(String name, int hp)
+    {
         m_name = name;
         m_hp   = hp;
     }
 
-    public CardLogic(CardLogic card){
+    public CardLogic(CardLogic card)
+    {
         m_name = card.getName();
         m_hp = card.getHp();
     }
 
-    public String getName() {
+    public String getName()
+    {
         return m_name;
     }
 
-    protected void setHp(int hp) {
+    protected void setHp(int hp)
+    {
         m_hp = hp;
     }
 
-    public int getHp() {
+    public int getHp()
+    {
         return m_hp;
     }
 
-    public void takeDamage(int damage) {
-        if (damage > m_hp) {
+    public void takeDamage(int damage)
+    {
+        if (damage > m_hp)
+        {
             m_hp = 0;
-        } else {
+        }
+        else
+        {
             m_hp -= damage;
         }
     }
 
-    public CardLogic copy(){
+    public CardLogic copy()
+    {
         return new CardLogic(this);
     }
 
-    public void kill() { }
+    public void kill()
+    {
+    }
 
-    public Optional<Power> getPower(){
+    public Optional<Power> getPower()
+    {
         return Optional.empty();
     }
 
-    public boolean hasPower() {
+    public boolean hasPower()
+    {
         return false;
     }
 
-    public boolean canBeSacrify(){
+    public boolean canBeSacrify()
+    {
         return false;
     }
 
-    public Optional<CardLogic> sacrify(){
-        return Optional.of(new CardLogic(m_name,m_hp));
+    public Optional<CardLogic> sacrify()
+    {
+        return Optional.of(new CardLogic(m_name, m_hp));
     }
 
-    public int attack(Optional<CardLogic> card) {
+    public int attack(Optional<CardLogic> card)
+    {
         return 0;
     }
 
-    public boolean isDead() {
+    public boolean isDead()
+    {
         return m_hp <= 0;
     }
 
+    @Override
+    public String toString()
+    {
+        return "Carte : " + m_name + " | PV : " + m_hp;
+    }
 }
