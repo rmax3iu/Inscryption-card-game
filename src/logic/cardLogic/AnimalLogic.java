@@ -48,6 +48,11 @@ public class AnimalLogic extends CardLogic {
         return m_attack;
     }
 
+    public boolean isFlying()
+    {
+        return false;
+    }
+
     public SummonCostLogic getSummonCost() {
         return m_summonCostLogic;
     }

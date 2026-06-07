@@ -33,6 +33,12 @@ public class FlyingLogic extends AnimalLogic
     }
 
     @Override
+    public boolean isFlying()
+    {
+        return true;
+    }
+
+    @Override
     public String toString()
     {
         String nomPouvoir;
