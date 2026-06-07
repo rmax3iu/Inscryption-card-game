@@ -56,6 +56,7 @@ package logic #LightBlue
             + attacksDirectly(): Boolean
             + setPower(power: Power): void
             + attack(target: CardLogic): Integer
+            + isFlying(): Boolean
             + copie(): AnimalLogic
         }
 
@@ -64,6 +65,7 @@ package logic #LightBlue
             + <<Create>> FlyingLogic(name: String, hp: Integer, attack: Integer, cost: SummonCostLogic, power: Power)
             + attacksDirectly(): Boolean
             + attack(target: CardLogic): Integer
+            + isFlying(): Boolean
             + copie(): FlyingLogic
         }
 
@@ -279,6 +281,10 @@ package logic #LightBlue
     TurnLogic --> BotStrategy : <<instantiate>>
     TurnLogic --> PlayerAction : <<instantiate>>
     TurnLogic ..> ActorLogic : <<uses>>
+    TurnLogic ..> CardLogic : <<uses>>
+    TurnLogic ..> graphics.GameGraphic : <<uses>>
+    TurnLogic ..> graphics.Message : <<uses>>
+    TurnLogic ..> graphics.drawers.HandDrawer : <<uses>>
 
     RoundLogic "*" o---> "1\n-m_board" GameBoardLogic : <<instantiate>>
     RoundLogic "*" o---> "1\n-m_stack" StackLogic : <<instantiate>>
@@ -289,10 +295,75 @@ package logic #LightBlue
 
 package graphics #LightGreen
 {
+    class GameGraphic
+    {
+        +{static} showGame(board: GameBoardLogic, draw: StackLogic, round: Integer, turn: Integer, score: Integer)
+        -{static} printAttackArrows()
+        -{static} showPlayerLineWithDeck(board: GameBoardLogic, deckSize: Integer)
+    }
 
+    class Message
+    {
+        +{static} ask(phrase: String): String
+        +{static} basicChoice(): String
+        +{static} tell(phrase: String)
+        +{static} demandeCard(stack: StackLogic): String
+    }
+
+    package drawers #White
+    {
+        class CardDrawer
+        {
+            +{static} WIDTH: Integer
+            +{static} HEIGHT: Integer
+            +{static} drawCard(card: CardLogic, emptyLabel: String): String[]
+            -{static} center(text: String, width: Integer): String
+        }
+
+        class StackDrawer
+        {
+            +{static} getDeckLines(cardCount: Integer): String[]
+            +{static} showDeck(cardCount: Integer)
+            +{static} center(text: String, width: Integer): String
+        }
+
+        class BoardDrawer
+        {
+            +{static} showLine(board: GameBoardLogic, type: String)
+            +{static} getLineLines(board: GameBoardLogic, type: String): String[][]
+        }
+
+        class HandDrawer
+        {
+            +{static} showHand(player: ActorLogic)
+        }
+
+        class HeaderDrawer
+        {
+            +{static} showRoundAndTurn(round: Integer, turn: Integer, score: Integer)
+        }
+    }
 }
 
+    GameGraphic ..> GameBoardLogic : <<uses>>
+    GameGraphic ..> StackLogic : <<uses>>
+    GameGraphic ..> BoardDrawer : <<uses>>
+    GameGraphic ..> StackDrawer : <<uses>>
+    GameGraphic ..> HeaderDrawer : <<uses>>
+    GameGraphic ..> CardDrawer : <<uses>>
 
+    Message ..> StackLogic : <<uses>>
+
+    BoardDrawer ..> CardLogic : <<uses>>
+    BoardDrawer ..> GameBoardLogic : <<uses>>
+
+    CardDrawer ..> AnimalLogic : <<uses>>
+    CardDrawer ..> CardLogic : <<uses>>
+    CardDrawer ..> Power : <<uses>>
+
+    HandDrawer ..> ActorLogic : <<uses>>
+    HandDrawer ..> CardLogic : <<uses>>
+    HandDrawer ..> AnimalLogic : <<uses>>
 
 ' < ================================================================================================================ > '
 @enduml
