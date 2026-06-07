@@ -4,11 +4,11 @@ import graphic.GameGraphic;
 import graphic.Message;
 import logic.actorLogic.ActorLogic;
 import logic.cardLogic.AnimalLogic;
-import logic.cardLogic.CardFactory;
 import logic.cardLogic.CardLogic;
 import logic.cardLogic.powers.Power;
 
 import java.util.Optional;
+
 
 public class GameLogic
 {
@@ -124,11 +124,13 @@ public class GameLogic
                 {
                     if (cards[0].equals("Gauche"))
                     {
+                        Message.powerTransfere(m_stack, index -1);
                         m_stack.changeCard(index - 1, cardLeft);
                         inputOk = true;
                     }
                     else if (cards[0].equals("Droite"))
                     {
+                        Message.powerTransfere(m_stack, index -1);
                         m_stack.changeCard(index - 1, cardRight);
                         inputOk = true;
                     }

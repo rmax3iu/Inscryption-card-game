@@ -1,6 +1,10 @@
 package graphic;
 
+import logic.cardLogic.AnimalLogic;
+import logic.cardLogic.powers.Power;
 import logic.gameLogic.StackLogic;
+
+import java.util.Optional;
 import java.util.Scanner;
 
 public class Message
@@ -55,5 +59,51 @@ public class Message
 
         // On retourne le choix de remplacement saisi par l'utilisateur
         return scanner.nextLine();
+    }
+
+    public static void powerTransfere(StackLogic stack, int deleteCard){
+        AnimalLogic animal = stack.getCard(deleteCard);
+        Optional<Power> power = animal.getPower();
+        if(power.isPresent()) {
+            boolean fini = false;
+            while(!fini) {
+                Scanner scanner = new Scanner(System.in);
+                System.out.println("Ta carte avait le pouvoir " + power.get().getName() + ". Choisie une carte qui aura ce pouvoir :");
+                // On construit le cadre supérieur pour l'affichage des cartes du deck
+                System.out.println("══════════════════ [Carte du deck] ══════════════════");
+
+                // On fait une boucle pour lister toutes les cartes du paquet de départ
+                for (int i = 0; i < StackLogic.DECK_SIZE; i++) {
+                    System.out.println((i + 1) + ") " + stack.getCard(i).getName());
+                }
+
+                // On construit le cadre inférieur
+                System.out.println("═══════════════════════════════════════════════════");
+
+                System.out.println("Format : <numéro de la carte qui verra son pouvoir remplacer par " + power.get().getName() + ">");
+
+                // On retourne le choix de remplacement saisi par l'utilisateur
+                String input = scanner.nextLine();
+
+                try {
+                    int index = Integer.parseInt(input);
+
+                    if(index >= 0 && index < StackLogic.DECK_SIZE) {
+                        if (index != deleteCard) {
+                            AnimalLogic animalResever = stack.getCard(index - 1);
+                            animalResever.setPower(power.get().copy());
+                            stack.changeCard(index, animalResever);
+                            fini = true;
+                        } else {
+                            System.out.println("Tu essaye de mettre le pouvoir sur la carte que tu veux supprimer change de carte.");
+                        }
+                    }else{
+                        System.out.println("Cette carte n'existe pas.");
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.println("Forma incorrect il faut un chiffre.");
+                }
+            }
+        }
     }
 }
