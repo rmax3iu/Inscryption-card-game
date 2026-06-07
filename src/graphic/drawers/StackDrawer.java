@@ -4,7 +4,7 @@ public class StackDrawer
 {
     public static String[] getDeckLines(int cardCount)
     {
-        // On crée un tableau de chaînes pour fabriquer les 7 lignes du paquet
+        // On crée un tableau de chaînes pour fabriquer les 9 lignes du paquet
         String[] lines = new String[CardDrawer.HEIGHT];
 
         // On construit le contour supérieur du paquet
@@ -18,23 +18,34 @@ public class StackDrawer
 
         // On affiche le mot Pioche
         lines[1] = "║" + center("Pioche", CardDrawer.WIDTH - 2) + "║";
-        lines[2] = "║" + center("", CardDrawer.WIDTH - 2) + "║";
+
+        // On construit la ligne de séparation du milieu pour faire comme les cartes
+        String middleBorder = "╠";
+        for (int i = 0; i < CardDrawer.WIDTH - 2; i++)
+        {
+            middleBorder = middleBorder + "═";
+        }
+        middleBorder = middleBorder + "╣";
+        lines[2] = middleBorder;
+
+        lines[3] = "║" + center("", CardDrawer.WIDTH - 2) + "║";
 
         // On écrit le nombre de cartes actuel
-        lines[3] = "║" + center(String.valueOf(cardCount), CardDrawer.WIDTH - 2) + "║";
+        lines[4] = "║" + center(String.valueOf(cardCount), CardDrawer.WIDTH - 2) + "║";
 
         // On écrit le mot cartes
-        lines[4] = "║" + center("cartes", CardDrawer.WIDTH - 2) + "║";
+        lines[5] = "║" + center("cartes", CardDrawer.WIDTH - 2) + "║";
 
-        lines[5] = "║" + center("", CardDrawer.WIDTH - 2) + "║";
+        lines[6] = "║" + center("", CardDrawer.WIDTH - 2) + "║";
+
+        // On construit le contour inférieur
         String bottomBorder = "╚";
-
         for (int i = 0; i < CardDrawer.WIDTH - 2; i++)
         {
             bottomBorder = bottomBorder + "═";
         }
         bottomBorder = bottomBorder + "╝";
-        lines[6] = bottomBorder;
+        lines[7] = bottomBorder;
 
         return lines;
     }
