@@ -80,7 +80,7 @@ public class GameLogic
 
             // L'affichage qui était ici a été supprimé car turn.playerTurn(player) gère son propre affichage initial désormais.
 
-            turn.playerTurn(player);
+            turn.playerTurn(player, currentRound + 1, currentTurn, score);
             GameGraphic.showGame(board, m_stack, currentRound + 1, currentTurn, score);
             score += turn.resolveAttacks();
             GameGraphic.showGame(board, m_stack, currentRound + 1, currentTurn, score);

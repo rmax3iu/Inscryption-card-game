@@ -17,9 +17,7 @@ public class TurnLogic
     private final BotStrategy m_botStrategy = new BotStrategy();
     private final AttacksResolver m_attacksResolver = new AttacksResolver();
 
-    private int m_round = 1;
-    private int m_turn = 1;
-    private int m_score = 0;
+
 
     public TurnLogic(GameBoardLogic gameboard, StackLogic stack)
     {
@@ -33,14 +31,14 @@ public class TurnLogic
         m_botStrategy.placeCards(bot, m_gameboard);
     }
 
-    public void playerTurn(ActorLogic player)
+    public void playerTurn(ActorLogic player, int currentRound, int currentTurn, int score)
     {
         boolean hasDraw = false;
         boolean turnOver = false;
 
         while (!turnOver)
         {
-            GameGraphic.showGame(m_gameboard, m_stack, m_round, m_turn, m_score);
+            GameGraphic.showGame(m_gameboard, m_stack, currentRound, currentTurn, score);
             HandDrawer.showHand(player);
             String input = Message.basicChoice();
             String[] action = input.split(" ");
@@ -49,7 +47,6 @@ public class TurnLogic
             {
                 case "fin" :
                     turnOver = true;
-                    m_turn++;
                     break;
                 case "piocher" :
                     if (!hasDraw)
@@ -131,13 +128,12 @@ public class TurnLogic
     public int resolveAttacks()
     {
         int pointsGagnes = m_attacksResolver.resolveAll(m_gameboard);
-        m_score += pointsGagnes;
         return pointsGagnes;
     }
 
     @Override
     public String toString()
     {
-        return "Tour en cours : " + m_turn + " | Round : " + m_round + " | Score : " + m_score;
+        return "Tour { Plateau : " + m_gameboard + " | Pioche : " + m_stack  + "  }";
     }
 }
