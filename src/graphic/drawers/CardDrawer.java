@@ -7,8 +7,8 @@ import java.util.Optional;
 
 public class CardDrawer
 {
-    public static final int WIDTH = 14;
-    public static final int HEIGHT = 7;
+    public static final int WIDTH = 16;
+    public static final int HEIGHT = 8;
 
     public static String[] drawCard(CardLogic card, String emptyLabel)
     {
@@ -41,6 +41,7 @@ public class CardDrawer
             lines[3] = "║" + center(emptyLabel, WIDTH - 2) + "║";
             lines[4] = "║" + center("", WIDTH - 2) + "║";
             lines[5] = "║" + center("", WIDTH - 2) + "║";
+            lines[6] = "║" + center("", WIDTH - 2) + "║";
 
             // On construit le contour inférieur de la case vide
             String bottomBorder = "╚";
@@ -49,7 +50,7 @@ public class CardDrawer
                 bottomBorder = bottomBorder + "═";
             }
             bottomBorder = bottomBorder + "╝";
-            lines[6] = bottomBorder;
+            lines[7] = bottomBorder;
 
             return lines;
         }
@@ -77,6 +78,7 @@ public class CardDrawer
 
         String attackStr = "Att : 0";
         String hpStr = "PV : " + card.getHp();
+        String flyStr = "";
 
         // Si la carte est un animal
         if (card.canBeSacrify())
@@ -85,6 +87,10 @@ public class CardDrawer
             AnimalLogic animal = (AnimalLogic) card;
             attackStr = "Att : " + animal.getAttack();
             hpStr = "PV : " + animal.getHp();
+            if (animal.isFlying())
+            {
+                flyStr = "Volant";
+            }
         }
 
         // On affiche les points de vie sur la troisième ligne
@@ -106,12 +112,15 @@ public class CardDrawer
             {
                 // On extrait le pouvoir et on place son nom entre crochets
                 Power power = optionalPower.get();
-                powerStr = "[" + power.getName() + "]";
+                powerStr = power.getName();
             }
         }
 
-        // On affiche le pouvoir sur la cinquième ligne
-        lines[5] = "║" + center(powerStr, WIDTH - 2) + "║";
+        // On affiche le statut volant sur la cinquième ligne
+        lines[5] = "║" + center(flyStr, WIDTH - 2) + "║";
+
+        // On affiche le pouvoir sur la sixième ligne
+        lines[6] = "║" + center(powerStr, WIDTH - 2) + "║";
 
         // On construit le contour inférieur de la carte
         String bottomBorder = "╚";
@@ -120,7 +129,7 @@ public class CardDrawer
             bottomBorder = bottomBorder + "═";
         }
         bottomBorder = bottomBorder + "╝";
-        lines[6] = bottomBorder;
+        lines[7] = bottomBorder;
 
         return lines;
     }
