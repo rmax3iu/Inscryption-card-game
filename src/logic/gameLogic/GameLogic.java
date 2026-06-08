@@ -4,10 +4,12 @@ import graphic.GameGraphic;
 import graphic.Message;
 import logic.actorLogic.ActorLogic;
 import logic.cardLogic.AnimalLogic;
+import logic.cardLogic.CardFactory;
 import logic.cardLogic.CardLogic;
 import logic.cardLogic.powers.Power;
 
 import java.util.Optional;
+import java.util.Random;
 
 
 public class GameLogic
@@ -66,6 +68,8 @@ public class GameLogic
         }
 
         GameBoardLogic board = new GameBoardLogic();
+        addRandomeObstacle(board,0);
+        addRandomeObstacle(board,1);
 
         TurnLogic turn;
 
@@ -187,6 +191,43 @@ public class GameLogic
                     }
                 }
             }
+        }
+    }
+
+    private void addRandomeObstacle(GameBoardLogic board, int line){
+        Random rnd = new Random();
+        int numCard = rnd.nextInt(0,2);
+        CardLogic card;
+
+        if(numCard == 1){
+            card = CardFactory.createSapin();
+        }else{
+            card = CardFactory.createRocher();
+        }
+
+        boolean rowOk = false;
+        int row = 0;
+        while(!rowOk) {
+            row = rnd.nextInt(0, 4);
+            Optional<CardLogic> oppositeCard;
+            if(line == 1) {
+                oppositeCard = board.getPlayerLine(row);
+            }else{
+                oppositeCard = board.getBotLine(row);
+            }
+
+            if(oppositeCard.isEmpty()){
+                rowOk = true;
+            }
+        }
+
+        switch (line) {
+            case 0 :
+                board.setPlayerLine(row,Optional.of(card));
+                break;
+            case 1 :
+                board.setBotLine(row,Optional.of(card));
+                break;
         }
     }
 }
