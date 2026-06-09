@@ -91,11 +91,13 @@ public class GameBoardLogic
         int count = 0;
         for (int i = 0; i < GameBoardLogic.BOARD_SIZE ; i++)
         {
-            if (m_botLine[i].isPresent())
+            Optional<CardLogic> botCard = m_botLine[i];
+            Optional<CardLogic> previewCard = m_previewLine[i];
+            if (botCard.isPresent() && botCard.get().canBeSacrify())
             {
                 count++;
             }
-            if (m_previewLine[i].isPresent())
+            if (previewCard.isPresent() && previewCard.get().canBeSacrify())
             {
                 count++;
             }
@@ -109,7 +111,8 @@ public class GameBoardLogic
         int count = 0;
         for (int i = 0; i < GameBoardLogic.BOARD_SIZE; i++)
         {
-            if (m_playerLine[i].isPresent())
+            Optional<CardLogic> card = m_playerLine[i];
+            if (card.isPresent() && card.get().canBeSacrify())
             {
                 count++;
             }
@@ -161,7 +164,7 @@ public class GameBoardLogic
         }else{
             result += "vide";
         }
-        result += "]\n\tBotLine [";
+        result += "],\n\tBotLine [";
 
         //BotLine
         for(int i = 0; i < BOARD_SIZE - 1; i++){
@@ -178,7 +181,7 @@ public class GameBoardLogic
         }else{
             result += "vide";
         }
-        result += "]\n\tPlayerLine [";
+        result += "],\n\tPlayerLine [";
 
         //PlayerLine
         for(int i = 0; i < BOARD_SIZE - 1; i++){

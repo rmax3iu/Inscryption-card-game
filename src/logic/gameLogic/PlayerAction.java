@@ -48,28 +48,7 @@ public class PlayerAction
         int nbSacrifie = 0;
         while (nbSacrifie < count)
         {
-            // On demande la carte qu'on veut sacrifier
-            String reponse = Message.ask("Donne la position de la carte que vous voulez sacrifier (il reste " + (count - nbSacrifie) + " cartes à sacrifier)");
-            int index;
-            // On traduit la demande en un indice pour connaître la carte
-            switch (reponse)
-            {
-                case "B1":
-                    index = 0;
-                    break;
-                case "B2":
-                    index = 1;
-                    break;
-                case "B3":
-                    index = 2;
-                    break;
-                case "B4":
-                    index = 3;
-                    break;
-                default:
-                    index = -1;     // Quand le joueur écrit quelque chose d'inattendu
-                    break;
-            }
+            int index = Message.sacificePlayerCard(count,nbSacrifie);
 
             // On vérifie que l'utilisateur demande à sacrifier une carte sur une case du plateau qui existe
             if (index != -1)
@@ -82,10 +61,6 @@ public class PlayerAction
                     board.setPlayerLine(index, card.get().sacrify());       // On sacrifie la carte et le retour de sacrify() c'est soit un Optional.empty soit la même carte c'est pour le pouvoir plusieurs vies(Many life)
                     nbSacrifie++;
                 }
-            }
-            else
-            {
-                Message.tell("Saisie incorrecte ! (type de saisie valide : B1/B2/B3/B4)");
             }
         }
     }

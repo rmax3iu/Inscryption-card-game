@@ -104,8 +104,7 @@ public class GameLogic
         AnimalLogic cardLeft = StackLogic.randomeCard();
         AnimalLogic cardRight = StackLogic.randomeCard();
 
-        Message.tell("Choisissez une carte à ajouter : Gauche (" + cardLeft.getName() + ") ou Droite (" + cardRight.getName() + ")");
-        Message.tell("Format : <Gauche/Droite> <numéro de la carte à remplacer dans votre pioche (1-" + StackLogic.DECK_SIZE + ")>");
+        Message.demandeCard(cardLeft.getName(),cardRight.getName(),StackLogic.DECK_SIZE);
 
         boolean inputOk = false;
 
@@ -114,42 +113,27 @@ public class GameLogic
             String input = Message.demandeCard(m_stack);
             String[] cards = input.split(" ");      // Le résultat attendu est de la forme <Gauche/Droite> <numéro ancienne carte>
 
-            if (cards.length < 2)
+            if (Message.goodLength(cards.length))
             {
-                Message.tell("Format invalide (ex : Gauche 1)");
-            }
-
-            try
-            {
-                int index = Integer.parseInt(cards[1]);
-
-                if (index > 0 && index <= StackLogic.DECK_SIZE)
-                {
-                    if (cards[0].equals("Gauche"))
+                int index = Message.cardChoice(cards[1]);
+                if(index != -1){
+                    if (Message.indexInDeck(index))
                     {
-                        Message.powerTransfere(m_stack, index -1);
-                        m_stack.changeCard(index - 1, cardLeft);
-                        inputOk = true;
-                    }
-                    else if (cards[0].equals("Droite"))
-                    {
-                        Message.powerTransfere(m_stack, index -1);
-                        m_stack.changeCard(index - 1, cardRight);
-                        inputOk = true;
-                    }
-                    else
-                    {
-                        Message.tell("Nom de nouvelle carte incorrect (ex : Gauche/Droite)");
+                        int choix = Message.GaucheOuDroite(cards[0]);
+                        if (choix == 0)
+                        {
+                            Message.powerTransfere(m_stack, index -1);
+                            m_stack.changeCard(index - 1, cardLeft);
+                            inputOk = true;
+                        }
+                        else if (choix == 1)
+                        {
+                            Message.powerTransfere(m_stack, index -1);
+                            m_stack.changeCard(index - 1, cardRight);
+                            inputOk = true;
+                        }
                     }
                 }
-                else
-                {
-                    Message.tell("Le numéro de carte n'existe pas.");
-                }
-            }
-            catch (NumberFormatException e)
-            {
-                Message.tell("Format invalide (ex : Gauche 1)");
             }
         }
     }

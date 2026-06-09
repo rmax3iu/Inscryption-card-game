@@ -49,28 +49,20 @@ public class TurnLogic
                     turnOver = true;
                     break;
                 case "piocher" :
-                    if (!hasDraw)
+                    if (Message.piocherCard(hasDraw))
                     {
                         m_playerAction.drawCard(player, m_stack);
                         hasDraw = true;
                     }
-                    else
-                    {
-                        Message.tell("Tu as déjà pioché, fais autre chose.");
-                    }
                     break;
                 case "placer" :
-                    if (action.length == 3)
+                    if (Message.poserCard(action.length))
                     {
                         placeCardPlayer(action, player);
                     }
-                    else
-                    {
-                        Message.tell("Format invalide. Exemple : placer 1 B3");
-                    }
                     break;
                 default :
-                    Message.tell("Commande inconnue. Tapez [fin], [piocher] ou [placer <n> <pos>].");
+                    Message.unkownCommand();
                     break;
             }
         }
@@ -78,50 +70,29 @@ public class TurnLogic
 
     private void placeCardPlayer(String[] action, ActorLogic player)
     {
-        try
-        {
-            int numeroCarte = Integer.parseInt(action[1]) - 1;
+        int numeroCarte = Message.getNumCard(action[1]);
+
+        if(numeroCarte != -1) {
             String position = action[2];
 
-            if (numeroCarte >= 0 && numeroCarte < player.handSize())
+            if (Message.cardExiste(numeroCarte,player.handSize()))
             {
                 int index = m_gameboard.getIndex(position);
-                if (index != -1)
+                if (Message.positionExiste(index))
                 {
                     Optional<CardLogic> card = m_gameboard.getPlayerLine(index);
-                    if (card.isEmpty())
+                    if (Message.cardNonVide(card.isPresent()))
                     {
                         AnimalLogic playerCard = player.getCard(numeroCarte);
-                        if (m_playerAction.validateCost(player, m_gameboard, playerCard))
+                        if (Message.valideCost(m_playerAction.validateCost(player, m_gameboard, playerCard), playerCard.getName(), index))
                         {
                             player.removeCard(numeroCarte);
                             m_playerAction.payCost(player, m_gameboard, playerCard);
                             m_gameboard.setPlayerLine(index, Optional.of(playerCard));
-                            Message.tell("Tu as joué la carte " + playerCard.getName() + " sur la position " + position + ".");
-                        }
-                        else
-                        {
-                            Message.tell("Tu n'as pas les ressources nécessaires pour cette carte.");
                         }
                     }
-                    else
-                    {
-                        Message.tell("Cette position contient déjà une carte.");
-                    }
-                }
-                else
-                {
-                    Message.tell("Position incorrecte (ex : B1, B2, B3, B4).");
                 }
             }
-            else
-            {
-                Message.tell("Numéro de carte inexistant. Vérifiez votre main.");
-            }
-        }
-        catch (NumberFormatException e)
-        {
-            Message.tell("Le premier paramètre doit être un chiffre ! (Exemple : placer 1 B2)");
         }
     }
 
