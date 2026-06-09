@@ -25,22 +25,9 @@ public class PlayerAction
 
     public boolean validateCost(ActorLogic player, GameBoardLogic board, AnimalLogic card)
     {
-        if (card.getSummonCost().isBonesCost() && player.getBones() >= card.getSummonCost().getBones())
-        {
-            return true;
-        }
-        else if (card.getSummonCost().isBloodCost() && board.countPlayerCards() >= card.getSummonCost().getBlood())
-        {
-            return true;
-        }
-        else if (card.getSummonCost().isFree())
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return  (card.getSummonCost().isBonesCost() && player.getBones() >= card.getSummonCost().getBones())
+                || (card.getSummonCost().isBloodCost() && board.countPlayerCards() >= card.getSummonCost().getBlood())
+                || (card.getSummonCost().isFree());
     }
 
     public void payCost(ActorLogic player, GameBoardLogic board, AnimalLogic card)

@@ -1,8 +1,5 @@
 package logic.cardLogic.powers;
 
-import logic.cardLogic.AnimalLogic;
-import logic.cardLogic.CardLogic;
-
 public class ManyLife extends Power
 {
     // Défini en static final car peu importe l'objet ManyLife, il aura toujours le même nom et ne changera jamais

@@ -1,6 +1,5 @@
 package logic.cardLogic;
 
-import logic.cardLogic.powers.ManyLife;
 import logic.cardLogic.powers.Power;
 
 import java.util.Optional;
