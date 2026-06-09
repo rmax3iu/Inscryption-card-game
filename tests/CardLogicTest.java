@@ -1,4 +1,3 @@
-import logic.gameLogic.*;
 import logic.cardLogic.*;
 import logic.cardLogic.powers.*;
 import org.junit.jupiter.api.Test;
@@ -33,31 +32,23 @@ public class CardLogicTest
     public void testPrendDegat()
     {
         CardLogic rocher = CardFactory.createRocher();
+        int pvOrigine = rocher.getHp() - 2;     //normalement 3
         rocher.takeDamage(2);
-        assertEquals(3, rocher.getHp());
+        assertEquals(pvOrigine, rocher.getHp());
     }
 
     @Test
-    public void testPrendDegatExact()
-    {
-        CardLogic sapin = CardFactory.createSapin();
-        sapin.takeDamage(3);
-        assertEquals(0, sapin.getHp());
-        assertTrue(sapin.isDead());
-    }
-
-    @Test
-    public void testPrendDegatSuperieurPvResteA0()
+    public void testPrendDegatSuperieurPv()
     {
         CardLogic rocher = CardFactory.createRocher();
         rocher.takeDamage(100);
-        assertEquals(0, rocher.getHp());
+        assertEquals(0, rocher.getHp());            //On vérifie que les pv ne descend pas en dessous de 0
     }
 
     // ─── isDead ─────────────────────────────────────────────────────────────────
 
     @Test
-    public void testNEstPasMortAvantDegatSuffisants()
+    public void testDegatInsuffisantPourTuer()
     {
         CardLogic rocher = CardFactory.createRocher();
         rocher.takeDamage(4);
@@ -65,7 +56,7 @@ public class CardLogicTest
     }
 
     @Test
-    public void testEstMortApresDegatSuffisants()
+    public void testDegatSuffisantsPourTuer()
     {
         CardLogic sapin = CardFactory.createSapin();
         sapin.takeDamage(3);
@@ -75,14 +66,14 @@ public class CardLogicTest
     // ─── canBeSacrify / attack ───────────────────────────────────────────────────
 
     @Test
-    public void testObstacleNePeutPasEtreSacrifie()
+    public void testSacrificeObstacle()
     {
         CardLogic rocher = CardFactory.createRocher();
         assertFalse(rocher.canBeSacrify());
     }
 
     @Test
-    public void testObstacleAttaquePasPasDeScoreDirect()
+    public void testObstacleAttaquePasScore()
     {
         CardLogic rocher = CardFactory.createRocher();
         // Un obstacle ne doit pas apporter de dégâts directs

@@ -117,7 +117,6 @@ public class GameLogic
             if (cards.length < 2)
             {
                 Message.tell("Format invalide (ex : Gauche 1)");
-                continue;
             }
 
             try
@@ -147,7 +146,6 @@ public class GameLogic
                 {
                     Message.tell("Le numéro de carte n'existe pas.");
                 }
-
             }
             catch (NumberFormatException e)
             {

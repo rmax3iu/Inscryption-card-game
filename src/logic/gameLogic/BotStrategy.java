@@ -45,22 +45,9 @@ public class BotStrategy
     // Renvoie un booléen qui dit si on peut payer le coût de la carte
     private boolean canAfford(ActorLogic bot, GameBoardLogic board, AnimalLogic card)
     {
-        if (card.getSummonCost().isBonesCost() && bot.getBones() >= card.getSummonCost().getBones())
-        {
-            return true;
-        }
-        else if (card.getSummonCost().isBloodCost() && board.countBotCard() >= card.getSummonCost().getBlood())
-        {
-            return true;
-        }
-        else if (card.getSummonCost().isFree())
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return  (card.getSummonCost().isBonesCost() && bot.getBones() >= card.getSummonCost().getBones())
+                || (card.getSummonCost().isBloodCost() && board.countBotCard() >= card.getSummonCost().getBlood())
+                || (card.getSummonCost().isFree());
     }
 
     // Fait payer au bot le coût de la carte
