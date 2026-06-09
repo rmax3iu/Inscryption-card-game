@@ -90,6 +90,6 @@ public class CardLogic
     @Override
     public String toString()
     {
-        return "Carte : " + m_name + " | PV : " + m_hp;
+        return "Carte { Nom : " + m_name + ", PV : " + m_hp + " }";
     }
 }

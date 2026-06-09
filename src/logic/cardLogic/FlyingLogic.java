@@ -50,6 +50,6 @@ public class FlyingLogic extends AnimalLogic
         {
             nomPouvoir = "Aucun";
         }
-        return "Animal volant : " + getName() + " | Attaque : " + getAttack() + " | PV : " + getHp() + " | Pouvoir : " + nomPouvoir + " | Coût : " + getSummonCost();
+        return "Animal volant { Nom :" + getName() + ", Attaque : " + getAttack() + ", PV : " + getHp() + ", Pouvoir : " + nomPouvoir + ", Coût : " + getSummonCost() + " }";
     }
 }

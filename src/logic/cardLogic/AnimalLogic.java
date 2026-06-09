@@ -138,6 +138,6 @@ public class AnimalLogic extends CardLogic {
         {
             nomPouvoir = "Aucun";
         }
-        return "Animal : " + getName() + " | Attaque : " + m_attack + " | PV : " + getHp() + " | Pouvoir : " + nomPouvoir + " | Coût : " + m_summonCostLogic;
+        return "Animal { Nom : " + getName() + ", Attaque : " + m_attack + ", PV : " + getHp() + ", Pouvoir : " + nomPouvoir + ", Coût : " + m_summonCostLogic + " }";
     }
 }

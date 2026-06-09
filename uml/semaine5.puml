@@ -190,7 +190,6 @@ package logic #LightBlue
             + playerTurn(player: ActorLogic, currentRound: Integer, currentTurn: Integer, score: Integer)
             - placeCardPlayer(action: String[], player: ActorLogic)
             + resolveAttacks() : Integer
-            + toString() : String
         }
 
         class AttackResolver
@@ -219,10 +218,9 @@ package logic #LightBlue
         {
             + <<Create>> PlayerAction()
             + drawCard(player: ActorLogic, stack: StackLogic)
-            + placeCard(player: ActorLogic, board: GameBoardLogic, handIndex: Integer, position: Integer)
-            - validateCost(player: ActorLogic, board: GameBoardLogic, card: CardLogic)
-            - payCost(player: ActorLogic, board: GameBoardLogic, card: CardLogic)
-            - sacrificePlayerCards(board: GameBoardLogic, count: Integer, player: ActorLogic)
+            + validateCost(player: ActorLogic, board: GameBoardLogic, card: CardLogic)
+            + payCost(player: ActorLogic, board: GameBoardLogic, card: CardLogic)
+            + sacrificePlayerCards(board: GameBoardLogic, count: Integer, player: ActorLogic)
         }
 
         class GameBoardLogic
@@ -240,6 +238,7 @@ package logic #LightBlue
             + removePreviewLine(index: Integer): CardLogic
             + countBotCards(): Integer
             + countPlayerCards(): Integer
+            + toString(): String
         }
 
         class StackLogic
@@ -250,6 +249,7 @@ package logic #LightBlue
             + draw(): CardLogic
             + size(): Integer
             + isEmpty(): Boolean
+            + toString(): String
         }
     }
 
@@ -292,6 +292,12 @@ package logic #LightBlue
     GameBoardLogic "*" o--> "0..4\n-m_botLine" CardLogic : <<own>>
     GameBoardLogic "*" o--> "0..4\n-m_botPreview" CardLogic : <<own>>
 
+    AttackResolver --> GameBoardLogic : <<uses>>
+
+    BotStrategy --> ActorLogic : <<uses>>
+
+    PlayerAction --> ActorLogic : <<uses>>
+
     TurnLogic "*" o---> "1\n-m_board" GameBoardLogic : <<own>>
     TurnLogic "*" o---> "1\n-m_stack" StackLogic : <<own>>
     TurnLogic --> AttackResolver : <<instantiate>>
@@ -303,10 +309,10 @@ package logic #LightBlue
     TurnLogic ..> graphics.Message : <<uses>>
     TurnLogic ..> graphics.drawers.HandDrawer : <<uses>>
 
-    RoundLogic "*" o---> "1\n-m_board" GameBoardLogic : <<instantiate>>
-    RoundLogic "*" o---> "1\n-m_stack" StackLogic : <<instantiate>>
-    RoundLogic --> TurnLogic : <<instantiate>>
-    RoundLogic ..> ActorLogic : <<uses>>
+    GameLogic "*" o---> "1\n-m_board" GameBoardLogic : <<instantiate>>
+    GameLogic "*" o---> "1\n-m_stack" StackLogic : <<instantiate>>
+    GameLogic --> TurnLogic : <<instantiate>>
+    GameLogic ..> ActorLogic : <<uses>>
 
 ' < ================================================================================================================ > '
 

@@ -141,4 +141,62 @@ public class GameBoardLogic
         }
         return index;
     }
+
+    @Override
+    public String toString(){
+        String result = "Plateau { \n" +
+                         "\tPreviewLine [";
+        //PreviewLine
+        for(int i = 0; i < BOARD_SIZE - 1; i++){
+            Optional<CardLogic> card = getPreviewLine(i);
+            if(card.isPresent()){
+                result += card.get().toString() + ", ";
+            }else{
+                result += "vide, ";
+            }
+        }
+        Optional<CardLogic> card = m_previewLine[BOARD_SIZE -1];
+        if(card.isPresent()){
+            result += card.get().toString();
+        }else{
+            result += "vide";
+        }
+        result += "]\n\tBotLine [";
+
+        //BotLine
+        for(int i = 0; i < BOARD_SIZE - 1; i++){
+            card = getBotLine(i);
+            if(card.isPresent()){
+                result += card.get().toString() + ", ";
+            }else{
+                result += "vide, ";
+            }
+        }
+        card = m_botLine[BOARD_SIZE -1];
+        if(card.isPresent()){
+            result += card.get().toString();
+        }else{
+            result += "vide";
+        }
+        result += "]\n\tPlayerLine [";
+
+        //PlayerLine
+        for(int i = 0; i < BOARD_SIZE - 1; i++){
+            card = getPlayerLine(i);
+            if(card.isPresent()){
+                result += card.get().toString() + ", ";
+            }else{
+                result += "vide, ";
+            }
+        }
+        card = m_playerLine[BOARD_SIZE -1];
+        if(card.isPresent()){
+            result += card.get().toString() + ", ";
+        }else{
+            result += "vide, ";
+        }
+        result += "]\n}";
+
+        return result;
+    }
 }

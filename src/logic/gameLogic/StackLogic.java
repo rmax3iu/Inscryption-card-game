@@ -128,4 +128,9 @@ public class StackLogic
         }
         return null;
     }
+
+    @Override
+    public String toString(){
+        return "Pioche { Nombre carte joueur : " + m_draw.size() + "/" + DECK_SIZE + ", Nombre carte bot : " + m_drawBot.size() + "/" + DECK_SIZE + " }";
+    }
 }

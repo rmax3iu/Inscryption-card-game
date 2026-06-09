@@ -130,10 +130,4 @@ public class TurnLogic
         int pointsGagnes = m_attacksResolver.resolveAll(m_gameboard);
         return pointsGagnes;
     }
-
-    @Override
-    public String toString()
-    {
-        return "Tour { Plateau : " + m_gameboard + " | Pioche : " + m_stack  + "  }";
-    }
 }
