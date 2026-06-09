@@ -16,6 +16,20 @@ public class FlyingLogic extends AnimalLogic
         super(name, hp, attack, cost, power);
     }
 
+    public FlyingLogic(AnimalLogic animal)
+    {
+        super(animal.getName(), animal.getHp(), animal.getAttack(), animal.getSummonCost());
+        Optional<Power> power = animal.getPower();
+        if(power.isPresent()) {
+            this.setPower(power.get());
+        }
+    }
+
+    @Override
+    public FlyingLogic copy(){
+        return new FlyingLogic(this);
+    }
+
     // Les cartes volantes attaquent directement le score et elles ignorent la carte adverse sauf si elle a le pouvoir stiking
     @Override
     public int attack(Optional<CardLogic> target)

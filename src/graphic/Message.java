@@ -179,14 +179,19 @@ public class Message
         if(!valide){
             Message.tell("Tu n'as pas les ressources nécessaires pour cette carte.");
         }else{
-            Message.tell("Tu as joué la carte " + name + " sur la position " + position + ".");
+            Message.tell("Tu as joué la carte " + name + " sur la position B" + (position + 1) + ".");
         }
         return valide;
     }
 
     public static int getNumCard(String num){
         try{
-            return Integer.parseInt(num) - 1;
+            int retour = Integer.parseInt(num) - 1;
+            //Au cas où le joueur met 0 et du coup on aurait -1 ce qui ne déclencherait pas le message d'erreur d'après.
+            if(retour == -1){
+                retour = -2;
+            }
+            return retour;
         }
         catch (NumberFormatException e)
         {
@@ -237,8 +242,27 @@ public class Message
         return goodLength;
     }
 
-    public static void demandeCard(String left, String right, int size){
+    public static void afficheDemandeCard(String left, String right, int size){
         Message.tell("Choisissez une carte à ajouter : Gauche (" + left+ ") ou Droite (" + right + ")");
         Message.tell("Format : <Gauche/Droite> <numéro de la carte à remplacer dans votre pioche (1-" + size + ")>");
+    }
+
+    public static String gameOver(int nbVictory) {
+        String RESET = "\u001B[0m";
+        String VERT = "\u001B[32m";
+        String ROUGE = "\u001B[31m";
+
+        String retour;
+        if (nbVictory >= 2) {
+            retour = "╔══════════════════════╗\n" +
+                     "║       " + VERT + "VICTOIRE" + RESET + "       ║\n" +
+                     "╚══════════════════════╝\n";
+        } else {
+            retour = "╔══════════════════════╗\n" +
+                     "║       " + ROUGE + "DÉFAITE" + RESET + "        ║\n" +
+                     "╚══════════════════════╝\n";
+        }
+        System.out.println(retour);
+        return retour;
     }
 }

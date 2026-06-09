@@ -40,14 +40,7 @@ public class GameLogic
             }
         }
 
-        if (m_nbVictory >= 2)
-        {
-            Message.tell("Victoire");
-        }
-        else
-        {
-            Message.tell("Défaite");
-        }
+        Message.gameOver(m_nbVictory);
     }
 
     private int round(int currentRound)
@@ -89,7 +82,7 @@ public class GameLogic
             score += turn.resolveAttacks();
             GameGraphic.showGame(board, m_stack, currentRound + 1, currentTurn, score);
 
-            if (score <= -5 || score >= 5)
+            if (isRoundOver(score))
             {
                 isEnd = true;
             }
@@ -98,13 +91,17 @@ public class GameLogic
         return score;
     }
 
+    public boolean isRoundOver(int score){
+        return score <= -5 || score >= 5;
+    }
+
     // Consiste à remplacer une carte que le joueur choisit par une autre.
     public void newCard()
     {
         AnimalLogic cardLeft = StackLogic.randomeCard();
         AnimalLogic cardRight = StackLogic.randomeCard();
 
-        Message.demandeCard(cardLeft.getName(),cardRight.getName(),StackLogic.DECK_SIZE);
+        Message.afficheDemandeCard(cardLeft.getName(),cardRight.getName(),StackLogic.DECK_SIZE);
 
         boolean inputOk = false;
 

@@ -70,6 +70,8 @@ package logic #LightBlue
         class FlyingLogic Extends AnimalLogic{
             + <<Create>> FlyingLogic(name: String, hp: Integer, attack: Integer, cost: SummonCostLogic)
             + <<Create>> FlyingLogic(name: String, hp: Integer, attack: Integer, cost: SummonCostLogic, power: Power)
+            + <<Create>> FlyingLogic(animal : FlyingLogic)
+            + copy() : FlyingLogic
             + isFlying(): Boolean
             + attack(target: Integer {0,1}): Integer
             + copy(): FlyingLogic
@@ -178,6 +180,7 @@ package logic #LightBlue
             + GameLogic()
             + play()
             - round(currentRound: Integer) : Integer
+            + isRoundOver(Integer : score) : Boolean
             + newCard()
             - appliedGrowth(board: GameBoardLogic)
             - addRandomeObstacle(board: GameBoardLogic, line: Integer)
@@ -327,10 +330,26 @@ package graphics #LightGreen
 
     class Message
     {
-        +{static} ask(phrase: String): String
-        +{static} basicChoice(): String
-        +{static} tell(phrase: String)
-        +{static} demandeCard(stack: StackLogic): String
+        + {static} ask(phrase: String): String
+        + {static} basicChoice(): String
+        + {static} tell(phrase: String)
+        + {static} demandeCard(stack: StackLogic): String
+        + {static} powerTransfere(stack: StackLogic, deleteCard: Integer)
+        + {static} sacificePlayerCard(count: Integer, nbSacrifie: Integer): Integer
+        + {static} poserCard(longueur: Integer): Boolean
+        + {static} piocherCard(hasDraw: Boolean): Boolean
+        + {static} cardExiste(numeroCarte: Integer, handSize: Integer): Boolean
+        + {static} positionExiste(index: Integer): Boolean
+        + {static} cardNonVide(existe: Boolean): Boolean
+        + {static} valideCost(valide: Boolean, name: String, position: Integer): Boolean
+        + {static} getNumCard(num: String): Integer
+        + {static} unknownCommand()
+        + {static} indexInDeck(index: Integer): Boolean
+        + {static} GaucheOuDroite(choix: String): Integer
+        + {static} cardChoice(index: String): Integer
+        + {static} goodLength(length: Integer): Boolean
+        + {static} afficheDemandeCard(left: String, right: String, size: Integer)
+        + {static} gameOver(nbVictory: Integer): String
     }
 
     package drawers #White

@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class CardLogicTest
 {
-    // ─── Construction ───────────────────────────────────────────────────────────
+    // Construction
 
     @Test
     public void testNomEtPvInitiaux()
@@ -26,7 +26,7 @@ public class CardLogicTest
         assertEquals(3, sapin.getHp());
     }
 
-    // ─── takeDamage ─────────────────────────────────────────────────────────────
+    // takeDamage
 
     @Test
     public void testPrendDegat()
@@ -45,7 +45,7 @@ public class CardLogicTest
         assertEquals(0, rocher.getHp());            //On vérifie que les pv ne descend pas en dessous de 0
     }
 
-    // ─── isDead ─────────────────────────────────────────────────────────────────
+    // isDead
 
     @Test
     public void testDegatInsuffisantPourTuer()
@@ -63,7 +63,7 @@ public class CardLogicTest
         assertTrue(sapin.isDead());
     }
 
-    // ─── canBeSacrify / attack ───────────────────────────────────────────────────
+    // canBeSacrify / attack
 
     @Test
     public void testSacrificeObstacle()

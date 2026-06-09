@@ -81,7 +81,7 @@ public class TurnLogic
                 if (Message.positionExiste(index))
                 {
                     Optional<CardLogic> card = m_gameboard.getPlayerLine(index);
-                    if (Message.cardNonVide(card.isPresent()))
+                    if (!Message.cardNonVide(card.isPresent()))
                     {
                         AnimalLogic playerCard = player.getCard(numeroCarte);
                         if (Message.valideCost(m_playerAction.validateCost(player, m_gameboard, playerCard), playerCard.getName(), index))
