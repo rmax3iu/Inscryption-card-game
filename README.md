@@ -2,7 +2,7 @@
 <!-- |                                         LANGUAGE                                          | -->
 <!-- |-------------------------------------------------------------------------------------------| -->
 <div align="right">
-  <a href="README.fr.md">
+  <a href="README.md">
     <img src="https://img.shields.io/badge/🇫🇷 Français-1e3a5f?style=for-the-badge" alt="Français"/>
   </a>
   <a href="README.en.md">
