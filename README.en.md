@@ -20,6 +20,13 @@ This project is a Java card game inspired by the video game <i>Inscryption</i>. 
 </p>
 
 <!-- |-------------------------------------------------------------------------------------------| -->
+<!-- |                                    TECHNOLOGIES                                           | -->
+<!-- |-------------------------------------------------------------------------------------------| -->
+## Technologies used
+
+![Java](https://img.shields.io/badge/Java-ED8B00?logo=openjdk&logoColor=white&style=for-the-badge) ![IntelliJ IDEA](https://img.shields.io/badge/IntelliJ%20IDEA-000000?logo=intellijidea&logoColor=white&style=for-the-badge) ![JUnit](https://img.shields.io/badge/JUnit-25A162?logo=junit5&logoColor=white&style=for-the-badge) ![Git](https://img.shields.io/badge/Git-F05032?logo=git&logoColor=white&style=for-the-badge)
+
+<!-- |-------------------------------------------------------------------------------------------| -->
 <!-- |                                       ABOUT                                               | -->
 <!-- |-------------------------------------------------------------------------------------------| -->
 ## About the project
